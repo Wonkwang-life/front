@@ -123,22 +123,20 @@ const PostFactory = () => {
 
   const handleSubmit = async () => {
     const formData = new FormData();
-    let imageUrls: any = [];
-
+    let imageUrls: any = []; //서버에 업로드할 imageUrl 배열
     let index = 0;
-    // URL 이미지를 Blob으로 변환하여 FormData에 추가
+
     for (const { file, url } of selectedFiles) {
       if (file) {
+        //파일을 로컬에서 추가한 경우
         formData.append("file", file);
-        imageUrls.push(index++);
-        console.log("file:" + imageUrls);
+        imageUrls.push(index++); //우선 이미지 url 대신 index 값을 삽입 후 추후 대체함
       } else {
-        imageUrls.push(url); // 기존 URL을 배열에 추가
-        console.log("url:" + imageUrls);
+        imageUrls.push(url); // 수정 시 이미 업로드 된 이미지
       }
     }
     try {
-      const formDataEntries = [...formData.entries()]; //Size 확인을 위한
+      const formDataEntries = [...formData.entries()]; //로컬에서 추가한 이미지 갯수 확인을 위한 변수
       if (formDataEntries.length >= 1) {
         const fileUploadResponse = await axios.post(
           `${import.meta.env.VITE_SERVER_APIADDRESS}/post/image`, // 서버 측 업로드 엔드포인트에 전송
@@ -153,19 +151,19 @@ const PostFactory = () => {
         const uploadedUrls = fileUploadResponse.data; // 서버로부터 받은 이미지 URL 리스트
         let uploadIndex = 0;
 
-        // imageUrls 배열을 대체
+        // imageUrls 배열 중 index값을 서버에서 받은 image Url로 대체
         for (let i = 0; i < imageUrls.length; i++) {
           if (typeof imageUrls[i] === "number") {
             imageUrls[i] = uploadedUrls[uploadIndex++];
           }
         }
-        //이미지 업로드 완료 ---
+        //AWS에 이미지 업로드 완료 후 링크 반환된걸 imageUrls에 저장 성공 ---
       }
 
       const postData = {
         title: title,
         content: content,
-        imageUrls: imageUrls,
+        imageUrls: imageUrls, //게시글에 있는 이미지 urls들 최종 값 업로드
       };
 
       let response;
