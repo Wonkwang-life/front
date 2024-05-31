@@ -21,7 +21,7 @@ const Post = () => {
         if (response.data && response.data.content) {
           setTitle(response.data.content.title);
           setContent(response.data.content.content);
-          setImages(response.data.content.fileUrls);
+          setImages(response.data.content.imageUrls);
         } else {
           console.error("예상치 못한 API 응답 구조");
         }

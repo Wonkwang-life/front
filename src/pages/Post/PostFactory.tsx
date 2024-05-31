@@ -35,10 +35,41 @@ const PostFactory = () => {
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [isTitleFocused, setIsTitleFocused] = useState(false);
   const [isEditorFocused, setIsEditorFocused] = useState(false);
+  const [isImageFixed, setIsImageFixed] = useState(false); //이미지를 수정했는지
 
   const inputRef = useRef(null);
   const quillRef = useRef(null);
+  const params = new URLSearchParams(location.search);
 
+  useEffect(() => {
+    const getEditData = async (id) => {
+      try {
+        const response = await axios.get(
+          `${import.meta.env.VITE_SERVER_APIADDRESS}/post/${id}`
+        );
+
+        if (response.data && response.data.content) {
+          setTitle(response.data.content.title);
+          setContent(response.data.content.content);
+          let initialImageUrls = response.data.content.imageUrls;
+
+          const initialFiles = initialImageUrls.map((url) => ({
+            file: null,
+            url,
+          }));
+          setSelectedFiles((prevFiles) => [...prevFiles, ...initialFiles]);
+        }
+      } catch (error: any) {
+        const result = await warningAlert(error.response.data.message);
+        console.log(result);
+      }
+    };
+    if (params.get("edit")) {
+      getEditData(params.get("edit"));
+    }
+  }, []);
+
+  //뒤로가기 방지
   useEffect(() => {
     const handleKeyDown = (event) => {
       if (event.key === "Backspace" && !isTitleFocused && !isEditorFocused) {
@@ -65,8 +96,13 @@ const PostFactory = () => {
   };
 
   const handleFileChange = (e) => {
-    const files = Array.from(e.target.files);
-    setSelectedFiles((prevFiles) => [...prevFiles, ...files]);
+    console.log(e.target.files);
+    setIsImageFixed(true);
+    const files = Array.from(e.target.files).map((file: any) => ({
+      file,
+      url: null,
+    }));
+    setSelectedFiles((prevFiles: any) => [...prevFiles, ...files]);
   };
 
   const handleDelete = (index) => {
@@ -74,6 +110,7 @@ const PostFactory = () => {
   };
 
   const moveImage = (index, direction) => {
+    setIsImageFixed(true);
     const newFiles = [...selectedFiles];
     const targetIndex = direction === "up" ? index - 1 : index + 1;
     if (targetIndex < 0 || targetIndex >= newFiles.length) return;
@@ -86,38 +123,78 @@ const PostFactory = () => {
 
   const handleSubmit = async () => {
     const formData = new FormData();
-    for (const file of selectedFiles) {
-      formData.append("file", file); // 'file' 필드에 여러 파일을 추가
+    let imageUrls: any = [];
+
+    let index = 0;
+    // URL 이미지를 Blob으로 변환하여 FormData에 추가
+    for (const { file, url } of selectedFiles) {
+      if (file) {
+        formData.append("file", file);
+        imageUrls.push(index++);
+        console.log("file:" + imageUrls);
+      } else {
+        imageUrls.push(url); // 기존 URL을 배열에 추가
+        console.log("url:" + imageUrls);
+      }
     }
-
     try {
-      const fileUploadResponse = await axios.post(
-        `${import.meta.env.VITE_SERVER_APIADDRESS}/post/image`, // 서버 측 업로드 엔드포인트에 전송
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+      const formDataEntries = [...formData.entries()]; //Size 확인을 위한
+      if (formDataEntries.length >= 1) {
+        const fileUploadResponse = await axios.post(
+          `${import.meta.env.VITE_SERVER_APIADDRESS}/post/image`, // 서버 측 업로드 엔드포인트에 전송
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
 
-      const fileUrls = fileUploadResponse.data;
+        const uploadedUrls = fileUploadResponse.data; // 서버로부터 받은 이미지 URL 리스트
+        let uploadIndex = 0;
+
+        // imageUrls 배열을 대체
+        for (let i = 0; i < imageUrls.length; i++) {
+          if (typeof imageUrls[i] === "number") {
+            imageUrls[i] = uploadedUrls[uploadIndex++];
+          }
+        }
+        //이미지 업로드 완료 ---
+      }
 
       const postData = {
         title: title,
         content: content,
-        fileUrls: fileUrls,
+        imageUrls: imageUrls,
       };
 
-      const response = await axios.post(
-        `${import.meta.env.VITE_SERVER_APIADDRESS}/post`,
-        postData,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      let response;
+      if (!params.get("edit")) {
+        //글 쓰기
+        response = await axios.post(
+          `${import.meta.env.VITE_SERVER_APIADDRESS}/post`,
+          postData,
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+      } else {
+        //글 수정
+        response = await axios.patch(
+          `${import.meta.env.VITE_SERVER_APIADDRESS}/post/${params.get(
+            "edit"
+          )}`,
+          postData,
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+      }
+
       await successAlert(response.data.message);
       console.log(response.data);
     } catch (error) {
@@ -174,9 +251,12 @@ const PostFactory = () => {
         onChange={handleFileChange}
       />
       <ImagePreview>
-        {selectedFiles.map((file, index) => (
+        {selectedFiles.map(({ file, url }, index) => (
           <ImageContainer key={index}>
-            <Image src={URL.createObjectURL(file)} alt={`preview ${index}`} />
+            <Image
+              src={file ? URL.createObjectURL(file) : url}
+              alt={`preview ${index}`}
+            />
             <ButtonContainer>
               <ArrowButton
                 onClick={() => moveImage(index, "up")}
