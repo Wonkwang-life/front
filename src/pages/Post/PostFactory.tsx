@@ -73,14 +73,26 @@ const PostFactory = () => {
     setSelectedFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
   };
 
-  const handleSubmit = async () => {
-    const fileUrls = [];
-    for (const file of files) {
-      const formData = new FormData();
-      formData.append("file", file);
+  const moveImage = (index, direction) => {
+    const newFiles = [...selectedFiles];
+    const targetIndex = direction === "up" ? index - 1 : index + 1;
+    if (targetIndex < 0 || targetIndex >= newFiles.length) return;
+    [newFiles[index], newFiles[targetIndex]] = [
+      newFiles[targetIndex],
+      newFiles[index],
+    ];
+    setSelectedFiles(newFiles);
+  };
 
+  const handleSubmit = async () => {
+    const formData = new FormData();
+    for (const file of selectedFiles) {
+      formData.append("file", file); // 'file' 필드에 여러 파일을 추가
+    }
+
+    try {
       const fileUploadResponse = await axios.post(
-        "http://localhost:8080/api/posts/upload",
+        `${import.meta.env.VITE_SERVER_APIADDRESS}/post/image`, // 서버 측 업로드 엔드포인트에 전송
         formData,
         {
           headers: {
@@ -89,17 +101,14 @@ const PostFactory = () => {
         }
       );
 
-      fileUrls.push(fileUploadResponse.data);
-    }
+      const fileUrls = fileUploadResponse.data;
 
-    const postData = {
-      title: title,
-      content: content,
-      //fileUrls: fileUrls,
-      fileUrls: ["http://11", "http://22", "http://33"],
-    };
+      const postData = {
+        title: title,
+        content: content,
+        fileUrls: fileUrls,
+      };
 
-    try {
       const response = await axios.post(
         `${import.meta.env.VITE_SERVER_APIADDRESS}/post`,
         postData,
@@ -157,11 +166,31 @@ const PostFactory = () => {
         modules={modules}
         formats={formats}
       />
-      <Input type="file" multiple onChange={handleFileChange} />
+      <FileInputLabel htmlFor="file-upload">파일 선택</FileInputLabel>
+      <FileInput
+        id="file-upload"
+        type="file"
+        multiple
+        onChange={handleFileChange}
+      />
       <ImagePreview>
         {selectedFiles.map((file, index) => (
           <ImageContainer key={index}>
             <Image src={URL.createObjectURL(file)} alt={`preview ${index}`} />
+            <ButtonContainer>
+              <ArrowButton
+                onClick={() => moveImage(index, "up")}
+                disabled={index === 0}
+              >
+                ◀
+              </ArrowButton>
+              <ArrowButton
+                onClick={() => moveImage(index, "down")}
+                disabled={index === selectedFiles.length - 1}
+              >
+                ▶
+              </ArrowButton>
+            </ButtonContainer>
             <DeleteButton onClick={() => handleDelete(index)}>
               삭제
             </DeleteButton>
@@ -192,6 +221,20 @@ const Input = styled.input`
   padding: 10px;
 `;
 
+const FileInputLabel = styled.label`
+  display: inline-block;
+  padding: 6px 12px;
+  cursor: pointer;
+  background-color: #007bff;
+  color: white;
+  border-radius: 4px;
+  font-size: 16px;
+`;
+
+const FileInput = styled.input`
+  display: none;
+`;
+
 const ImagePreview = styled.div`
   display: flex;
   flex-wrap: wrap;
@@ -203,10 +246,32 @@ const ImageContainer = styled.div`
 `;
 
 const Image = styled.img`
-  width: 150px;
-  height: 150px;
+  width: 250px;
+  height: 250px;
   object-fit: cover;
   border: 1px solid #ddd;
+`;
+
+const ButtonContainer = styled.div`
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+  margin: 10px;
+`;
+
+const ArrowButton = styled.button`
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  cursor: pointer;
+  padding: 15px;
+  &:disabled {
+    background: rgba(0, 0, 0, 0.2);
+    cursor: not-allowed;
+  }
 `;
 
 const DeleteButton = styled.button`

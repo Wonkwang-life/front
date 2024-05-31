@@ -8,6 +8,7 @@ import { warningAlert } from "../../components/Alert";
 const Post = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+  const [images, setImages] = useState<[String] | null>(null);
   const { id } = useParams();
 
   useEffect(() => {
@@ -20,6 +21,7 @@ const Post = () => {
         if (response.data && response.data.content) {
           setTitle(response.data.content.title);
           setContent(response.data.content.content);
+          setImages(response.data.content.fileUrls);
         } else {
           console.error("예상치 못한 API 응답 구조");
         }
@@ -47,6 +49,9 @@ const Post = () => {
         className="ql-editor"
         dangerouslySetInnerHTML={{ __html: content }}
       />
+      {images?.map((image: any) => (
+        <img src={image} alt={"상품이미지"} />
+      ))}
     </Container>
   );
 };
