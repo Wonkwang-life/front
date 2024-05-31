@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import PostFactory from "./PostFactory";
-import Post from "./Post";
+import PostFactory from "./pages/Post/PostFactory";
+import Post from "./pages/Post/Post";
 
 const Router = () => {
   return (

@@ -2,9 +2,11 @@ import axios from "axios";
 import React from "react";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import * as DOMPurify from "dompurify";
+import styled from "styled-components";
+import { warningAlert } from "../../components/Alert";
 
 const Post = () => {
+  const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const { id } = useParams();
 
@@ -16,19 +18,22 @@ const Post = () => {
         );
         console.log("API Response:", response.data); // 디버깅용
         if (response.data && response.data.content) {
+          setTitle(response.data.content.title);
           setContent(response.data.content.content);
         } else {
           console.error("예상치 못한 API 응답 구조");
         }
       } catch (error: any) {
-        console.error("포스트 가져오는 중 오류 발생:", error);
+        const result = await warningAlert(error.response.data.message);
+        console.log(result);
       }
     };
     getPost();
-  }, [id]);
+  }, []);
 
   return (
-    <>
+    <Container>
+      <Title>{title}</Title>
       {/* <div
         style={{
           width: "60vw",
@@ -42,8 +47,19 @@ const Post = () => {
         className="ql-editor"
         dangerouslySetInnerHTML={{ __html: content }}
       />
-    </>
+    </Container>
   );
 };
 
+const Container = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 15px;
+`;
+
+const Title = styled.div`
+  font-size: 2rem;
+`;
 export default Post;
