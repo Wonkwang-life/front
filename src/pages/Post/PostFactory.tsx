@@ -3,7 +3,8 @@ import ReactQuill, { Quill } from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import axios from "axios";
 import styled from "styled-components";
-import { Confirm, successAlert, warningAlert } from "../../components/Alert";
+import { successAlert, warningAlert } from "../../components/Alert";
+import { useNavigate } from "react-router-dom";
 
 const Size = Quill.import("formats/size");
 Size.whitelist = ["small", "medium", "large", "huge"];
@@ -32,7 +33,7 @@ const formats = [
 const PostFactory = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const [selectedFiles, setSelectedFiles] = useState([]);
+  const [selectedFiles, setSelectedFiles] = useState<any>([]);
   const [isTitleFocused, setIsTitleFocused] = useState(false);
   const [isEditorFocused, setIsEditorFocused] = useState(false);
   const [isImageFixed, setIsImageFixed] = useState(false); //이미지를 수정했는지
@@ -40,6 +41,7 @@ const PostFactory = () => {
   const inputRef = useRef(null);
   const quillRef = useRef(null);
   const params = new URLSearchParams(location.search);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const getEditData = async (id) => {
@@ -61,6 +63,7 @@ const PostFactory = () => {
         }
       } catch (error: any) {
         const result = await warningAlert(error.response.data.message);
+        navigate("/post-fac"); //수정이 아닌 그냥 글쓰기로 이동
         console.log(result);
       }
     };
@@ -193,7 +196,8 @@ const PostFactory = () => {
         );
       }
 
-      await successAlert(response.data.message);
+      const result = await successAlert(response.data.message);
+      if (result.isConfirmed) navigate(`/post/${response.data.content}`);
       console.log(response.data);
     } catch (error) {
       await warningAlert(error.response.data.message);

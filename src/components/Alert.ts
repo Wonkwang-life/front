@@ -1,12 +1,14 @@
 import Swal from "sweetalert2";
 
 export async function errorAlert(text: string) {
-  await Swal.fire({
+  const result = await Swal.fire({
     title: "오류!",
     text: text,
     icon: "error",
     confirmButtonText: "확인",
   });
+
+  return result;
 }
 
 export async function warningAlert(text: string) {
@@ -16,10 +18,11 @@ export async function warningAlert(text: string) {
     icon: "warning",
     confirmButtonText: "확인",
   });
+
   return result;
 }
 
-export async function Confirm(text: string) {
+export async function confirm(text: string) {
   const result = await Swal.fire({
     title: "🥺",
     text: text,
@@ -29,10 +32,10 @@ export async function Confirm(text: string) {
     showCancelButton: true,
   });
 
-  return result.isConfirmed;
+  return result;
 }
 
-export async function CheckConfirm(text: string) {
+export async function checkConfirm(text: string) {
   const result = await Swal.fire({
     title: "",
     text: text,
@@ -42,14 +45,16 @@ export async function CheckConfirm(text: string) {
     showCancelButton: true,
   });
 
-  return result.isConfirmed;
+  return result;
 }
 
 export async function successAlert(text: string) {
-  await Swal.fire({
+  const result = await Swal.fire({
     title: "성공!",
     text: text,
     icon: "success",
     confirmButtonText: "확인",
   });
+
+  return result;
 }
