@@ -34,7 +34,7 @@ const Header = () => {
 export default Header;
 
 const Container = styled.div`
-  height: var(--header-height);
+  height: var(--header-height); //index.css에 변수선언 되어있음
   position: sticky;
   top: 0px;
   z-index: 10;

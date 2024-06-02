@@ -18,7 +18,7 @@ function Footer() {
 
 const Container = styled.div`
   width: 100%;
-  height: var(--footer-height);
+  height: var(--footer-height); //index.css에 변수선언 되어있음
   padding: 30px 0;
   background-color: #f7f7f7;
   color: gray;

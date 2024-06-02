@@ -224,7 +224,7 @@ const PostFactory = () => {
         onBlur={() => setIsTitleFocused(false)}
       />
       <Label>제품 상세내용</Label>
-      <ReactQuill
+      <ReactQuill //스타일은 index.css에서 수정
         ref={quillRef}
         value={content}
         onChange={handleContentChange}
