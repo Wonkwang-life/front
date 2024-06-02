@@ -34,6 +34,7 @@ const Header = () => {
 export default Header;
 
 const Container = styled.div`
+  height: var(--header-height);
   position: sticky;
   top: 0px;
   z-index: 10;

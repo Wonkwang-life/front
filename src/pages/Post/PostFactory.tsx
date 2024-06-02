@@ -233,10 +233,11 @@ const PostFactory = () => {
         modules={modules}
         formats={formats}
       />
-      <FileInputLabel htmlFor="file-upload">파일 선택</FileInputLabel>
+      <FileInputLabel htmlFor="file-upload">이미지 선택</FileInputLabel>
       <FileInput
         id="file-upload"
         type="file"
+        accept="image/*"
         multiple
         onChange={handleFileChange}
       />
@@ -273,11 +274,13 @@ const PostFactory = () => {
 };
 
 const Container = styled.div`
-  width: 100%;
+  width: 90%;
+  max-width: 800px;
   display: flex;
   flex-direction: column;
   gap: 20px;
   padding: 15px;
+  margin: 0 auto;
 `;
 
 const Label = styled.div`
@@ -312,11 +315,16 @@ const ImagePreview = styled.div`
 `;
 
 const ImageContainer = styled.div`
+  width: calc(50% - 5px);
   position: relative;
+
+  @media screen and (max-width: 550px) {
+    width: calc(100%);
+  }
 `;
 
 const Image = styled.img`
-  width: 250px;
+  width: 100%;
   height: 250px;
   object-fit: cover;
   border: 1px solid #ddd;

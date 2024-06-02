@@ -73,7 +73,7 @@ const centeredFlex = css`
 const Container = styled.div`
   ${centeredFlex}
   width: 100%;
-  min-height: 100vh;
+  min-height: calc(100dvh - var(--header-height) - var(--footer-height));
   background-color: #f0f4f8;
   padding: 20px;
 `;

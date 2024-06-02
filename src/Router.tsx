@@ -13,8 +13,8 @@ const Router = () => {
       <Header />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/post/:id" element={<Post />} />
-        <Route path="/post-fac" element={<PostFactory />} />
+        <Route path="/product/:id" element={<Post />} />
+        <Route path="/write" element={<PostFactory />} />
         <Route path="/login" element={<Login />} />
         <Route path="*" element={<div>404</div>} />
       </Routes>

@@ -18,6 +18,7 @@ function Footer() {
 
 const Container = styled.div`
   width: 100%;
+  height: var(--footer-height);
   padding: 30px 0;
   background-color: #f7f7f7;
   color: gray;
