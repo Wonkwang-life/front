@@ -4,10 +4,13 @@ import styled, { css } from "styled-components";
 import { successAlert, warningAlert } from "../../components/Alert";
 import api from "../../api";
 import { useNavigate } from "react-router-dom";
+import { useSetRecoilState } from "recoil";
+import { userState } from "../../state/userState";
 
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const setUser = useSetRecoilState(userState);
   const navigate = useNavigate();
 
   const handleUsernameChange = (e) => {
@@ -30,7 +33,10 @@ const Login = () => {
         password,
       });
 
+      setUser(response.data.content);
+      console.log(response.data.content);
       const result = await successAlert(response.data.message);
+
       if (result.isConfirmed) {
         navigate("/");
       }

@@ -2,15 +2,18 @@ import axios from "axios";
 import React from "react";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { confirm, successAlert, warningAlert } from "../../components/Alert";
 import api from "../../api";
+import { useRecoilValue } from "recoil";
+import { userState } from "../../state/userState";
 
 const Post = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [images, setImages] = useState<[String] | null>(null);
   const { id } = useParams();
+  const user = useRecoilValue(userState);
 
   const navigate = useNavigate();
 
@@ -32,7 +35,15 @@ const Post = () => {
       }
     };
     getPost();
+
+    setTimeout(() => {
+      console.log(user);
+    }, 2000);
   }, []);
+
+  useEffect(() => {
+    console.log(user);
+  }, [user]);
 
   const handleDelete = async () => {
     const result = await confirm("정말 글을 삭제하시겠습니까?");
@@ -49,36 +60,95 @@ const Post = () => {
 
   return (
     <Container>
-      <Title>{title}</Title>
-      <div>
-        <Button onClick={(e) => navigate(`/post-fac?edit=${id}`)}>수정</Button>
-        <Button onClick={handleDelete}>삭제</Button>
-      </div>
-      <div
-        className="ql-editor"
-        dangerouslySetInnerHTML={{ __html: content }}
-      />
-      {images?.map((image: any, index) => (
-        <img key={index} src={image} alt={"상품이미지"} />
-      ))}
+      <PostForm>
+        <Title>{title}</Title>
+        {user && (
+          <ButtonContainer>
+            <Button onClick={(e) => navigate(`/post-fac?edit=${id}`)}>
+              수정
+            </Button>
+            <Button onClick={handleDelete}>삭제</Button>
+          </ButtonContainer>
+        )}
+        <Content dangerouslySetInnerHTML={{ __html: content }} />
+        {images?.map((image: any, index) => (
+          <Image key={index} src={image} alt={"상품이미지"} />
+        ))}
+      </PostForm>
     </Container>
   );
 };
 
-const Container = styled.div`
-  width: 100%;
+const centeredFlex = css`
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  padding: 15px;
+  justify-content: center;
+  align-items: center;
 `;
 
-const Title = styled.div`
-  font-size: 2rem;
+const Container = styled.div`
+  ${centeredFlex}
+  width: 100%;
+  min-height: 100vh;
+  background-color: #f0f4f8;
+  padding: 20px;
+`;
+
+const PostForm = styled.div`
+  ${centeredFlex}
+  align-items: flex-start;
+  width: 100%;
+  max-width: 600px;
+  padding: 40px 30px;
+  border: solid #ccd1d9 1px;
+  border-radius: 15px;
+  background-color: #ffffff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  gap: 20px;
+`;
+
+const Title = styled.h1`
+  width: 100%;
+  font-size: 1.8rem;
+  font-weight: 700;
+  text-align: center;
+  color: #333333;
+`;
+
+const ButtonContainer = styled.div`
+  ${centeredFlex}
+  flex-direction: row;
+  gap: 10px;
 `;
 
 const Button = styled.button`
-  background-color: white;
-  border: 1px solid black;
+  width: 100px;
+  height: 40px;
+  background-color: #0288d1;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  &:hover {
+    background-color: #0277bd;
+  }
 `;
+
+const Content = styled.div`
+  width: 100%;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #555555;
+`;
+
+const Image = styled.img`
+  width: 100%;
+  max-width: 100%;
+  border-radius: 8px;
+  margin-top: 20px;
+`;
+
 export default Post;

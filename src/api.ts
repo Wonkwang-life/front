@@ -3,7 +3,7 @@ import axios from "axios";
 // Axios 인스턴스 생성
 const api = axios.create({
   baseURL: `${import.meta.env.VITE_SERVER_APIADDRESS}`, // 기본 URL 설정
-  // 필요한 경우 다른 기본 설정 추가
+  withCredentials: true,
 });
 
 // 요청 인터셉터 설정
@@ -23,6 +23,10 @@ api.interceptors.response.use(
   (response) => response,
   (error) => {
     // 공통 에러 처리
+    if (error.config && error.config.skipInterceptor) {
+      // 공통 에러 처리를 건너뛰기
+      return Promise.reject(error);
+    }
     if (error.response) {
       // 서버가 응답을 반환한 경우
       console.error("Error:", error.response.data);
