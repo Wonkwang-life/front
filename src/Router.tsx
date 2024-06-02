@@ -5,6 +5,7 @@ import Post from "./pages/Post/Post";
 import Login from "./pages/Admin/Login";
 import Home from "./pages/Home/Home";
 import Header from "./components/Header";
+import Footer from "./components/Footer";
 
 const Router = () => {
   return (
@@ -17,6 +18,7 @@ const Router = () => {
         <Route path="/login" element={<Login />} />
         <Route path="*" element={<div>404</div>} />
       </Routes>
+      <Footer />
     </BrowserRouter>
   );
 };
