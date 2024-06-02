@@ -15,7 +15,7 @@ function App() {
   const checkUser = async () => {
     try {
       const response = await api.get(`/user/check`, {
-        skipInterceptor: true,
+        // skipInterceptor: true,
       });
       setUser(response.data.content);
     } catch (error) {

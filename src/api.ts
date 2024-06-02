@@ -1,4 +1,5 @@
 import axios from "axios";
+import { warningAlert } from "./components/Alert";
 
 // Axios 인스턴스 생성
 const api = axios.create({
@@ -37,6 +38,9 @@ api.interceptors.response.use(
     } else {
       // 요청 설정 중에 발생한 에러
       console.error("Error setting up request:", error.message);
+    }
+    if (error.response.status === 401) {
+      warningAlert(error.response.data.message);
     }
     return Promise.reject(error);
   }
