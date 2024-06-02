@@ -8,7 +8,7 @@ const Header = () => {
   return (
     <Container>
       <Logo onClick={() => navigate("/")}>
-        <img src="/public/images/logo.png" alt="logo" />
+        <img src="/images/logo.png" alt="logo" />
         <span>원광생활건강</span>
       </Logo>
       <Tabs>
