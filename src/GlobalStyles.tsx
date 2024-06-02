@@ -33,7 +33,7 @@ const GlobalStyles = createGlobalStyle`
     }
 
     body, #root {
-    width: 100vw;
+    width: 100dvw;
     min-height: 100dvh;
     text-rendering: optimizeSpeed;
     line-height: 1.5;

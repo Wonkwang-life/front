@@ -1,10 +1,10 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import ReactQuill, { Quill } from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import axios from "axios";
 import styled from "styled-components";
 import { successAlert, warningAlert } from "../../components/Alert";
 import { useNavigate } from "react-router-dom";
+import api from "../../api";
 
 const Size = Quill.import("formats/size");
 Size.whitelist = ["small", "medium", "large", "huge"];
@@ -46,9 +46,7 @@ const PostFactory = () => {
   useEffect(() => {
     const getEditData = async (id) => {
       try {
-        const response = await axios.get(
-          `${import.meta.env.VITE_SERVER_APIADDRESS}/post/${id}`
-        );
+        const response = await api.get(`/post/${id}`);
 
         if (response.data && response.data.content) {
           setTitle(response.data.content.title);
@@ -141,8 +139,8 @@ const PostFactory = () => {
     try {
       const formDataEntries = [...formData.entries()]; //로컬에서 추가한 이미지 갯수 확인을 위한 변수
       if (formDataEntries.length >= 1) {
-        const fileUploadResponse = await axios.post(
-          `${import.meta.env.VITE_SERVER_APIADDRESS}/post/image`, // 서버 측 업로드 엔드포인트에 전송
+        const fileUploadResponse = await api.post(
+          `/post/image`, // 서버 측 업로드 엔드포인트에 전송
           formData,
           {
             headers: {
@@ -172,28 +170,18 @@ const PostFactory = () => {
       let response;
       if (!params.get("edit")) {
         //글 쓰기
-        response = await axios.post(
-          `${import.meta.env.VITE_SERVER_APIADDRESS}/post`,
-          postData,
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
+        response = await api.post(`/post`, postData, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
       } else {
         //글 수정
-        response = await axios.patch(
-          `${import.meta.env.VITE_SERVER_APIADDRESS}/post/${params.get(
-            "edit"
-          )}`,
-          postData,
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
+        response = await api.patch(`/post/${params.get("edit")}`, postData, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
       }
 
       const result = await successAlert(response.data.message);

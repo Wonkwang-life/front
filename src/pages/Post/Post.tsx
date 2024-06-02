@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { confirm, successAlert, warningAlert } from "../../components/Alert";
+import api from "../../api";
 
 const Post = () => {
   const [title, setTitle] = useState("");
@@ -16,9 +17,7 @@ const Post = () => {
   useEffect(() => {
     const getPost = async () => {
       try {
-        const response = await axios.get(
-          `${import.meta.env.VITE_SERVER_APIADDRESS}/post/${id}`
-        );
+        const response = await api.get(`/post/${id}`);
         console.log("API Response:", response.data); // 디버깅용
         if (response.data && response.data.content) {
           setTitle(response.data.content.title);
@@ -39,9 +38,7 @@ const Post = () => {
     const result = await confirm("정말 글을 삭제하시겠습니까?");
     if (!result.isConfirmed) return;
     try {
-      const response = await axios.delete(
-        `${import.meta.env.VITE_SERVER_APIADDRESS}/post/${id}`
-      );
+      const response = await api.delete(`/post/${id}`);
       const result = await successAlert("글 삭제가 완료되었습니다.");
       if (result.isConfirmed) navigate("/");
     } catch (error: any) {
