@@ -22,7 +22,9 @@ const Header = () => {
           <Link to="/location">오시는 길</Link>
         </Tab>
         <Tab>
-          <Link to="http://www.wonnature.co.kr/index.php">원네이처</Link>
+          <Link to="http://www.wonnature.co.kr/index.php" target="_blank">
+            원네이처
+          </Link>
         </Tab>
       </Tabs>
     </Container>
