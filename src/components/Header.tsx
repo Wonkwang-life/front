@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { RxHamburgerMenu } from "react-icons/rx";
 
 const Header = () => {
@@ -134,10 +134,9 @@ const Tabs = styled.div<{ isClickHambergerMenu: boolean }>`
     width: 100%;
     display: flex; // 화면이 1000px 미만일 때는 flex로 변경
     flex-direction: column;
-    display: ${({ isClickHambergerMenu }) =>
-      isClickHambergerMenu
-        ? "flex"
-        : "none"}; // 메뉴바 클릭에 따른 display 재조정
+    animation: ${({ isClickHambergerMenu }) =>
+        isClickHambergerMenu ? slideDown : slideUp}
+      0.3s forwards;
   }
 
   @media screen and (min-width: 1000px) {
@@ -165,5 +164,27 @@ const Tab = styled.span`
       border-bottom: 0px;
       background-color: rgba(0, 0, 0, 0.03);
     }
+  }
+`;
+
+const slideDown = keyframes`
+  from {
+    transform: translateY(-10%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+`;
+
+const slideUp = keyframes`
+  from {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(-10%);
+    opacity: 0;
   }
 `;
