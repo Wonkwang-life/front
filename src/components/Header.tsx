@@ -6,7 +6,7 @@ import { RxHamburgerMenu } from "react-icons/rx";
 const Header = () => {
   const navigate = useNavigate();
   const [isClickHambergerMenu, setIsClickHambergerMenu] = useState(false); // 햄버거 메뉴 열고 닫기 기능 구현을 위함
-  const tabsRef = useRef<HTMLDivElement | null>(null); // 탭을 참조하기 위한 ref
+  const HeaderRef = useRef<HTMLDivElement | null>(null); // 탭을 참조하기 위한 ref
 
   // 탭 클릭 시 햄버거 메뉴를 닫는 함수
   const handleCloseHamburgerMenu = () => {
@@ -15,9 +15,12 @@ const Header = () => {
 
   // 바깥 클릭 감지 로직
   useEffect(() => {
-    // 클릭된 요소가 Tabs 컴포넌트 내부에 있는지 확인하고, 바깥쪽 클릭이라면 handleCloseHamburgerMenu 함수를 실행
+    // 클릭된 요소가 헤더 컴포넌트 내부에 있는지 확인하고, 바깥쪽 클릭이라면 handleCloseHamburgerMenu 함수를 실행
     const handleClickOutside = (event: MouseEvent) => {
-      if (tabsRef.current && !tabsRef.current.contains(event.target as Node)) {
+      if (
+        HeaderRef.current &&
+        !HeaderRef.current.contains(event.target as Node)
+      ) {
         handleCloseHamburgerMenu();
       }
     };
@@ -28,15 +31,15 @@ const Header = () => {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [tabsRef]);
+  }, [HeaderRef]);
 
   return (
-    <Container>
+    <Container ref={HeaderRef}>
       <Logo onClick={() => navigate("/")}>
         <img src="/images/logo.png" alt="logo" />
         <span>원광생활건강</span>
       </Logo>
-      <Tabs ref={tabsRef} isClickHambergerMenu={isClickHambergerMenu}>
+      <Tabs isClickHambergerMenu={isClickHambergerMenu}>
         <Tab onClick={handleCloseHamburgerMenu}>
           <Link to="/intro">회사 소개</Link>
         </Tab>
