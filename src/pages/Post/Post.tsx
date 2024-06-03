@@ -64,9 +64,7 @@ const Post = () => {
         <Title>{title}</Title>
         {user && (
           <ButtonContainer>
-            <Button onClick={(e) => navigate(`/post-fac?edit=${id}`)}>
-              수정
-            </Button>
+            <Button onClick={(e) => navigate(`/write?edit=${id}`)}>수정</Button>
             <Button onClick={handleDelete}>삭제</Button>
           </ButtonContainer>
         )}

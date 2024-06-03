@@ -149,7 +149,7 @@ const PostFactory = () => {
           }
         );
 
-        const uploadedUrls = fileUploadResponse.data; // 서버로부터 받은 이미지 URL 리스트
+        const uploadedUrls = fileUploadResponse.data.content; // 서버로부터 받은 이미지 URL 리스트
         let uploadIndex = 0;
 
         // imageUrls 배열 중 index값을 서버에서 받은 image Url로 대체
@@ -185,7 +185,7 @@ const PostFactory = () => {
       }
 
       const result = await successAlert(response.data.message);
-      if (result.isConfirmed) navigate(`/post/${response.data.content}`);
+      if (result.isConfirmed) navigate(`/product/${response.data.content}`);
       console.log(response.data);
     } catch (error) {
       await warningAlert(error.response.data.message);

@@ -16,11 +16,12 @@
   --footer-height: 210px;
 }
 
-.ql-container {
+.ql-container,
+.ql-editor,
+.ql-blank {
   min-height: 300px; /* 원하는 최소 높이로 설정 */
 }
-
-a {
+*/ a {
   font-weight: 500;
   color: #646cff;
   text-decoration: inherit;
