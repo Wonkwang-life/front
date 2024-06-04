@@ -1,27 +1,28 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import styled, { keyframes } from "styled-components";
+import styled, { keyframes, css } from "styled-components";
 import { RxHamburgerMenu } from "react-icons/rx";
 
 const Header = () => {
   const navigate = useNavigate();
-  const [isClickHambergerMenu, setIsClickHambergerMenu] = useState(false); // 햄버거 메뉴 열고 닫기 기능 구현을 위함
+  const [animate, setAnimate] = useState(false);
+  const [isClickMenuBtn, setIsClickMenuBtn] = useState(false); // 햄버거 메뉴 열고 닫기 기능 구현을 위함
   const HeaderRef = useRef<HTMLDivElement | null>(null); // 탭을 참조하기 위한 ref
 
-  // 탭 클릭 시 햄버거 메뉴를 닫는 함수
-  const handleCloseHamburgerMenu = () => {
-    setIsClickHambergerMenu(false);
+  // 햄버거 메뉴를 닫는 함수
+  const handleCloseMenu = () => {
+    setIsClickMenuBtn(false);
   };
 
   // 바깥 클릭 감지 로직
   useEffect(() => {
-    // 클릭된 요소가 헤더 컴포넌트 내부에 있는지 확인하고, 바깥쪽 클릭이라면 handleCloseHamburgerMenu 함수를 실행
+    // 클릭된 요소가 헤더 컴포넌트 내부에 있는지 확인하고, 바깥쪽 클릭이라면 handleCloseMenu 함수를 실행
     const handleClickOutside = (event: MouseEvent) => {
       if (
         HeaderRef.current &&
         !HeaderRef.current.contains(event.target as Node)
       ) {
-        handleCloseHamburgerMenu();
+        handleCloseMenu();
       }
     };
     // 클릭 이벤트 리스너 추가
@@ -33,23 +34,36 @@ const Header = () => {
     };
   }, [HeaderRef]);
 
+  // 화면 1000px 이하 시, 맨 처음엔 애니메이션 실행되지 않도록 설정
+  // 메뉴 버튼 클릭시에만 css animation 발생하도록 하기 위함
+  const handleResize = () => {
+    if (window.innerWidth <= 1000) setAnimate(false);
+  };
+
+  useEffect(() => {
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   return (
     <Container ref={HeaderRef}>
       <Logo onClick={() => navigate("/")}>
         <img src="/images/logo.png" alt="logo" />
         <span>원광생활건강</span>
       </Logo>
-      <Tabs isClickHambergerMenu={isClickHambergerMenu}>
-        <Tab onClick={handleCloseHamburgerMenu}>
+      <Tabs $isClickMenuBtn={isClickMenuBtn} $animate={animate}>
+        <Tab onClick={handleCloseMenu}>
           <Link to="/intro">회사 소개</Link>
         </Tab>
-        <Tab onClick={handleCloseHamburgerMenu}>
+        <Tab onClick={handleCloseMenu}>
           <Link to="/product-list">제품 소개</Link>
         </Tab>
-        <Tab onClick={handleCloseHamburgerMenu}>
+        <Tab onClick={handleCloseMenu}>
           <Link to="/location">오시는 길</Link>
         </Tab>
-        <Tab onClick={handleCloseHamburgerMenu}>
+        <Tab onClick={handleCloseMenu}>
           <Link to="http://www.wonnature.co.kr/index.php" target="_blank">
             원네이처
           </Link>
@@ -57,7 +71,8 @@ const Header = () => {
       </Tabs>
       <RxHamburgerMenu
         onClick={() => {
-          setIsClickHambergerMenu(!isClickHambergerMenu);
+          setIsClickMenuBtn(!isClickMenuBtn);
+          setAnimate(true);
         }}
       />
     </Container>
@@ -120,7 +135,10 @@ const Logo = styled.div`
   }
 `;
 
-const Tabs = styled.div<{ isClickHambergerMenu: boolean }>`
+const Tabs = styled.div<{
+  $isClickMenuBtn: boolean;
+  $animate: boolean;
+}>`
   height: 54px;
   padding: 0 20%;
   display: grid; // 기본적으로 grid를 사용하여 탭을 표시
@@ -134,13 +152,18 @@ const Tabs = styled.div<{ isClickHambergerMenu: boolean }>`
     width: 100%;
     display: flex; // 화면이 1000px 미만일 때는 flex로 변경
     flex-direction: column;
-    animation: ${({ isClickHambergerMenu }) =>
-        isClickHambergerMenu ? slideDown : slideUp}
-      0.3s forwards;
-  }
-
-  @media screen and (min-width: 1000px) {
-    display: grid; // 화면이 1000px 이상일 때는 항상 grid로 표시
+    ${({ $isClickMenuBtn, $animate }) =>
+      $isClickMenuBtn
+        ? css`
+            animation: ${slideDown} 0.3s forwards;
+          `
+        : $animate
+        ? css`
+            animation: ${slideUp} 0.3s forwards;
+          `
+        : css`
+            display: none;
+          `}
   }
 `;
 
@@ -186,5 +209,5 @@ const slideUp = keyframes`
   to {
     transform: translateY(-10%);
     opacity: 0;
-  }
+}
 `;
