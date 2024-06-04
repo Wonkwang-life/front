@@ -192,7 +192,7 @@ const Tab = styled.span`
 
 const slideDown = keyframes`
   from {
-    transform: translateY(-10%);
+    transform: translateY(-4%);
     opacity: 0;
   }
   to {
@@ -207,7 +207,7 @@ const slideUp = keyframes`
     opacity: 1;
   }
   to {
-    transform: translateY(-10%);
+    transform: translateY(-4%);
     opacity: 0;
 }
 `;
