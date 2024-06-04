@@ -6,6 +6,7 @@ import Login from "./pages/Admin/Login";
 import Home from "./pages/Home/Home";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
+import ProductList from "./pages/Home/ProductList";
 
 const Router = () => {
   return (
@@ -17,6 +18,7 @@ const Router = () => {
         <Route path="/write" element={<PostFactory />} />
         <Route path="/login" element={<Login />} />
         <Route path="*" element={<div>404</div>} />
+        <Route path="/product-list" element={<ProductList />} />
       </Routes>
       <Footer />
     </BrowserRouter>
