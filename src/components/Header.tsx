@@ -49,10 +49,7 @@ const Header = () => {
 
   return (
     <Container ref={HeaderRef}>
-      <Logo onClick={() => navigate("/")}>
-        <img src="/images/logo.png" alt="logo" />
-        <span>원광생활건강</span>
-      </Logo>
+      <Logo src="/images/logo2.png" alt="logo" onClick={() => navigate("/")} />
       <Tabs $isClickMenuBtn={isClickMenuBtn} $animate={animate}>
         <Tab onClick={handleCloseMenu}>
           <Link to="/intro">회사 소개</Link>
@@ -103,7 +100,9 @@ const Container = styled.div`
   @media screen and (max-width: 1000px) {
     width: 100%;
     flex-direction: column;
+    align-items: center;
     align-items: flex-start;
+    padding: 27px 0;
 
     & svg {
       display: block;
@@ -111,27 +110,15 @@ const Container = styled.div`
   }
 `;
 
-const Logo = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 10px;
-
-  & img {
-    width: 50px;
-  }
-
-  & span {
-    font-size: 1.5rem;
-    font-weight: 700;
-  }
+const Logo = styled.img`
+  width: 230px;
 
   &:hover {
     cursor: pointer;
   }
 
-  @media screen and (max-width: 1000px) {
-    margin-left: 20px;
-    margin-bottom: 5px;
+  @media screen and (max-width: 1400px) {
+    padding-left: 30px;
   }
 `;
 
@@ -145,9 +132,14 @@ const Tabs = styled.div<{
   grid-template-columns: repeat(4, 1fr);
   width: 70%;
 
+  @media screen and (max-width: 1400px) {
+    width: 90%;
+  }
+
   @media screen and (max-width: 1000px) {
     background-color: white;
     padding: 0;
+    padding-top: 20px;
     padding-bottom: 235px;
     width: 100%;
     display: flex; // 화면이 1000px 미만일 때는 flex로 변경
@@ -183,6 +175,10 @@ const Tab = styled.span`
 
   @media screen and (max-width: 1000px) {
     background-color: white;
+    & a {
+      width: 100%;
+    }
+
     & a:hover {
       border-bottom: 0px;
       background-color: rgba(0, 0, 0, 0.03);
@@ -192,7 +188,7 @@ const Tab = styled.span`
 
 const slideDown = keyframes`
   from {
-    transform: translateY(-4%);
+    transform: translateY(-1px);
     opacity: 0;
   }
   to {
@@ -207,7 +203,7 @@ const slideUp = keyframes`
     opacity: 1;
   }
   to {
-    transform: translateY(-4%);
+    transform: translateY(-1px);
     opacity: 0;
 }
 `;
