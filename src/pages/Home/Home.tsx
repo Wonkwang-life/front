@@ -87,5 +87,5 @@ const Content = styled.div`
   z-index: 1;
   position: relative;
   text-align: center;
-  height: 500px;
+  height: 800px;
 `;
