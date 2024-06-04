@@ -171,6 +171,7 @@ const Tab = styled.span`
 
   & a:hover {
     border-bottom: 2px solid #474da2;
+    color: #474da2;
   }
 
   @media screen and (max-width: 1000px) {
