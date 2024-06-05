@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import { RiDoubleQuotesL } from "react-icons/ri";
+import { RiDoubleQuotesR } from "react-icons/ri";
 
 const Home: React.FC = () => {
   const [offset, setOffset] = useState(0);
@@ -30,7 +32,13 @@ const Home: React.FC = () => {
         </BannerContent>
       </Banner>
       <Content>
-        <span>스크롤 내리고 자연스럽게 나오는 내용들</span>
+        <ParallaxBox offset={offset} speed={0.3}>
+          <RiDoubleQuotesL />
+          (주)원광생활건강은 질병 없는 사회를 추구하고자 <br />
+          끊임없는 기술 개발과 연구 개발에 최선을 다한 제품을 유통/판매하고
+          있습니다.
+          <RiDoubleQuotesR />
+        </ParallaxBox>
       </Content>
     </Container>
   );
@@ -88,4 +96,19 @@ const Content = styled.div`
   position: relative;
   text-align: center;
   height: 800px;
+`;
+
+const ParallaxBox = styled.div<{ offset: number; speed: number }>`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+  font-size: 1.3rem;
+  transform: translateY(${(props) => props.offset * props.speed}px);
+  color: rgba(0, 0, 0, 0.7);
+
+  & svg {
+    font-size: 1.5rem;
+  }
 `;
