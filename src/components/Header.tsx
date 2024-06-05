@@ -55,7 +55,7 @@ const Header = () => {
           <Link to="/intro">회사 소개</Link>
         </Tab>
         <Tab onClick={handleCloseMenu}>
-          <Link to="/product-list">제품 소개</Link>
+          <Link to="/product">제품 소개</Link>
         </Tab>
         <Tab onClick={handleCloseMenu}>
           <Link to="/location">오시는 길</Link>
