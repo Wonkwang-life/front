@@ -8,7 +8,7 @@
     "size": 30,
     "content": [
       {
-        "title": "2번 상품",
+        "title": "하루 톡톡",
         "content": "<p>2번째 내용</p>",
         "imageUrls": [
           "https://homereview1.s3.ap-northeast-2.amazonaws.com/products/d6f6ad2e-631b-4b74-a698-f2ad1c07fa7d-esp32%20%E1%84%91%E1%85%B5%E1%86%AB%E1%84%86%E1%85%A2%E1%86%B8.png"
@@ -16,7 +16,7 @@
         "id": 2
       },
       {
-        "title": "1번 상품",
+        "title": "하루 톡톡톡",
         "content": "<p><span class=\"ql-size-large\" style=\"color: rgb(230, 0, 0);\">1번째 글의 내용입니다. 사진은아무거나 넣었음</span></p>",
         "imageUrls": [
           "https://homereview1.s3.ap-northeast-2.amazonaws.com/products/202ca21b-5743-43d7-bf9b-61cca5356337-%E1%84%87%E1%85%A1%E1%86%A8%E1%84%8C%E1%85%A2%E1%84%8B%E1%85%A7%E1%86%AB.png",

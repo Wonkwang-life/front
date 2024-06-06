@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 
 // Product 타입을 JSON 구조에 맞게 수정
 interface Product {
@@ -36,6 +37,12 @@ const ProductList: React.FC = () => {
     product.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  const navigate = useNavigate();
+
+  const handleProductClick = (id: number) => {
+    navigate(`/product/${id}`);
+  };
+
   return (
     <StyledProductList>
       <Title>
@@ -50,8 +57,11 @@ const ProductList: React.FC = () => {
       />
       <ProductCards>
         {filteredProducts.map((product) => (
-          <ProductCard key={product.id}>
-            {/* imageUrls 배열의 첫 번째 이미지를 표시합니다. */}
+          <ProductCard
+            key={product.id}
+            onClick={() => handleProductClick(product.id)}
+          >
+            {/* imageUrls 배열의 첫 번째 이미지를 표시*/}
             <ProductImage src={product.imageUrls[0]} alt={product.title} />
             <ProductName>{product.title}</ProductName>
           </ProductCard>
@@ -80,6 +90,7 @@ const ProductCard = styled.div`
   padding: 10px;
   width: 200px;
   text-align: center;
+  cursor: pointer; /* 커서를 포인터로 변경하여 클릭 가능함을 나타냄 */
 `;
 
 const ProductImage = styled.img`
