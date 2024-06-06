@@ -7,7 +7,7 @@ import { confirm, successAlert, warningAlert } from "../../components/Alert";
 import api from "../../api";
 import { useRecoilValue } from "recoil";
 import { userState } from "../../state/userState";
-import "react-quill/dist/quill.snow.css"; // Quill의 기본 CSS
+import "react-quill/dist/quill.snow.css";
 
 const Post = () => {
   const [title, setTitle] = useState("");
@@ -73,7 +73,10 @@ const Post = () => {
             </Button>
           </ButtonContainer>
         )}
-        <Content dangerouslySetInnerHTML={{ __html: content }} />
+        <Content
+          dangerouslySetInnerHTML={{ __html: content }}
+          className="ql-editor"
+        />
         {images?.map((image: any, index) => (
           <Image key={index} src={image} alt={"상품이미지"} />
         ))}
@@ -145,6 +148,7 @@ const Button = styled.button`
 
 const Content = styled.div`
   width: 100%;
+  min-height: auto;
   line-height: 1.5;
   color: #555555;
 `;

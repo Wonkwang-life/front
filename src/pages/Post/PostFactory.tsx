@@ -27,7 +27,6 @@ const formats = [
   "background",
   "size",
   "h1",
-  "image",
 ];
 
 const PostFactory = () => {
@@ -198,7 +197,7 @@ const PostFactory = () => {
         container: [
           [{ size: ["small", false, "large", "huge"] }],
           [{ align: [] }],
-          ["bold", "italic", "underline", "strike"],
+          ["bold", "underline", "strike"],
           [{ list: "ordered" }, { list: "bullet" }],
           [
             {
@@ -206,7 +205,6 @@ const PostFactory = () => {
             },
             { background: [] },
           ],
-          ["image"],
         ],
       },
     };
