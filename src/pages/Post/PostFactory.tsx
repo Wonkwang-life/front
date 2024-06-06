@@ -63,7 +63,7 @@ const PostFactory = () => {
         }
       } catch (error: any) {
         const result = await warningAlert(error.response.data.message);
-        navigate("/post-fac"); //수정이 아닌 그냥 글쓰기로 이동
+        navigate("/write"); //수정이 아닌 그냥 글쓰기로 이동
         console.log(result);
       }
     };
@@ -276,7 +276,7 @@ const PostFactory = () => {
           </ImageContainer>
         ))}
       </ImagePreview>
-      <button onClick={handleSubmit}>
+      <button style={{ background: "lightgreen" }} onClick={handleSubmit}>
         {params.get("edit") ? "제품 수정" : "제품 등록"}
       </button>
     </Container>

@@ -54,7 +54,7 @@ const Post = () => {
     try {
       const response = await api.delete(`/post/${id}`);
       const result = await successAlert("글 삭제가 완료되었습니다.");
-      if (result.isConfirmed) navigate("/");
+      if (result.isConfirmed) navigate("/product");
     } catch (error: any) {
       const result = await warningAlert(error.response.data.message);
       console.log(result);
@@ -80,9 +80,11 @@ const Post = () => {
         {images?.map((image: any, index) => (
           <Image key={index} src={image} alt={"상품이미지"} />
         ))}
-        <NaverBtn href={storeLink} target="_blank">
-          구매하기
-        </NaverBtn>
+        {storeLink && (
+          <NaverBtn href={storeLink} target="_blank">
+            구매하기
+          </NaverBtn>
+        )}
       </PostForm>
     </Container>
   );
@@ -161,10 +163,11 @@ const Image = styled.img`
 `;
 
 const NaverBtn = styled.a`
-  padding: 10px 2%;
+  padding: 13px 30px;
   background-color: #03c75a;
   border-radius: 10px;
   font-weight: bolder;
+  font-size: 1.1rem;
   color: white !important;
 `;
 
