@@ -18,7 +18,7 @@ const Router = () => {
         <Route path="/write" element={<PostFactory />} />
         <Route path="/login" element={<Login />} />
         <Route path="*" element={<div>404</div>} />
-        <Route path="/product-list" element={<ProductList />} />
+        <Route path="/product" element={<ProductList />} />
       </Routes>
       <Footer />
     </BrowserRouter>

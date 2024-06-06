@@ -1,6 +1,8 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { useRecoilValue } from "recoil";
 import styled from "styled-components";
+import { userState } from "../../state/userState";
 import { useNavigate } from "react-router-dom";
 
 // Product 타입을 JSON 구조에 맞게 수정
@@ -15,6 +17,8 @@ const ProductList: React.FC = () => {
   // products 와 searchTerm 상태에 대한 타입 지정
   const [products, setProducts] = useState<Product[]>([]);
   const [searchTerm, setSearchTerm] = useState<string>("");
+  const user = useRecoilValue(userState);
+  const navigate = useNavigate();
 
   // 상품 정보를 가져오는 함수
   const fetchProducts = async () => {
@@ -55,6 +59,9 @@ const ProductList: React.FC = () => {
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
       />
+      {user && (
+        <WriteBtn onClick={() => navigate("/write")}>상품 등록</WriteBtn>
+      )}
       <ProductCards>
         {filteredProducts.map((product) => (
           <ProductCard
@@ -113,4 +120,10 @@ const SearchInput = styled.input`
   box-sizing: border-box;
 `;
 
+const WriteBtn = styled.button`
+  padding: 10px 15px;
+  margin-bottom: 20px;
+  background-color: rgb(48 79 163);
+  color: white;
+`;
 export default ProductList;
