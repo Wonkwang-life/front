@@ -7,10 +7,12 @@ import { confirm, successAlert, warningAlert } from "../../components/Alert";
 import api from "../../api";
 import { useRecoilValue } from "recoil";
 import { userState } from "../../state/userState";
+import "react-quill/dist/quill.snow.css"; // Quill의 기본 CSS
 
 const Post = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+  const [storeLink, setStoreLink] = useState("");
   const [images, setImages] = useState<[String] | null>(null);
   const { id } = useParams();
   const user = useRecoilValue(userState);
@@ -26,6 +28,7 @@ const Post = () => {
           setTitle(response.data.content.title);
           setContent(response.data.content.content);
           setImages(response.data.content.imageUrls);
+          setStoreLink(response.data.content.storeLink);
         } else {
           console.error("예상치 못한 API 응답 구조");
         }
@@ -65,13 +68,18 @@ const Post = () => {
         {user && (
           <ButtonContainer>
             <Button onClick={(e) => navigate(`/write?edit=${id}`)}>수정</Button>
-            <Button onClick={handleDelete}>삭제</Button>
+            <Button onClick={handleDelete} style={{ background: "tomato" }}>
+              삭제
+            </Button>
           </ButtonContainer>
         )}
         <Content dangerouslySetInnerHTML={{ __html: content }} />
         {images?.map((image: any, index) => (
           <Image key={index} src={image} alt={"상품이미지"} />
         ))}
+        <NaverBtn href={storeLink} target="_blank">
+          구매하기
+        </NaverBtn>
       </PostForm>
     </Container>
   );
@@ -96,7 +104,7 @@ const PostForm = styled.div`
   ${centeredFlex}
   align-items: flex-start;
   width: 100%;
-  max-width: 600px;
+  max-width: 1000px;
   padding: 40px 30px;
   border: solid #ccd1d9 1px;
   border-radius: 15px;
@@ -137,7 +145,6 @@ const Button = styled.button`
 
 const Content = styled.div`
   width: 100%;
-  font-size: 1rem;
   line-height: 1.5;
   color: #555555;
 `;
@@ -147,6 +154,14 @@ const Image = styled.img`
   max-width: 100%;
   border-radius: 8px;
   margin-top: 20px;
+`;
+
+const NaverBtn = styled.a`
+  padding: 10px 2%;
+  background-color: #03c75a;
+  border-radius: 10px;
+  font-weight: bolder;
+  color: white !important;
 `;
 
 export default Post;

@@ -21,7 +21,21 @@
 .ql-blank {
   min-height: 300px; /* 원하는 최소 높이로 설정 */
 }
-*/ a {
+p {
+  font-size: 1rem;
+}
+.ql-size-small {
+  font-size: 0.8rem !important;
+}
+.ql-size-large {
+  font-size: 1.3rem !important;
+}
+
+.ql-size-huge {
+  font-size: 1.6rem !important;
+}
+
+a {
   font-weight: 500;
   color: #646cff;
   text-decoration: inherit;

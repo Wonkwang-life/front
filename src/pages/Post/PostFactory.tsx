@@ -33,6 +33,7 @@ const formats = [
 const PostFactory = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+  const [storeLink, setStoreLink] = useState("");
   const [selectedFiles, setSelectedFiles] = useState<any>([]);
   const [isTitleFocused, setIsTitleFocused] = useState(false);
   const [isEditorFocused, setIsEditorFocused] = useState(false);
@@ -43,6 +44,7 @@ const PostFactory = () => {
   const params = new URLSearchParams(location.search);
   const navigate = useNavigate();
 
+  //글 수정 기능
   useEffect(() => {
     const getEditData = async (id) => {
       try {
@@ -51,6 +53,7 @@ const PostFactory = () => {
         if (response.data && response.data.content) {
           setTitle(response.data.content.title);
           setContent(response.data.content.content);
+          setStoreLink(response.data.content.storeLink);
           let initialImageUrls = response.data.content.imageUrls;
 
           const initialFiles = initialImageUrls.map((url) => ({
@@ -83,10 +86,6 @@ const PostFactory = () => {
       document.removeEventListener("keydown", handleKeyDown);
     };
   }, [isTitleFocused, isEditorFocused]);
-
-  const handleTitleChange = (e) => {
-    setTitle(e.target.value);
-  };
 
   const handleContentChange = (value) => {
     try {
@@ -165,6 +164,7 @@ const PostFactory = () => {
         title: title,
         content: content,
         imageUrls: imageUrls, //게시글에 있는 이미지 urls들 최종 값 업로드
+        storeLink: storeLink,
       };
 
       let response;
@@ -219,7 +219,17 @@ const PostFactory = () => {
         ref={inputRef}
         type="text"
         value={title}
-        onChange={handleTitleChange}
+        onChange={(e) => setTitle(e.target.value)}
+        onFocus={() => setIsTitleFocused(true)}
+        onBlur={() => setIsTitleFocused(false)}
+      />
+      <Label>스토어 링크</Label>
+      <Input
+        ref={inputRef}
+        type="text"
+        value={storeLink}
+        placeholder="https://smartstore.naver.com/wonnature/products/xxxxx"
+        onChange={(e) => setStoreLink(e.target.value)}
         onFocus={() => setIsTitleFocused(true)}
         onBlur={() => setIsTitleFocused(false)}
       />
@@ -233,7 +243,7 @@ const PostFactory = () => {
         modules={modules}
         formats={formats}
       />
-      <FileInputLabel htmlFor="file-upload">이미지 선택</FileInputLabel>
+      <FileInputLabel htmlFor="file-upload">이미지 추가</FileInputLabel>
       <FileInput
         id="file-upload"
         type="file"
@@ -268,7 +278,9 @@ const PostFactory = () => {
           </ImageContainer>
         ))}
       </ImagePreview>
-      <button onClick={handleSubmit}>Submit</button>
+      <button onClick={handleSubmit}>
+        {params.get("edit") ? "제품 수정" : "제품 등록"}
+      </button>
     </Container>
   );
 };
