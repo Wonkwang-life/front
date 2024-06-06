@@ -80,11 +80,14 @@ const Post = () => {
         {images?.map((image: any, index) => (
           <Image key={index} src={image} alt={"상품이미지"} />
         ))}
-        {storeLink && (
-          <NaverBtn href={storeLink} target="_blank">
-            구매하기
-          </NaverBtn>
-        )}
+        <ButtonContainer>
+          <Button onClick={() => navigate("/product")}>목록으로</Button>
+          {storeLink && (
+            <NaverBtn href={storeLink} target="_blank">
+              구매하기
+            </NaverBtn>
+          )}
+        </ButtonContainer>
       </PostForm>
     </Container>
   );
@@ -112,7 +115,6 @@ const PostForm = styled.div`
   max-width: 1000px;
   padding: 40px 30px;
   border: solid #ccd1d9 1px;
-  border-radius: 15px;
   background-color: #ffffff;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   gap: 20px;
@@ -138,7 +140,6 @@ const Button = styled.button`
   background-color: #0288d1;
   color: #ffffff;
   border: none;
-  border-radius: 8px;
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
@@ -153,6 +154,7 @@ const Content = styled.div`
   min-height: auto;
   line-height: 1.5;
   color: #555555;
+  padding: 0;
 `;
 
 const Image = styled.img`
@@ -163,9 +165,8 @@ const Image = styled.img`
 `;
 
 const NaverBtn = styled.a`
-  padding: 13px 30px;
+  padding: 7px 21px;
   background-color: #03c75a;
-  border-radius: 10px;
   font-weight: bolder;
   font-size: 1.1rem;
   color: white !important;

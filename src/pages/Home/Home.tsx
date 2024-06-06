@@ -77,7 +77,7 @@ const Home: React.FC = () => {
               content="19종 혼합 유산균 함류"
             />
           </ProductBox>
-          <GoProductListPage onClick={() => navigate("/product-list")}>
+          <GoProductListPage onClick={() => navigate("/product")}>
             <span>모든 제품 보러 가기</span>
             <FaArrowRight />
           </GoProductListPage>
