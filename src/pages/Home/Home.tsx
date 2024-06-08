@@ -13,21 +13,26 @@ const Home: React.FC = () => {
   const navigate = useNavigate();
 
   const handleScroll = () => {
-    // window.scrollY를 직접 사용하는 대신, 중간 변수를 사용하여 부드러운 효과를 줌
     setOffset(window.scrollY);
   };
 
   const animateScroll = () => {
-    handleScroll(); // 현재 스크롤 위치를 기반으로 상태를 업데이트
-    requestRef.current = requestAnimationFrame(animateScroll); // 다음 애니메이션 프레임을 예약
+    handleScroll();
+    requestRef.current = requestAnimationFrame(animateScroll);
   };
 
   useEffect(() => {
-    requestRef.current = requestAnimationFrame(animateScroll); // 컴포넌트 마운트 시 애니메이션 시작
+    // 모바일 화면이 아닐 때만 스크롤 애니메이션을 실행 - 모바일에선 useEffect로 화면 깜빡임 현상 발생
+    if (window.innerWidth > 600) {
+      requestRef.current = requestAnimationFrame(animateScroll);
+      // 스크롤 이벤트 리스너 추가
+      window.addEventListener("scroll", handleScroll);
+    }
     return () => {
       if (requestRef.current) {
-        cancelAnimationFrame(requestRef.current); // 컴포넌트 언마운트 시 애니메이션 취소
+        cancelAnimationFrame(requestRef.current);
       }
+      // 컴포넌트 언마운트 시 이벤트 리스너 제거
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
@@ -90,8 +95,13 @@ const Home: React.FC = () => {
 export default Home;
 
 const Container = styled.div`
-  height: 320dvh;
+  height: 340dvh;
   width: 100vw;
+  background-color: white;
+
+  @media screen and (min-height: 700px) {
+    height: 270dvh;
+  }
 `;
 
 const Banner = styled.div`
@@ -103,6 +113,7 @@ const Banner = styled.div`
   justify-content: center;
   font-size: 2rem;
   color: white;
+  z-index: 1;
 `;
 
 const BannerBackground = styled.div<{ offset: number }>`
@@ -130,6 +141,12 @@ const BannerContent = styled.div`
   & p {
     margin: 0;
   }
+
+  @media screen and (max-width: 1000px) {
+    & p {
+      font-size: 1.4rem;
+    }
+  }
 `;
 
 const Main = styled.div`
@@ -138,7 +155,7 @@ const Main = styled.div`
   z-index: 1;
   position: relative;
   text-align: center;
-  height: 1000px;
+  height: 1300px;
 
   @media screen and (max-width: 1000px) {
     padding: 30px;
@@ -153,22 +170,34 @@ const Content = styled.div`
   gap: 30px;
   font-size: 1.3rem;
   color: rgba(0, 0, 0, 0.7);
-  margin-top: 200px;
+  margin-top: 250px;
 
   & svg {
     font-size: 1.5rem;
   }
+
+  @media screen and (max-width: 800px) {
+    font-size: 1rem;
+
+    & svg {
+      font-size: 1.2rem;
+    }
+  }
 `;
 
 const ProductContent = styled(Content)`
-  margin-top: 300px;
+  margin-top: 400px;
+
+  @media screen and (max-width: 800px) {
+    font-size: 1.2rem;
+  }
 `;
 
 const ProductBox = styled.div`
   display: flex;
   justify-content: center;
   gap: 20px;
-  margin-top: 20px;
+  margin-top: 40px;
 `;
 
 const GoProductListPage = styled.div`
