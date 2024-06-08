@@ -33,10 +33,13 @@ const PostFactory = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [storeLink, setStoreLink] = useState("");
+  const [productType, setProductType] = useState("");
+  const [packingUnit, setPackingUnit] = useState("");
+  const [oneLineIntroduce, setOneLineIntroduce] = useState("");
+  const [tag, setTag] = useState("");
   const [selectedFiles, setSelectedFiles] = useState<any>([]);
   const [isTitleFocused, setIsTitleFocused] = useState(false);
   const [isEditorFocused, setIsEditorFocused] = useState(false);
-  const [isImageFixed, setIsImageFixed] = useState(false); //이미지를 수정했는지
 
   const inputRef = useRef(null);
   const quillRef = useRef(null);
@@ -50,10 +53,24 @@ const PostFactory = () => {
         const response = await api.get(`/post/${id}`);
 
         if (response.data && response.data.content) {
-          setTitle(response.data.content.title);
-          setContent(response.data.content.content);
-          setStoreLink(response.data.content.storeLink);
-          let initialImageUrls = response.data.content.imageUrls;
+          const {
+            title,
+            content,
+            storeLink,
+            imageUrls,
+            productType,
+            packingUnit,
+            oneLineIntroduce,
+            tag,
+          } = response.data.content;
+          setTitle(title);
+          setContent(content);
+          setStoreLink(storeLink);
+          setProductType(productType);
+          setPackingUnit(packingUnit);
+          setOneLineIntroduce(oneLineIntroduce);
+          setTag(tag);
+          let initialImageUrls = imageUrls;
 
           const initialFiles = initialImageUrls.map((url) => ({
             file: null,
@@ -96,7 +113,6 @@ const PostFactory = () => {
 
   const handleFileChange = (e) => {
     console.log(e.target.files);
-    setIsImageFixed(true);
     const files = Array.from(e.target.files).map((file: any) => ({
       file,
       url: null,
@@ -109,7 +125,6 @@ const PostFactory = () => {
   };
 
   const moveImage = (index, direction) => {
-    setIsImageFixed(true);
     const newFiles = [...selectedFiles];
     const targetIndex = direction === "up" ? index - 1 : index + 1;
     if (targetIndex < 0 || targetIndex >= newFiles.length) return;
@@ -164,6 +179,10 @@ const PostFactory = () => {
         content: content,
         imageUrls: imageUrls, //게시글에 있는 이미지 urls들 최종 값 업로드
         storeLink: storeLink,
+        oneLineIntroduce,
+        productType,
+        packingUnit,
+        tag,
       };
 
       let response;
@@ -221,12 +240,53 @@ const PostFactory = () => {
         onFocus={() => setIsTitleFocused(true)}
         onBlur={() => setIsTitleFocused(false)}
       />
+      <Label>제품 한줄 소개</Label>
+      <Input
+        ref={inputRef}
+        type="text"
+        value={oneLineIntroduce}
+        placeholder="ex) 비타민A가 함유된 건강기능식품입니다."
+        onChange={(e) => setOneLineIntroduce(e.target.value)}
+        onFocus={() => setIsTitleFocused(true)}
+        onBlur={() => setIsTitleFocused(false)}
+      />
+      <Label>제품 유형</Label>
+      <Input
+        ref={inputRef}
+        type="text"
+        value={productType}
+        placeholder="ex) 비타민"
+        onChange={(e) => setProductType(e.target.value)}
+        onFocus={() => setIsTitleFocused(true)}
+        onBlur={() => setIsTitleFocused(false)}
+      />
+      <Label>포장 단위</Label>
+      <Input
+        ref={inputRef}
+        type="text"
+        value={packingUnit}
+        placeholder="ex) 500mg"
+        onChange={(e) => setPackingUnit(e.target.value)}
+        onFocus={() => setIsTitleFocused(true)}
+        onBlur={() => setIsTitleFocused(false)}
+      />
+      <Label>태그</Label>
+      <Input
+        ref={inputRef}
+        type="text"
+        value={tag}
+        placeholder="ex) #비타민A #홍삼"
+        onChange={(e) => setTag(e.target.value)}
+        onFocus={() => setIsTitleFocused(true)}
+        onBlur={() => setIsTitleFocused(false)}
+        style={{ wordSpacing: "15px" }}
+      />
       <Label>스토어 링크</Label>
       <Input
         ref={inputRef}
         type="text"
         value={storeLink}
-        placeholder="https://smartstore.naver.com/wonnature/products/xxxxx"
+        placeholder="ex) https://smartstore.naver.com/wonnature/products/xxxxx"
         onChange={(e) => setStoreLink(e.target.value)}
         onFocus={() => setIsTitleFocused(true)}
         onBlur={() => setIsTitleFocused(false)}
@@ -241,7 +301,9 @@ const PostFactory = () => {
         modules={modules}
         formats={formats}
       />
-      <FileInputLabel htmlFor="file-upload">이미지 추가</FileInputLabel>
+      <FileInputLabel htmlFor="file-upload">
+        이미지 추가 (첫번째 이미지가 대표 이미지)
+      </FileInputLabel>
       <FileInput
         id="file-upload"
         type="file"
@@ -294,8 +356,10 @@ const Container = styled.div`
 `;
 
 const Label = styled.div`
-  font-size: 1.2rem;
-  margin-bottom: -10px;
+  font-size: 1.3rem;
+  margin-top: 10px;
+  margin-bottom: -15px;
+  font-weight: 600;
 `;
 
 const Input = styled.input`
