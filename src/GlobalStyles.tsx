@@ -5,7 +5,6 @@ const GlobalStyles = createGlobalStyle`
     *::before,
     *::after {
     box-sizing: border-box;
-    font-family : "Noto Sans KR";
     --headerHeight : 134px;
     --footerHeight : 138px;
     }
