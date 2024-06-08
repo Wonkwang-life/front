@@ -95,6 +95,7 @@ const Container = styled.div`
     top: 28px;
     font-size: 25px;
     display: none;
+    color: black;
   }
 
   @media screen and (max-width: 1000px) {
