@@ -5,6 +5,8 @@ import styled from "styled-components";
 import { successAlert, warningAlert } from "../../components/Alert";
 import { useNavigate } from "react-router-dom";
 import api from "../../api";
+import { useRecoilValue } from "recoil";
+import { userState } from "../../state/userState";
 
 const Size = Quill.import("formats/size");
 Size.whitelist = ["small", "medium", "large", "huge"];
@@ -40,6 +42,8 @@ const PostFactory = () => {
   const [selectedFiles, setSelectedFiles] = useState<any>([]);
   const [isTitleFocused, setIsTitleFocused] = useState(false);
   const [isEditorFocused, setIsEditorFocused] = useState(false);
+  const user = useRecoilValue(userState);
+  const [userCheck, setUserCheck] = useState(false);
 
   const inputRef = useRef(null);
   const quillRef = useRef(null);
@@ -87,7 +91,32 @@ const PostFactory = () => {
     if (params.get("edit")) {
       getEditData(params.get("edit"));
     }
+
+    checkUser();
   }, []);
+
+  useEffect(() => {
+    if (userCheck) loginCheck();
+    else setUserCheck(true);
+    console.log("usercheck: ", user);
+  }, [user]);
+
+  const checkUser = async () => {
+    try {
+      const response = await api.get(`/user/check`, {
+        // skipInterceptor: true,
+      });
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
+  const loginCheck = async () => {
+    if (user === null) {
+      const result = await warningAlert("관리자 로그인을 해주세요.");
+      if (result.isConfirmed) navigate("/login");
+    }
+  };
 
   //뒤로가기 방지
   useEffect(() => {
@@ -338,9 +367,9 @@ const PostFactory = () => {
           </ImageContainer>
         ))}
       </ImagePreview>
-      <button style={{ background: "lightgreen" }} onClick={handleSubmit}>
+      <ConfirmBtn onClick={handleSubmit}>
         {params.get("edit") ? "제품 수정" : "제품 등록"}
-      </button>
+      </ConfirmBtn>
     </Container>
   );
 };
@@ -372,10 +401,15 @@ const FileInputLabel = styled.label`
   display: inline-block;
   padding: 6px 12px;
   cursor: pointer;
-  background-color: #007bff;
+  background-color: #18e66a;
   color: white;
   border-radius: 4px;
   font-size: 16px;
+  transition: all 0.3s;
+
+  &:hover {
+    background-color: #18c75e !important;
+  }
 `;
 
 const FileInput = styled.input`
@@ -435,6 +469,21 @@ const DeleteButton = styled.button`
   border: none;
   border-radius: 3px;
   cursor: pointer;
+`;
+
+const ConfirmBtn = styled.button`
+  padding: 8px 0%;
+  border-radius: 5px;
+  border: 0px;
+  background-color: #007bff;
+  color: white;
+  font-weight: 600;
+  font-size: 1.2rem;
+  transition: all 0.3s;
+
+  &:hover {
+    background-color: #1b6cc2 !important;
+  }
 `;
 
 export default PostFactory;

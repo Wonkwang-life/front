@@ -22,7 +22,7 @@ api.interceptors.request.use(
 // 응답 인터셉터 설정
 api.interceptors.response.use(
   (response) => response,
-  (error) => {
+  async (error) => {
     // 공통 에러 처리
     if (error.config && error.config.skipInterceptor) {
       // 공통 에러 처리를 건너뛰기
@@ -40,7 +40,8 @@ api.interceptors.response.use(
       console.error("Error setting up request:", error.message);
     }
     if (error.response.status === 401) {
-      warningAlert(error.response.data.message);
+      const result = await warningAlert(error.response.data.message);
+      if (result.isConfirmed) window.location.replace("/login");
     }
     return Promise.reject(error);
   }

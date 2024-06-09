@@ -4,7 +4,7 @@ import styled, { css } from "styled-components";
 import { successAlert, warningAlert } from "../../components/Alert";
 import api from "../../api";
 import { useNavigate } from "react-router-dom";
-import { useSetRecoilState } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import { userState } from "../../state/userState";
 
 const Login = () => {
@@ -12,6 +12,7 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const setUser = useSetRecoilState(userState);
   const navigate = useNavigate();
+  const user = useRecoilValue(userState);
 
   const handleUsernameChange = (e) => {
     setUsername(e.target.value);
@@ -21,9 +22,14 @@ const Login = () => {
     setPassword(e.target.value);
   };
 
-  const handleSubmit = (e) => {
+  const handleLoginSubmit = (e) => {
     e.preventDefault();
     login();
+  };
+
+  const handleLogoutSubmit = (e) => {
+    e.preventDefault();
+    logout();
   };
 
   const login = async () => {
@@ -45,20 +51,42 @@ const Login = () => {
       warningAlert(error.response.data.message);
     }
   };
+
+  const logout = async () => {
+    try {
+      const response = await api.get("/user/logout");
+      const result = await successAlert(response.data.message);
+
+      setUser(null);
+      if (result.isConfirmed) {
+        navigate("/");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      warningAlert(error.response.data.message);
+    }
+  };
   return (
     <Container>
-      <LoginForm onSubmit={handleSubmit}>
-        <Title>Login</Title>
-        <Label>유저이름</Label>
-        <Input type="text" value={username} onChange={handleUsernameChange} />
-        <Label>비밀번호</Label>
-        <Input
-          type="password"
-          value={password}
-          onChange={handlePasswordChange}
-        />
-        <Button type="submit">로그인</Button>
-      </LoginForm>
+      {!user ? (
+        <LoginForm onSubmit={handleLoginSubmit}>
+          <Title>Login</Title>
+          <Label>유저이름</Label>
+          <Input type="text" value={username} onChange={handleUsernameChange} />
+          <Label>비밀번호</Label>
+          <Input
+            type="password"
+            value={password}
+            onChange={handlePasswordChange}
+          />
+          <Button type="submit">로그인</Button>
+        </LoginForm>
+      ) : (
+        <LoginForm onSubmit={handleLogoutSubmit}>
+          <Title>로그아웃</Title>
+          <Button type="submit">로그아웃</Button>
+        </LoginForm>
+      )}
     </Container>
   );
 };

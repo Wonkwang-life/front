@@ -17,6 +17,7 @@ interface PostData {
   productType: string;
   packingUnit: string;
   tag: string;
+  hit: number;
 }
 
 const Post = () => {
@@ -76,6 +77,7 @@ const Post = () => {
             <Button onClick={handleDelete} style={{ background: "tomato" }}>
               삭제
             </Button>
+            <div>조회수 : {postData?.hit}</div>
           </ButtonContainer>
         )}
         <TopContainer>
@@ -92,6 +94,10 @@ const Post = () => {
             <Detail>
               <div>포장단위</div>
               <div>{postData?.packingUnit}</div>
+            </Detail>
+            <Detail>
+              <div>권장소비자가격</div>
+              <div>30,000원</div>
             </Detail>
             <Detail>
               <div>구매채널</div>
@@ -112,9 +118,10 @@ const Post = () => {
           dangerouslySetInnerHTML={{ __html: postData?.content }}
           className="ql-editor"
         />
-        {images?.map((image: any, index) => (
-          <Image key={index} src={image} alt={"상품이미지"} />
-        ))}
+        {images?.map(
+          (image: any, index) =>
+            index !== 0 && <Image key={index} src={image} alt={"상품이미지"} />
+        )}
         <ButtonContainer>
           <Button onClick={() => navigate("/product")}>목록으로</Button>
         </ButtonContainer>
@@ -155,6 +162,7 @@ const TopContainer = styled.div`
   width: 100%;
   height: auto;
   flex-flow: row nowrap;
+  align-items: flex-end;
   gap: 60px;
 
   & img {
@@ -176,7 +184,7 @@ const TopContent = styled.div`
   ${centeredFlex}
   width: 50%;
   height: 100%;
-  justify-content: start;
+  justify-content: flex-start;
   align-items: flex-start;
   gap: 10px;
 
@@ -189,8 +197,13 @@ const Detail = styled.div`
   display: flex;
   font-size: 1.2rem;
   width: 100%;
+
+  & :nth-child(1) {
+    width: 210px;
+  }
   & :nth-child(2) {
-    margin-left: 100px;
+    width: calc(100% - 250px);
+    white-space: nowrap;
   }
 `;
 
@@ -257,8 +270,8 @@ const NaverBtn = styled.a`
   font-weight: bolder;
   font-size: 1.1rem;
   color: white !important;
-  align-self: flex-end;
-  margin-top: auto;
+  align-self: flex-start;
+  margin-top: 50px;
 `;
 
 const Hr = styled.hr`
