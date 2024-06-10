@@ -1,6 +1,7 @@
 :root {
   --header-height: 85px;
   --footer-height: 210px;
+  --base-color: #304fa3;
 }
 
 @font-face {
