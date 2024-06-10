@@ -14,6 +14,15 @@ const Header = () => {
     setIsClickMenuBtn(false);
   };
 
+  useEffect(() => {
+    //햄버거를 닫고 애니메이션이 끝나면 animate를 false로 변경
+    if (!isClickMenuBtn) {
+      setTimeout(() => {
+        setAnimate(false);
+      }, 300);
+    }
+  }, [isClickMenuBtn]);
+
   // 바깥 클릭 감지 로직
   useEffect(() => {
     // 클릭된 요소가 헤더 컴포넌트 내부에 있는지 확인하고, 바깥쪽 클릭이라면 handleCloseMenu 함수를 실행
@@ -101,8 +110,8 @@ const Container = styled.div`
   @media screen and (max-width: 1000px) {
     width: 100%;
     flex-direction: column;
-    align-items: center;
     align-items: flex-start;
+    justify-content: center;
     padding: 27px 0;
 
     & svg {
@@ -140,8 +149,9 @@ const Tabs = styled.div<{
   @media screen and (max-width: 1000px) {
     background-color: white;
     padding: 0;
-    padding-top: 20px;
-    padding-bottom: 235px;
+    height: auto;
+    position: absolute;
+    top: var(--header-height);
     width: 100%;
     display: flex; // 화면이 1000px 미만일 때는 flex로 변경
     flex-direction: column;
@@ -160,7 +170,7 @@ const Tabs = styled.div<{
   }
 `;
 
-const Tab = styled.span`
+const Tab = styled.div`
   & a {
     display: flex;
     justify-content: center;
