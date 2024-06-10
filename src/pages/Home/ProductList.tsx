@@ -48,18 +48,19 @@ const ProductList: React.FC = () => {
   return (
     <StyledProductList>
       <Title>
-        <h2>상품 목록입니당</h2>
+        <h2>제품 목록</h2>
       </Title>
       {user && (
         <WriteBtn onClick={() => navigate("/write")}>상품 등록</WriteBtn>
       )}
-      {/* 검색 입력창 추가 */}
-      <SearchInput
-        type="text"
-        placeholder="제품 검색..."
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-      />
+      <SearchInputWrapper>
+        <SearchInput
+          type="text"
+          placeholder="제품 검색..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+      </SearchInputWrapper>
       <ProductCards>
         {filteredProducts.map((product) => (
           <ProductCard
@@ -78,29 +79,37 @@ const ProductList: React.FC = () => {
 
 const Title = styled.div`
   padding: 5px;
+  display: block;
+  text-align: center;
 `;
 
 const StyledProductList = styled.div`
-  padding: 20px;
+  padding: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
 const ProductCards = styled.div`
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
   gap: 20px;
 `;
 
 const ProductCard = styled.div`
   border: 1px solid #ddd;
   padding: 10px;
-  width: 200px;
+  width: calc((100% - 40px) / 3); /* 수정: 3개씩 가로로 정렬 */
   text-align: center;
   cursor: pointer; /* 커서를 포인터로 변경하여 클릭 가능함을 나타냄 */
 `;
 
 const ProductImage = styled.img`
   width: 100%;
-  height: auto;
+
+  height: auto; /* 원하는 높이 설정 */
+  object-fit: cover; /* 이미지를 컨테이너에 맞게 조절 */
 `;
 
 const ProductName = styled.div`
@@ -109,18 +118,31 @@ const ProductName = styled.div`
   font-weight: bold;
 `;
 
-// 검색 입력창 스타일링
-const SearchInput = styled.input`
-  margin-bottom: 20px;
-  padding: 10px;
-  font-size: 16px;
+const SearchInputWrapper = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
   width: 100%;
-  box-sizing: border-box;
+  margin-bottom: 20px;
 `;
 
+const SearchInput = styled.input`
+  padding: 5px;
+  font-size: 16px;
+  width: 20%;
+  box-sizing: border-box;
+  border: 1px solid transparent; // 기본 테두리를 투명하게 설정
+  border-bottom: 1px solid #ccc; // 아래쪽 테두리만 회색으로 설정
+
+  &:hover,
+  &:focus {
+    border-bottom: 1px solid #000; // 아래쪽 테두리를 검정으로 변경
+  }
+`;
 const WriteBtn = styled.button`
   padding: 10px 15px;
   margin-bottom: 20px;
+  margin-left: 10px; /* WriteBtn과 SearchInput 사이에 약간의 여백을 주었습니다 */
   background-color: rgb(48 79 163);
   color: white;
 `;
