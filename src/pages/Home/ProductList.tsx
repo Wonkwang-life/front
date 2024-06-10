@@ -99,7 +99,7 @@ const ProductCards = styled.div`
 
 const ProductCard = styled.div`
   border: 1px solid #ddd;
-  padding: 10px;
+  padding: 15px;
   width: calc((100% - 40px) / 3); /* 수정: 3개씩 가로로 정렬 */
   text-align: center;
   cursor: pointer; /* 커서를 포인터로 변경하여 클릭 가능함을 나타냄 */
