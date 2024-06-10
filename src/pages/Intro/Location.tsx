@@ -34,7 +34,7 @@ const Location: React.FC = () => {
 
     kakao.maps.event.addListener(marker, "click", () => {
       window.open(
-        "https://map.kakao.com/link/map/CompanyName,37.49879082400211,126.72478981193977"
+        "https://map.kakao.com/link/map/원광생활건강,37.49879082400211,126.72478981193977"
       );
     });
   }, []);
