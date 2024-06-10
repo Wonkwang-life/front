@@ -89,18 +89,50 @@ const Container = styled.div`
 const Title = styled.h2`
   font-size: 1.7rem;
   margin-bottom: 20px;
+
+  @media screen and (max-width: 500px) {
+    font-size: 1.5rem;
+  }
 `;
 
 const MapContainer = styled.div`
   width: 60%;
   height: 500px;
   border: 1px solid #ddd;
+
+  @media screen and (max-width: 1400px) {
+    width: 70%;
+  }
+
+  @media screen and (max-width: 1200px) {
+    width: 90%;
+  }
+
+  @media screen and (max-width: 900px) {
+    height: 400px;
+  }
+
+  @media screen and (max-width: 700px) {
+    height: 300px;
+  }
 `;
 
 const InfoContainer = styled.div`
   width: 60%;
   display: flex;
   justify-content: space-between;
+
+  @media screen and (max-width: 1400px) {
+    width: 70%;
+  }
+
+  @media screen and (max-width: 1200px) {
+    width: 90%;
+  }
+
+  @media screen and (max-width: 900px) {
+    flex-direction: column;
+  }
 `;
 
 const InfoBox = styled.div`
@@ -109,28 +141,60 @@ const InfoBox = styled.div`
   gap: 10px;
   margin-top: 15px;
   font-size: 1.1rem;
+
   & svg {
-    font-size: 1.5rem;
     background-color: #d3d3d3;
     width: 50px;
     height: 50px;
     padding: 12px;
     border-radius: 50%;
   }
+
+  @media screen and (max-width: 700px) {
+    font-size: 1rem;
+
+    & svg {
+      width: 40px;
+      height: 40px;
+      padding: 10px;
+    }
+  }
+
+  @media screen and (max-width: 500px) {
+    & svg {
+      width: 30px;
+      height: 30px;
+      padding: 6px;
+    }
+  }
 `;
 
 const TrafficContainer = styled.div`
   width: 60%;
   margin-top: 50px;
+
   & h3 {
     color: var(--base-color);
     font-size: 1.4rem;
+  }
+
+  @media screen and (max-width: 1400px) {
+    width: 70%;
+  }
+
+  @media screen and (max-width: 1200px) {
+    width: 90%;
   }
 `;
 
 const TrafficBox = styled.div`
   display: flex;
   gap: 40px;
+
+  @media screen and (max-width: 700px) {
+    flex-direction: column;
+    gap: 10px;
+  }
 `;
 
 const TrafficWay = styled(InfoBox)`
@@ -142,5 +206,9 @@ const TrafficWay = styled(InfoBox)`
   & div {
     display: flex;
     flex-direction: column;
+  }
+
+  @media screen and (max-width: 700px) {
+    margin-bottom: 0px;
   }
 `;
