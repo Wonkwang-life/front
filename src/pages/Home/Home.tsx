@@ -1,15 +1,20 @@
 import React, { useEffect, useState, useRef } from "react";
-import styled from "styled-components";
-import { RiDoubleQuotesL } from "react-icons/ri";
-import { RiDoubleQuotesR } from "react-icons/ri";
+import { RiDoubleQuotesL, RiDoubleQuotesR } from "react-icons/ri";
 import { FaArrowRight } from "react-icons/fa6";
 import HomeProduct from "../../components/HomeProduct";
 import { useNavigate } from "react-router-dom";
+import api from "../../api";
+import { warningAlert } from "../../components/Alert";
 
 const Home: React.FC = () => {
   const [offset, setOffset] = useState(0);
+  const [products, setProducts] = useState([]);
+  const [contentVisible, setContentVisible] = useState(false);
+  const [productContentVisible, setProductContentVisible] = useState(false);
   // 스크롤 이벤트 최적화를 위한 ref 사용
   const requestRef = useRef<number>();
+  const contentRef = useRef<HTMLDivElement | null>(null);
+  const productContentRef = useRef<HTMLDivElement | null>(null);
   const navigate = useNavigate();
 
   const handleScroll = () => {
@@ -22,6 +27,7 @@ const Home: React.FC = () => {
   };
 
   useEffect(() => {
+    getRecentProducts();
     // 모바일 화면이 아닐 때만 스크롤 애니메이션을 실행 - 모바일에선 useEffect로 화면 깜빡임 현상 발생
     if (window.innerWidth > 600) {
       requestRef.current = requestAnimationFrame(animateScroll);
@@ -36,6 +42,56 @@ const Home: React.FC = () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
+
+  useEffect(() => {
+    //스크롤 위치 시 애니메이션을 위한 함수
+    const contentObserver = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setContentVisible(true);
+          contentObserver.disconnect();
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    const productContentObserver = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setProductContentVisible(true);
+          productContentObserver.disconnect();
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (contentRef.current) {
+      contentObserver.observe(contentRef.current);
+    }
+
+    if (productContentRef.current) {
+      productContentObserver.observe(productContentRef.current);
+    }
+
+    return () => {
+      if (contentRef.current) {
+        contentObserver.unobserve(contentRef.current);
+      }
+
+      if (productContentRef.current) {
+        productContentObserver.unobserve(productContentRef.current);
+      }
+    };
+  }, []);
+
+  const getRecentProducts = async () => {
+    try {
+      const response = await api.get("/post");
+      setProducts(response.data.content.content);
+    } catch (error: any) {
+      warningAlert(error.response.data.message);
+    }
+  };
 
   return (
     <Container>
@@ -52,35 +108,32 @@ const Home: React.FC = () => {
         </BannerContent>
       </Banner>
       <Main>
-        <Content>
+        <Content ref={contentRef} isVisible={contentVisible}>
           <RiDoubleQuotesL />
           (주)원광생활건강은 질병 없는 사회를 추구하고자 <br />
           끊임없는 기술 개발과 연구 개발에 최선을 다한 제품을 유통/판매하고
           있습니다.
           <RiDoubleQuotesR />
         </Content>
-        <ProductContent>
+        <ProductContent
+          ref={productContentRef}
+          isVisible={productContentVisible}
+        >
           <span>제품 목록</span>
           <ProductBox>
-            <HomeProduct
-              id={1}
-              title="원광천녹침향원"
-              imgUrls="/images/product1.png"
-              content="침향, 홍삼, 녹용, 벌꿀 등 전통원료 16가지를 함유한 바쁜 현대인들의
-        건강을 생각한 프리미엄 제품"
-            />
-            <HomeProduct
-              id={2}
-              title="원광헬시골드타임"
-              imgUrls="/images/product2.png"
-              content="비타민A, 비타민E가 함유된 건강기능식품"
-            />
-            <HomeProduct
-              id={3}
-              title="프로바이오틱스 하루톡톡"
-              imgUrls="/images/product3.jpeg"
-              content="19종 혼합 유산균 함류"
-            />
+            {products.map(
+              (product, index) =>
+                index < 3 && (
+                  <HomeProduct
+                    key={product?.id}
+                    id={product?.id}
+                    title={product?.title}
+                    imgUrls={product?.imageUrls[0]}
+                    content={product?.oneLineIntroduce}
+                    tag={product?.tag}
+                  />
+                )
+            )}
           </ProductBox>
           <GoProductListPage onClick={() => navigate("/product")}>
             <span>모든 제품 보러 가기</span>
@@ -92,16 +145,24 @@ const Home: React.FC = () => {
   );
 };
 
-export default Home;
+import styled, { keyframes, css } from "styled-components";
+
+const fadeInUp = keyframes`
+  from {
+    opacity: 0;
+    
+    transform: translateY(40px) scale(0.4);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+`;
 
 const Container = styled.div`
-  height: 340vh;
+  height: auto;
   width: 100vw;
   background-color: white;
-
-  @media screen and (min-height: 700px) {
-    height: 270vh;
-  }
 `;
 
 const Banner = styled.div`
@@ -153,27 +214,38 @@ const BannerContent = styled.div`
 `;
 
 const Main = styled.div`
-  padding: 100px;
+  padding: 0px;
   background: white;
   z-index: 1;
   position: relative;
   text-align: center;
-  height: 1300px;
+  height: auto;
 
   @media screen and (max-width: 1000px) {
     padding: 30px;
   }
 `;
 
-const Content = styled.div`
+const Content = styled.div<{ isVisible: boolean }>`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 30px;
-  font-size: 1.3rem;
+  font-size: 1.5rem;
   color: rgba(0, 0, 0, 0.7);
-  margin-top: 250px;
+  margin-top: 200px;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 1.2s ease, transform 1.2s ease;
+
+  ${({ isVisible }) =>
+    isVisible &&
+    css`
+      opacity: 1;
+      transform: translateY(0);
+      animation: ${fadeInUp} 1.2s ease;
+    `}
 
   & svg {
     font-size: 1.5rem;
@@ -189,7 +261,7 @@ const Content = styled.div`
 `;
 
 const ProductContent = styled(Content)`
-  margin-top: 400px;
+  margin: 250px 0;
 
   @media screen and (max-width: 800px) {
     font-size: 1.2rem;
@@ -198,9 +270,18 @@ const ProductContent = styled(Content)`
 
 const ProductBox = styled.div`
   display: flex;
+  width: 100%;
+  max-width: 1300px;
+  padding: 0 20px;
   justify-content: center;
   gap: 20px;
   margin-top: 40px;
+
+  @media screen and (max-width: 600px) {
+    display: flex;
+    flex-flow: column wrap;
+    align-items: center;
+  }
 `;
 
 const GoProductListPage = styled.div`
@@ -221,3 +302,5 @@ const GoProductListPage = styled.div`
     color: rgba(0, 0, 0, 0.5);
   }
 `;
+
+export default Home;

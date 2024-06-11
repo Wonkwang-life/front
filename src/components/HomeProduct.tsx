@@ -7,9 +7,16 @@ interface HomeProductProps {
   title: string;
   imgUrls: string;
   content: string;
+  tag: string;
 }
 
-const HomeProduct = ({ id, title, imgUrls, content }: HomeProductProps) => {
+const HomeProduct = ({
+  id,
+  title,
+  imgUrls,
+  content,
+  tag,
+}: HomeProductProps) => {
   const navigate = useNavigate();
 
   return (
@@ -17,6 +24,7 @@ const HomeProduct = ({ id, title, imgUrls, content }: HomeProductProps) => {
       <ProductImg src={imgUrls} />
       <ProductTitle>{title}</ProductTitle>
       <ProductContent>{content}</ProductContent>
+      <ProductTag>{tag}</ProductTag>
     </Container>
   );
 };
@@ -33,31 +41,35 @@ const Container = styled.div`
   &:hover {
     cursor: pointer;
   }
+
+  @media screen and (max-width: 600px) {
+    width: 100%;
+  }
 `;
 
 const ProductTitle = styled.span`
-  font-size: 1.1rem;
+  font-size: 1.3rem;
 `;
 
 const ProductImg = styled.img`
-  width: 200px;
-  height: 200px;
+  width: 100%;
+  max-width: 300px;
+  height: 100%;
   object-fit: cover;
-
-  @media screen and (max-width: 1000px) {
-    width: 150px;
-    height: 150px;
-  }
-
-  @media screen and (max-width: 600px) {
-    width: 100px;
-    height: 100px;
-  }
 `;
 
 const ProductContent = styled.p`
+  font-size: 1.1rem;
+  width: 90%;
+
+  @media screen and (max-width: 800px) {
+    font-size: 0.8rem;
+  }
+`;
+const ProductTag = styled.p`
   font-size: 0.9rem;
   width: 90%;
+  word-spacing: 15px;
 
   @media screen and (max-width: 800px) {
     font-size: 0.8rem;
