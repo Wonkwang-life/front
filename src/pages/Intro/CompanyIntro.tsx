@@ -27,13 +27,14 @@ const IntroContainer = styled.div`
   justify-content: center;
   align-items: center;
   gap: 50px;
-  width: 90%;
+  width: 90dvw;
 
   & img {
     width: 150px;
   }
 
   @media screen and (max-width: 800px) {
+    width: 80dvw;
     & img {
       width: 120px;
     }
@@ -70,6 +71,10 @@ const Content = styled.p`
   line-height: 50px;
   color: rgba(0, 0, 0, 0.8);
   margin-bottom: 50px;
+  @media screen and (max-width: 1100px) {
+    margin-bottom: 100px;
+  }
+
   @media screen and (max-width: 800px) {
     font-size: 1rem;
     line-height: 40px;
@@ -83,5 +88,9 @@ const Content = styled.p`
   @media screen and (max-width: 500px) {
     text-align: left;
     line-height: 30px;
+  }
+
+  @media screen and (max-width: 400px) {
+    margin-bottom: 20px;
   }
 `;

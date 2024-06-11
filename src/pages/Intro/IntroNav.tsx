@@ -29,13 +29,31 @@ const Container = styled.div`
   justify-content: center;
   margin: auto;
   gap: 30px;
+
+  @media screen and (max-width: 1100px) {
+    height: 100dvh;
+    align-items: center;
+    flex-direction: column;
+    gap: 60px;
+  }
+
+  @media screen and (max-width: 400px) {
+    gap: 20px;
+  }
 `;
 
 const Tabs = styled.div`
   display: flex;
   flex-direction: column;
-  width: 15%;
+  width: 15dvw;
   margin-top: 10%;
+
+  @media screen and (max-width: 1100px) {
+    width: 80dvw;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+  }
 `;
 
 const Tab = styled.span<{ isActive: boolean }>`
@@ -53,5 +71,23 @@ const Tab = styled.span<{ isActive: boolean }>`
   }
   & a:hover {
     border-bottom: 2px solid var(--base-color);
+  }
+
+  @media screen and (max-width: 1100px) {
+    & a {
+      padding: 15px 80px;
+    }
+  }
+
+  @media screen and (max-width: 500px) {
+    & a {
+      padding: 15px 60px;
+    }
+  }
+
+  @media screen and (max-width: 400px) {
+    & a {
+      padding: 15px 50px;
+    }
   }
 `;
