@@ -7,7 +7,8 @@ import Home from "./pages/Home/Home";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import ProductList from "./pages/Home/ProductList";
-import Location from "./pages/Intro/Location";
+import Location from "./pages/Location/Location";
+import Intro from "./pages/Intro/Intro";
 
 const Router = () => {
   return (
@@ -20,6 +21,7 @@ const Router = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/product" element={<ProductList />} />
         <Route path="/location" element={<Location />} />
+        <Route path="/intro" element={<Intro />} />
         <Route path="*" element={<div>404</div>} />
       </Routes>
       <Footer />
