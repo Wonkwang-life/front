@@ -25,16 +25,42 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin: auto;
   margin-top: 50px;
   gap: 50px;
+
   & img {
     width: 150px;
+  }
+
+  @media screen and (max-width: 800px) {
+    & img {
+      width: 120px;
+    }
+  }
+
+  @media screen and (max-width: 600px) {
+    & img {
+      width: 100px;
+    }
+  }
+
+  @media screen and (max-width: 500px) {
+    width: 80%;
   }
 `;
 
 const EmphasisText = styled.span`
   color: var(--base-color);
   font-size: 2rem;
+
+  @media screen and (max-width: 800px) {
+    font-size: 1.5rem;
+  }
+
+  @media screen and (max-width: 600px) {
+    font-size: 1.2rem;
+  }
 `;
 
 const Content = styled.p`
@@ -43,4 +69,20 @@ const Content = styled.p`
   line-height: 50px;
   color: rgba(0, 0, 0, 0.8);
   margin-bottom: 50px;
+
+  @media screen and (max-width: 800px) {
+    font-size: 1rem;
+    line-height: 40px;
+  }
+
+  @media screen and (max-width: 600px) {
+    font-size: 0.9rem;
+    line-height: 35px;
+  }
+
+  @media screen and (max-width: 500px) {
+    text-align: left;
+
+    line-height: 30px;
+  }
 `;
