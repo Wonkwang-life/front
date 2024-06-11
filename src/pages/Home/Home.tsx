@@ -151,7 +151,7 @@ const fadeInUp = keyframes`
   from {
     opacity: 0;
     
-    transform: translateY(40px) scale(0.4);
+    transform: translateY(40px) scale(0.2);
   }
   to {
     opacity: 1;
@@ -232,19 +232,16 @@ const Content = styled.div<{ isVisible: boolean }>`
   align-items: center;
   justify-content: center;
   gap: 30px;
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   color: rgba(0, 0, 0, 0.7);
-  margin-top: 200px;
+  margin-top: 180px;
   opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 1.2s ease, transform 1.2s ease;
+  transform: translateY(20px) scale(0);
 
   ${({ isVisible }) =>
     isVisible &&
     css`
-      opacity: 1;
-      transform: translateY(0);
-      animation: ${fadeInUp} 1.2s ease;
+      animation: ${fadeInUp} 1.5s ease forwards;
     `}
 
   & svg {
