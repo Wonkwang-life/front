@@ -95,12 +95,12 @@ const Home: React.FC = () => {
 export default Home;
 
 const Container = styled.div`
-  height: 340dvh;
+  height: 340vh;
   width: 100vw;
   background-color: white;
 
   @media screen and (min-height: 700px) {
-    height: 270dvh;
+    height: 270vh;
   }
 `;
 
@@ -114,6 +114,10 @@ const Banner = styled.div`
   font-size: 2rem;
   color: white;
   z-index: 1;
+
+  @media screen and (max-width: 600px) {
+    height: 700px;
+  }
 `;
 
 const BannerBackground = styled.div<{ offset: number }>`
@@ -121,12 +125,11 @@ const BannerBackground = styled.div<{ offset: number }>`
   top: 0;
   left: 0;
   width: 100vw;
-  height: 100vh;
+  height: 100%;
   background-image: url("/images/banner.png");
   background-size: cover;
   background-repeat: no-repeat;
-  background-position-x: center;
-  transform: translateY(${(props) => props.offset * 0.5}px);
+  background-position: center ${(props) => props.offset * 0.5}px;
   filter: brightness(50%);
   z-index: -1;
 
