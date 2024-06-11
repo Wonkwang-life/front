@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { useNavigate } from "react-router-dom";
 import api from "../../api";
 import { useRecoilValue } from "recoil";
@@ -92,6 +92,17 @@ const StyledProductList = styled.div`
   align-items: center;
 `;
 
+// fadein 애니메이션 정의
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`;
 const ProductCards = styled.div`
   display: flex;
   flex-wrap: wrap;
@@ -110,6 +121,7 @@ const ProductCard = styled.div`
   width: calc((100% - 40px) / 3); /* 수정: 3개씩 가로로 정렬 */
   text-align: center;
   cursor: pointer; /* 커서를 포인터로 변경하여 클릭 가능함을 나타냄 */
+  animation: ${fadeIn} 0.5s ease-in-out;
 
   @media screen and (max-width: 768px) {
     width: 100%; /* 모바일 화면에서 100% 너비로 설정 */
