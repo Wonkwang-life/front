@@ -151,7 +151,7 @@ const fadeInUp = keyframes`
   from {
     opacity: 0;
     
-    transform: translateY(40px) scale(0.2);
+    transform: translateY(40px) scale(0.93);
   }
   to {
     opacity: 1;
@@ -241,7 +241,7 @@ const Content = styled.div<{ isVisible: boolean }>`
   ${({ isVisible }) =>
     isVisible &&
     css`
-      animation: ${fadeInUp} 1.5s ease forwards;
+      animation: ${fadeInUp} 1.2s ease forwards;
     `}
 
   & svg {
