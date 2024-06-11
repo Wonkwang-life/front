@@ -13,5 +13,5 @@ const PeopleContainer = styled.div`
   justify-content: center;
   align-items: center;
   gap: 50px;
-  width: 90%;
+  width: 90dvw;
 `;
