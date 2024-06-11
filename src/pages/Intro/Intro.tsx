@@ -22,11 +22,12 @@ const Intro = () => {
 export default Intro;
 
 const Container = styled.div`
+  height: 90dvh;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   margin: auto;
-  margin-top: 50px;
   gap: 50px;
 
   & img {
@@ -46,6 +47,7 @@ const Container = styled.div`
   }
 
   @media screen and (max-width: 500px) {
+    height: 100dvh;
     width: 80%;
   }
 `;
@@ -69,7 +71,6 @@ const Content = styled.p`
   line-height: 50px;
   color: rgba(0, 0, 0, 0.8);
   margin-bottom: 50px;
-
   @media screen and (max-width: 800px) {
     font-size: 1rem;
     line-height: 40px;
@@ -82,7 +83,6 @@ const Content = styled.p`
 
   @media screen and (max-width: 500px) {
     text-align: left;
-
     line-height: 30px;
   }
 `;
