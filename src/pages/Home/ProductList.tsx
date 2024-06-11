@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { useNavigate } from "react-router-dom";
 import api from "../../api";
 import { useRecoilValue } from "recoil";
@@ -12,6 +12,7 @@ interface Product {
   title: string;
   content: string;
   imageUrls: string[];
+  oneLineIntroduce: string;
 }
 
 const ProductList: React.FC = () => {
@@ -70,6 +71,7 @@ const ProductList: React.FC = () => {
             {/* imageUrls 배열의 첫 번째 이미지를 표시*/}
             <ProductImage src={product.imageUrls[0]} alt={product.title} />
             <ProductName>{product.title}</ProductName>
+            <ProductDescription>{product.oneLineIntroduce}</ProductDescription>
           </ProductCard>
         ))}
       </ProductCards>
@@ -84,17 +86,33 @@ const Title = styled.div`
 `;
 
 const StyledProductList = styled.div`
-  padding: 100px;
+  padding: 70px;
   display: flex;
   flex-direction: column;
   align-items: center;
 `;
 
+// fadein 애니메이션 정의
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`;
 const ProductCards = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   gap: 20px;
+
+  @media screen and (max-width: 768px) {
+    flex-direction: column;
+    align-items: center;
+  }
 `;
 
 const ProductCard = styled.div`
@@ -103,13 +121,23 @@ const ProductCard = styled.div`
   width: calc((100% - 40px) / 3); /* 수정: 3개씩 가로로 정렬 */
   text-align: center;
   cursor: pointer; /* 커서를 포인터로 변경하여 클릭 가능함을 나타냄 */
+  animation: ${fadeIn} 0.5s ease-in-out;
+
+  @media screen and (max-width: 768px) {
+    width: 100%; /* 모바일 화면에서 100% 너비로 설정 */
+  }
+`;
+
+const ProductDescription = styled.div`
+  margin-top: 5px;
+  font-size: 14px;
+  color: #666;
 `;
 
 const ProductImage = styled.img`
   width: 100%;
-
-  height: auto; /* 원하는 높이 설정 */
-  object-fit: cover; /* 이미지를 컨테이너에 맞게 조절 */
+  height: 70%; /* 원하는 높이 설정 */
+  object-fit: contain; /* 이미지를 컨테이너에 맞게 조절 */
 `;
 
 const ProductName = styled.div`
@@ -142,7 +170,7 @@ const SearchInput = styled.input`
 const WriteBtn = styled.button`
   padding: 10px 15px;
   margin-bottom: 20px;
-  margin-left: 10px; /* WriteBtn과 SearchInput 사이에 약간의 여백을 주었습니다 */
+  margin-left: 10px;
   background-color: rgb(48 79 163);
   color: white;
 `;
