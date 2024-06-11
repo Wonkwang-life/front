@@ -55,6 +55,43 @@ const Post = () => {
     console.log(user);
   }, [user]);
 
+  const handleShare = async () => {
+    const url = `${window.location.origin}/product/${id}`;
+
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: document.title,
+          url: url,
+        });
+        console.log("Shared successfully");
+      } catch (error) {
+        console.error("Error sharing:", error);
+      }
+    } else {
+      try {
+        await navigator.clipboard.writeText(url);
+        alert("URL이 클립보드에 복사되었습니다.");
+      } catch (error) {
+        console.error("클립보드 복사 실패:", error);
+
+        // 일부 브라우저에서는 execCommand를 사용해 클립보드에 복사하는 대체 방법
+        const textArea = document.createElement("textarea");
+        textArea.value = url;
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+        try {
+          document.execCommand("copy");
+          alert("URL이 클립보드에 복사되었습니다.");
+        } catch (err) {
+          alert("클립보드 복사에 실패했습니다. 수동으로 복사해주세요.");
+        }
+        document.body.removeChild(textArea);
+      }
+    }
+  };
+
   const handleDelete = async () => {
     const result = await confirm("정말 글을 삭제하시겠습니까?");
     if (!result.isConfirmed) return;
@@ -111,6 +148,7 @@ const Post = () => {
                 구매하기
               </NaverBtn>
             )}
+            <Button onClick={() => handleShare()}>공유하기</Button>
           </TopContent>
         </TopContainer>
         <Hr />
@@ -162,7 +200,7 @@ const TopContainer = styled.div`
   width: 100%;
   height: auto;
   flex-flow: row nowrap;
-  align-items: flex-end;
+  align-items: center;
   gap: 60px;
 
   & img {
@@ -202,8 +240,8 @@ const Detail = styled.div`
     width: 210px;
   }
   & :nth-child(2) {
-    width: calc(100% - 250px);
-    white-space: nowrap;
+    width: calc(100% - 210px);
+    white-space: wrap;
   }
 `;
 
