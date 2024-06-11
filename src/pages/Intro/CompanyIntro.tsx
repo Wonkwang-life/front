@@ -1,9 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 
-const Intro = () => {
+const CompanyIntro = () => {
   return (
-    <Container>
+    <IntroContainer>
       <img src="/images/logo.png" alt="logo" />
       <EmphasisText>
         지속 가능하고 더 나은 삶을 위하는 생활 건강 브랜드
@@ -15,20 +15,19 @@ const Intro = () => {
         우리는 자연 친화적인 원료를 사용하여 고객의 건강을 최우선으로
         생각합니다.
       </Content>
-    </Container>
+    </IntroContainer>
   );
 };
 
-export default Intro;
+export default CompanyIntro;
 
-const Container = styled.div`
-  height: 90dvh;
+const IntroContainer = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
-  margin: auto;
+  align-items: center;
   gap: 50px;
+  width: 90%;
 
   & img {
     width: 150px;

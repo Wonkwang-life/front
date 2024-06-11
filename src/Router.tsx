@@ -8,7 +8,9 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import ProductList from "./pages/Home/ProductList";
 import Location from "./pages/Location/Location";
-import Intro from "./pages/Intro/Intro";
+import CompanyIntro from "./pages/Intro/CompanyIntro";
+import IntroNav from "./pages/Intro/IntroNav";
+import PeopleIntro from "./pages/Intro/PeopleIntro";
 
 const Router = () => {
   return (
@@ -21,7 +23,10 @@ const Router = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/product" element={<ProductList />} />
         <Route path="/location" element={<Location />} />
-        <Route path="/intro" element={<Intro />} />
+        <Route path="/intro" element={<IntroNav />}>
+          <Route path="/intro" element={<CompanyIntro />} />
+          <Route path="/intro/people" element={<PeopleIntro />} />
+        </Route>
         <Route path="*" element={<div>404</div>} />
       </Routes>
       <Footer />
