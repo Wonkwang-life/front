@@ -6,16 +6,15 @@ import { RxHamburgerMenu } from "react-icons/rx";
 const Header = () => {
   const navigate = useNavigate();
   const [animate, setAnimate] = useState(false);
-  const [isClickMenuBtn, setIsClickMenuBtn] = useState(false); // 햄버거 메뉴 열고 닫기 기능 구현을 위함
-  const HeaderRef = useRef<HTMLDivElement | null>(null); // 탭을 참조하기 위한 ref
+  const [isClickMenuBtn, setIsClickMenuBtn] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const HeaderRef = useRef<HTMLDivElement | null>(null);
 
-  // 햄버거 메뉴를 닫는 함수
   const handleCloseMenu = () => {
     setIsClickMenuBtn(false);
   };
 
   useEffect(() => {
-    //햄버거를 닫고 애니메이션이 끝나면 animate를 false로 변경
     if (!isClickMenuBtn) {
       setTimeout(() => {
         setAnimate(false);
@@ -23,9 +22,7 @@ const Header = () => {
     }
   }, [isClickMenuBtn]);
 
-  // 바깥 클릭 감지 로직
   useEffect(() => {
-    // 클릭된 요소가 헤더 컴포넌트 내부에 있는지 확인하고, 바깥쪽 클릭이라면 handleCloseMenu 함수를 실행
     const handleClickOutside = (event: MouseEvent) => {
       if (
         HeaderRef.current &&
@@ -34,17 +31,13 @@ const Header = () => {
         handleCloseMenu();
       }
     };
-    // 클릭 이벤트 리스너 추가
     document.addEventListener("mousedown", handleClickOutside);
 
-    // 컴포넌트 언마운트 시 이벤트 리스너 제거
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [HeaderRef]);
 
-  // 화면 1000px 이하 시, 맨 처음엔 애니메이션 실행되지 않도록 설정
-  // 메뉴 버튼 클릭시에만 css animation 발생하도록 하기 위함
   const handleResize = () => {
     if (window.innerWidth <= 1000) setAnimate(false);
   };
@@ -56,9 +49,28 @@ const Header = () => {
     };
   }, []);
 
+  const handleScroll = () => {
+    if (window.scrollY > 0) {
+      setIsScrolled(true);
+    } else {
+      setIsScrolled(false);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   return (
-    <Container ref={HeaderRef}>
-      <Logo src="/images/logo2.png" alt="logo" onClick={() => navigate("/")} />
+    <Container ref={HeaderRef} className={isScrolled ? "scrolled" : ""}>
+      <Logo
+        src="/images/logo_alpha.png"
+        alt="logo"
+        onClick={() => navigate("/")}
+      />
       <Tabs $isClickMenuBtn={isClickMenuBtn} $animate={animate}>
         <Tab onClick={handleCloseMenu}>
           <Link to="/intro">회사 소개</Link>
@@ -88,7 +100,7 @@ const Header = () => {
 export default Header;
 
 const Container = styled.div`
-  height: var(--header-height); //index.css에 변수선언 되어있음
+  height: var(--header-height);
   position: sticky;
   top: 0px;
   z-index: 10;
@@ -97,6 +109,13 @@ const Container = styled.div`
   display: flex;
   justify-content: space-around;
   align-items: center;
+  transition: background-color 0.5s, backdrop-filter 0.5s, box-shadow 0.5s;
+
+  &.scrolled {
+    background-color: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(15px);
+    box-shadow: 0 4px 7px rgba(0, 0, 0, 0.15);
+  }
 
   & svg {
     position: absolute;
@@ -116,6 +135,12 @@ const Container = styled.div`
 
     & svg {
       display: block;
+    }
+
+    &.scrolled {
+      background-color: rgb(255, 255, 255);
+      backdrop-filter: blur(0px);
+      box-shadow: 0;
     }
   }
 `;
@@ -138,7 +163,7 @@ const Tabs = styled.div<{
 }>`
   height: 54px;
   padding: 0 20%;
-  display: grid; // 기본적으로 grid를 사용하여 탭을 표시
+  display: grid;
   grid-template-columns: repeat(4, 1fr);
   width: 70%;
 
@@ -148,12 +173,13 @@ const Tabs = styled.div<{
 
   @media screen and (max-width: 1000px) {
     background-color: white;
+    box-shadow: 0 4px 7px rgba(0, 0, 0, 0.15);
     padding: 0;
     height: auto;
     position: absolute;
     top: var(--header-height);
     width: 100%;
-    display: flex; // 화면이 1000px 미만일 때는 flex로 변경
+    display: flex;
     flex-direction: column;
     ${({ $isClickMenuBtn, $animate }) =>
       $isClickMenuBtn
@@ -171,24 +197,42 @@ const Tabs = styled.div<{
 `;
 
 const Tab = styled.div`
+  position: relative;
+
   & a {
     display: flex;
     justify-content: center;
     align-items: center;
     text-decoration: none;
     font-weight: 500;
+    font-size: 1.15rem;
     padding: 15px 0;
-  }
+    position: relative;
+    transition: color 0.3s;
 
-  & a:hover {
-    border-bottom: 2px solid #474da2;
-    color: #474da2;
+    @media screen and (min-width: 1001px) {
+      &:before {
+        content: "";
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        background: #474da2;
+        transform: scaleX(0);
+        transition: transform 0.3s ease;
+      }
+
+      &:hover:before {
+        transform: scaleX(1);
+      }
+    }
   }
 
   @media screen and (max-width: 1000px) {
-    background-color: white;
     & a {
       width: 100%;
+      padding: 20px 0;
     }
 
     & a:hover {
