@@ -13,6 +13,7 @@ interface Product {
   content: string;
   imageUrls: string[];
   oneLineIntroduce: string;
+  tag: string;
 }
 
 const ProductList: React.FC = () => {
@@ -72,6 +73,11 @@ const ProductList: React.FC = () => {
             <ProductImage src={product.imageUrls[0]} alt={product.title} />
             <ProductName>{product.title}</ProductName>
             <ProductDescription>{product.oneLineIntroduce}</ProductDescription>
+            <ProductTag>
+              {product.tag.split(" ").map((tag, index) => (
+                <Tag key={index}>{tag}</Tag>
+              ))}
+            </ProductTag>
           </ProductCard>
         ))}
       </ProductCards>
@@ -117,33 +123,55 @@ const ProductCards = styled.div`
 
 const ProductCard = styled.div`
   border: 1px solid #ddd;
-  padding: 10px;
+  padding: 15px;
   width: calc((100% - 40px) / 3); /* 수정: 3개씩 가로로 정렬 */
   text-align: center;
   cursor: pointer; /* 커서를 포인터로 변경하여 클릭 가능함을 나타냄 */
   animation: ${fadeIn} 0.5s ease-in-out;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 350px; /* 높이 값을 조절하여 원하는 크기로 설정할 수 있습니다 */
 
   @media screen and (max-width: 768px) {
     width: 100%; /* 모바일 화면에서 100% 너비로 설정 */
+    height: auto; /* 모바일 화면에서는 높이를 자동으로 설정 */
   }
-`;
-
-const ProductDescription = styled.div`
-  margin-top: 15px;
-  font-size: 14px;
-  color: #666;
 `;
 
 const ProductImage = styled.img`
   width: 100%;
-  height: 70%;
+  height: 60%; /* 이미지 영역을 60%로 조절 */
   object-fit: contain;
 `;
 
 const ProductName = styled.div`
   margin-top: 10px;
-  font-size: 16px;
+  font-size: 1.3rem;
   font-weight: bold;
+`;
+
+const ProductDescription = styled.div`
+  margin-top: 15px;
+  font-size: 1rem;
+  color: #666;
+  flex-grow: 1; /* 설명 영역이 나머지 공간을 채우도록 설정 */
+`;
+
+const ProductTag = styled.div`
+  font-size: 1rem;
+  margin-top: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 5px;
+`;
+
+const Tag = styled.div`
+  /*padding: 3px;*/
+  /*border: 1px solid #ccc;*/
+  border-radius: 10px;
+  color: #1f3d8e;
 `;
 
 const SearchInputWrapper = styled.div`
