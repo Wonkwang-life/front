@@ -12,10 +12,12 @@ import CompanyIntro from "./pages/Intro/CompanyIntro";
 import IntroNav from "./pages/Intro/IntroNav";
 import PeopleIntro from "./pages/Intro/PeopleIntro";
 import ScrollToTopBtn from "./components/ScrollToTopBtn";
+import ScrollToTop from "./components/ScrollToTop";
 
 const Router = () => {
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <Header />
       <Routes>
         <Route path="/" element={<Home />} />
