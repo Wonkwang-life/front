@@ -31,10 +31,17 @@ const IntroContainer = styled.div`
 
   & img {
     width: 150px;
+    margin-top: 50px;
+  }
+
+  @media screen and (max-width: 1100px) {
+    margin-top: 200px;
   }
 
   @media screen and (max-width: 800px) {
+    margin-top: 100px;
     width: 80dvw;
+
     & img {
       width: 120px;
     }
@@ -49,6 +56,9 @@ const IntroContainer = styled.div`
   @media screen and (max-width: 500px) {
     height: 100dvh;
     width: 80%;
+  }
+  @media screen and (max-width: 400px) {
+    margin-top: 50px;
   }
 `;
 

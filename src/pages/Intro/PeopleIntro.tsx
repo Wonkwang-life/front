@@ -69,6 +69,10 @@ const PeopleContainer = styled.div`
   gap: 50px;
   width: 90dvw;
   height: 100dvh;
+
+  @media screen and (max-width: 1100px) {
+    margin-top: 100px;
+  }
 `;
 
 const SearchBox = styled.div`
@@ -107,7 +111,7 @@ const ResultsContent = styled.div`
 `;
 
 const PeopleImg = styled.img`
-  width: 400px;
+  width: 350px;
   box-shadow: 2px 4px 5px rgba(0, 0, 0, 0.5);
   @media screen and (max-width: 500px) {
     width: 300px;

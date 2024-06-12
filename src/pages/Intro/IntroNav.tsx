@@ -47,12 +47,19 @@ const Tabs = styled.div`
   flex-direction: column;
   width: 15dvw;
   margin-top: 10%;
+  position: absolute;
+  left: 5%;
 
   @media screen and (max-width: 1100px) {
     width: 80dvw;
     flex-direction: row;
     align-items: center;
     justify-content: center;
+    top: 5%;
+    left: inherit;
+  }
+  @media screen and (max-width: 800px) {
+    top: 10%;
   }
 `;
 
