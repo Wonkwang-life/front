@@ -38,6 +38,7 @@ const PostFactory = () => {
   const [productType, setProductType] = useState("");
   const [packingUnit, setPackingUnit] = useState("");
   const [oneLineIntroduce, setOneLineIntroduce] = useState("");
+  const [howEat, setHowEat] = useState("");
   const [tag, setTag] = useState("");
   const [selectedFiles, setSelectedFiles] = useState<any>([]);
   const [isTitleFocused, setIsTitleFocused] = useState(false);
@@ -66,6 +67,7 @@ const PostFactory = () => {
             packingUnit,
             oneLineIntroduce,
             tag,
+            howEat,
           } = response.data.content;
           setTitle(title);
           setContent(content);
@@ -73,6 +75,7 @@ const PostFactory = () => {
           setProductType(productType);
           setPackingUnit(packingUnit);
           setOneLineIntroduce(oneLineIntroduce);
+          setHowEat(howEat);
           setTag(tag);
           let initialImageUrls = imageUrls;
 
@@ -211,6 +214,7 @@ const PostFactory = () => {
         oneLineIntroduce,
         productType,
         packingUnit,
+        howEat,
         tag,
       };
 
@@ -296,6 +300,16 @@ const PostFactory = () => {
         value={packingUnit}
         placeholder="ex) 500mg"
         onChange={(e) => setPackingUnit(e.target.value)}
+        onFocus={() => setIsTitleFocused(true)}
+        onBlur={() => setIsTitleFocused(false)}
+      />
+      <Label>섭취 방법</Label>
+      <Input
+        ref={inputRef}
+        type="text"
+        value={howEat}
+        placeholder="ex) 1일 1회 섭취"
+        onChange={(e) => setHowEat(e.target.value)}
         onFocus={() => setIsTitleFocused(true)}
         onBlur={() => setIsTitleFocused(false)}
       />

@@ -3,7 +3,13 @@ import React from "react";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import styled, { css } from "styled-components";
-import { confirm, successAlert, warningAlert } from "../../components/Alert";
+import {
+  checkConfirm,
+  confirm,
+  errorAlert,
+  successAlert,
+  warningAlert,
+} from "../../components/Alert";
 import api from "../../api";
 import { useRecoilValue } from "recoil";
 import { userState } from "../../state/userState";
@@ -18,6 +24,7 @@ interface PostData {
   packingUnit: string;
   tag: string;
   hit: number;
+  howEat: string;
 }
 
 const Post = () => {
@@ -61,7 +68,8 @@ const Post = () => {
     if (navigator.share) {
       try {
         await navigator.share({
-          title: document.title,
+          title: `${postData?.title}`,
+          text: `${postData?.oneLineIntroduce}`,
           url: url,
         });
         console.log("Shared successfully");
@@ -71,7 +79,7 @@ const Post = () => {
     } else {
       try {
         await navigator.clipboard.writeText(url);
-        alert("URL이 클립보드에 복사되었습니다.");
+        checkConfirm("URL이 클립보드에 복사되었습니다.");
       } catch (error) {
         console.error("클립보드 복사 실패:", error);
 
@@ -83,9 +91,9 @@ const Post = () => {
         textArea.select();
         try {
           document.execCommand("copy");
-          alert("URL이 클립보드에 복사되었습니다.");
+          checkConfirm("URL이 클립보드에 복사되었습니다.");
         } catch (err) {
-          alert("클립보드 복사에 실패했습니다. 수동으로 복사해주세요.");
+          errorAlert("클립보드 복사에 실패했습니다. 수동으로 복사해주세요.");
         }
         document.body.removeChild(textArea);
       }
@@ -109,13 +117,13 @@ const Post = () => {
     <Container>
       <PostForm>
         {user && (
-          <ButtonContainer>
+          <AdminContainer>
             <Button onClick={(e) => navigate(`/write?edit=${id}`)}>수정</Button>
             <Button onClick={handleDelete} style={{ background: "tomato" }}>
               삭제
             </Button>
             <div>조회수 : {postData?.hit}</div>
-          </ButtonContainer>
+          </AdminContainer>
         )}
         <TopContainer>
           {images && <img src={images[0]} alt="대표이미지" />}
@@ -133,22 +141,31 @@ const Post = () => {
               <div>{postData?.packingUnit}</div>
             </Detail>
             <Detail>
-              <div>권장소비자가격</div>
-              <div>30,000원</div>
+              <div>섭취방법</div>
+              <div>{postData?.howEat}</div>
             </Detail>
-            <Detail>
-              <div>구매채널</div>
-              <div>네이버스토어</div>
-            </Detail>
+            {postData?.storeLink && (
+              <Detail>
+                <div>구매채널</div>
+                <div>네이버스토어</div>
+              </Detail>
+            )}
+
             <Tag>
               <div>{postData?.tag}</div>
             </Tag>
-            {postData?.storeLink && (
-              <NaverBtn href={postData?.storeLink} target="_blank">
-                구매하기
-              </NaverBtn>
-            )}
-            <Button onClick={() => handleShare()}>공유하기</Button>
+            <ButtonContainer>
+              {postData?.storeLink && (
+                <Button
+                  style={{ background: "#03c75a" }}
+                  href={postData?.storeLink}
+                  target="_blank"
+                >
+                  구매하기
+                </Button>
+              )}
+              <Button onClick={() => handleShare()}>공유하기</Button>
+            </ButtonContainer>
           </TopContent>
         </TopContainer>
         <Hr />
@@ -186,7 +203,7 @@ const PostForm = styled.div`
   ${centeredFlex}
   align-items: flex-start;
   width: 100%;
-  max-width: 1200px;
+  max-width: 1000px;
   padding: 40px 30px;
   gap: 20px;
 
@@ -237,10 +254,10 @@ const Detail = styled.div`
   width: 100%;
 
   & :nth-child(1) {
-    width: 210px;
+    width: 130px;
   }
   & :nth-child(2) {
-    width: calc(100% - 210px);
+    width: calc(100% - 130px);
     white-space: wrap;
   }
 `;
@@ -268,12 +285,14 @@ const Introduce = styled.div`
 
 const ButtonContainer = styled.div`
   ${centeredFlex}
+  width: 100%;
   flex-direction: row;
   gap: 10px;
+  margin-top: 30px;
 `;
 
 const Button = styled.button`
-  width: 120px;
+  width: 100%;
   height: 50px;
   background-color: #0288d1;
   color: #ffffff;
@@ -309,13 +328,27 @@ const NaverBtn = styled.a`
   font-size: 1.1rem;
   color: white !important;
   align-self: flex-start;
-  margin-top: 50px;
 `;
 
 const Hr = styled.hr`
   width: 100%;
   color: #808080aa;
   margin: 30px auto;
+`;
+
+const AdminContainer = styled.div`
+  display: flex;
+  width: 50%;
+  min-width: 350px;
+  padding: 10px;
+  flex-flow: row nowrap;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 4px 7px rgba(0, 0, 0, 0.15);
+
+  & div {
+    width: 300px;
+  }
 `;
 
 export default Post;
