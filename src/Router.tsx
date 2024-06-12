@@ -11,6 +11,7 @@ import Location from "./pages/Location/Location";
 import CompanyIntro from "./pages/Intro/CompanyIntro";
 import IntroNav from "./pages/Intro/IntroNav";
 import PeopleIntro from "./pages/Intro/PeopleIntro";
+import ScrollToTopBtn from "./components/ScrollToTopBtn";
 
 const Router = () => {
   return (
@@ -29,6 +30,7 @@ const Router = () => {
         </Route>
         <Route path="*" element={<div>404</div>} />
       </Routes>
+      <ScrollToTopBtn />
       <Footer />
     </BrowserRouter>
   );

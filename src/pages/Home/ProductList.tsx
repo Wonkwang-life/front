@@ -19,8 +19,6 @@ const ProductList: React.FC = () => {
   // products 와 searchTerm 상태에 대한 타입 지정
   const [products, setProducts] = useState<Product[]>([]);
   const [searchTerm, setSearchTerm] = useState<string>("");
-  const [showScrollToTopButton, setShowScrollToTopButton] =
-    useState<boolean>(false);
 
   const user = useRecoilValue(userState);
   const navigate = useNavigate();
@@ -38,30 +36,7 @@ const ProductList: React.FC = () => {
   // 컴포넌트가 처음 랜더링 될 때 실행되는 함수
   useEffect(() => {
     fetchProducts();
-
-    // 스크롤 이벤트 리스너 추가
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      // 컴포넌트 언마운트 시 이벤트 리스너 제거
-      window.removeEventListener("scroll", handleScroll);
-    };
   }, []);
-
-  const handleScroll = () => {
-    setShowScrollToTopButton(window.pageYOffset > 100);
-  };
-
-  const handleScrollToTop = () => {
-    // 맨 위로 스크롤 (애니메이션 효과 추가)
-    const position =
-      document.documentElement.scrollTop || document.body.scrollTop;
-    if (position) {
-      window.requestAnimationFrame(() => {
-        window.scrollTo(0, position - position / 10);
-        handleScrollToTop();
-      });
-    }
-  };
 
   // 검색어에 따른 상품 필터링 함수
   const filteredProducts = products.filter((product) =>
@@ -100,15 +75,6 @@ const ProductList: React.FC = () => {
           </ProductCard>
         ))}
       </ProductCards>
-
-      {showScrollToTopButton && (
-        <ScrollToTopButton
-          showButton={showScrollToTopButton}
-          onClick={handleScrollToTop}
-        >
-          <i className="fas fa-arrow-up"></i>
-        </ScrollToTopButton>
-      )}
     </StyledProductList>
   );
 };
@@ -215,38 +181,6 @@ const WriteBtn = styled.button`
   margin-left: 10px;
   background-color: rgb(48 79 163);
   color: white;
-`;
-
-const ScrollToTopButton = styled.button<{ showButton: boolean }>`
-  display: ${({ showButton }) => (showButton ? "block" : "none")};
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  background-color: white;
-  color: #fff;
-  border: none;
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  background-image: url("/images/topup.png");
-  background-size: cover;
-
-  border: none;
-
-  cursor: pointer;
-  transform-origin: center; // 변형의 기준점 설정
-  z-index: 9999;
-
-  &:hover {
-    transform: scale(1.1); // 마우스 오버 시 버튼 크기 증가
-  }
-
-  &:click {
-    window.scrollTo({
-      top: 0
-      behavior: 'auto'
-    });
-  }
 `;
 
 export default ProductList;
