@@ -2,7 +2,6 @@
 User-agent: *
 Disallow: /admin/
 Disallow: /login/
-Allow: /
 
 # 네이버 검색 엔진 크롤러에 대한 규칙
 User-agent: naverbot
