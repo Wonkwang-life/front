@@ -65,4 +65,12 @@ const ScrollToTopButton = styled.div<{ showButton: boolean }>`
   &:hover {
     background-color: #1f3d8e;
   }
+
+  @media screen and (max-width: 600px) {
+    width: 60px;
+    height: 60px;
+    font-size: 1.7rem;
+    right: 20px;
+    bottom: 40px;
+  }
 `;
