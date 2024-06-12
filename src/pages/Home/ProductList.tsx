@@ -19,6 +19,7 @@ const ProductList: React.FC = () => {
   // products 와 searchTerm 상태에 대한 타입 지정
   const [products, setProducts] = useState<Product[]>([]);
   const [searchTerm, setSearchTerm] = useState<string>("");
+
   const user = useRecoilValue(userState);
   const navigate = useNavigate();
 
@@ -129,7 +130,7 @@ const ProductCard = styled.div`
 `;
 
 const ProductDescription = styled.div`
-  margin-top: 5px;
+  margin-top: 15px;
   font-size: 14px;
   color: #666;
 `;
@@ -152,12 +153,17 @@ const SearchInputWrapper = styled.div`
   align-items: center;
   width: 100%;
   margin-bottom: 20px;
+
+  @media screen and (max-width: 768px) {
+    justify-content: center;
+  }
 `;
 
 const SearchInput = styled.input`
   padding: 5px;
   font-size: 16px;
-  width: 20%;
+  width: 18%;
+
   box-sizing: border-box;
   border: 1px solid transparent; // 기본 테두리를 투명하게 설정
   border-bottom: 1px solid #ccc; // 아래쪽 테두리만 회색으로 설정
@@ -165,6 +171,10 @@ const SearchInput = styled.input`
   &:hover,
   &:focus {
     border-bottom: 1px solid #000; // 아래쪽 테두리를 검정으로 변경
+  }
+
+  @media screen and (max-width: 768px) {
+    width: 80%;
   }
 `;
 const WriteBtn = styled.button`
