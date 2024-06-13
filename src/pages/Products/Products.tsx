@@ -85,7 +85,7 @@ const Products: React.FC = () => {
             ))}
           </>
         ) : (
-          <Label>해당 제품이 없습니다.</Label>
+          <Label>존재하지 않는 제품입니다.</Label>
         )}
       </ProductCards>
     </Container>
@@ -100,7 +100,6 @@ const Container = styled.div`
   min-height: calc(100dvh - var(--header-height) - var(--footer-height));
   margin: auto;
   margin-bottom: 100px;
-
   & h2 {
     margin-top: 50px;
     margin-bottom: 40px;
@@ -115,6 +114,9 @@ const Container = styled.div`
 
   @media screen and (max-width: 500px) {
     width: 70dvw;
+  }
+  @media screen and (max-width: 450px) {
+    width: 80dvw;
   }
 `;
 
@@ -211,6 +213,10 @@ const ProductCard = styled.div`
   @media screen and (max-width: 500px) {
     width: 70dvw;
   }
+
+  @media screen and (max-width: 450px) {
+    width: 80dvw;
+  }
 `;
 
 const ProductImage = styled.img`
@@ -266,17 +272,20 @@ const Tag = styled.div`
 `;
 
 const WriteBtn = styled.button`
-  padding: 10px 25px;
+  padding: 14px 25px;
   margin-bottom: 20px;
   background-color: rgb(48 79 163);
   color: white;
+  border: none;
+  border-radius: 10px;
 `;
 
 const Label = styled.div`
   width: 100%;
   text-align: center;
   font-size: 1.2rem;
-  margin-top: 15px;
+  margin-top: 15%;
+  color: rgba(0, 0, 0, 0.5);
 `;
 
 export default Products;
