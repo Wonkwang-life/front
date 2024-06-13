@@ -124,7 +124,7 @@ const SearchInputWrapper = styled.div`
 const SearchInput = styled.input`
   padding: 5px;
   font-size: 16px;
-  width: 18%;
+  width: 230px;
   box-sizing: border-box;
   border: 1px solid transparent;
   border-bottom: 1px solid #ccc;
@@ -136,6 +136,10 @@ const SearchInput = styled.input`
   &:focus {
     outline: 1px solid white !important;
     border-bottom: 1px solid #5d48fb;
+  }
+
+  @media screen and (max-width: 1000px) {
+    width: 180px;
   }
 
   @media screen and (max-width: 768px) {
