@@ -16,7 +16,7 @@ interface Product {
   tag: string;
 }
 
-const ProductList: React.FC = () => {
+const Products: React.FC = () => {
   // products 와 searchTerm 상태에 대한 타입 지정
   const [products, setProducts] = useState<Product[]>([]);
   const [searchTerm, setSearchTerm] = useState<string>("");
@@ -247,4 +247,4 @@ const WriteBtn = styled.button`
   color: white;
 `;
 
-export default ProductList;
+export default Products;
