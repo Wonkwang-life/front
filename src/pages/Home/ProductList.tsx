@@ -110,9 +110,10 @@ const fadeIn = keyframes`
   }
 `;
 const ProductCards = styled.div`
+  max-width: 1200px;
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: flex-start;
   gap: 20px;
 
   @media screen and (max-width: 768px) {
@@ -131,7 +132,7 @@ const ProductCard = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 350px; /* 높이 값을 조절하여 원하는 크기로 설정할 수 있습니다 */
+  height: auto; /* 높이 값을 조절하여 원하는 크기로 설정할 수 있습니다 */
 
   @media screen and (max-width: 768px) {
     width: 100%; /* 모바일 화면에서 100% 너비로 설정 */
@@ -147,7 +148,7 @@ const ProductImage = styled.img`
 
 const ProductName = styled.div`
   margin-top: 10px;
-  font-size: 1.3rem;
+  font-size: 1.4rem;
   font-weight: bold;
 `;
 
@@ -179,6 +180,7 @@ const SearchInputWrapper = styled.div`
   justify-content: flex-end;
   align-items: center;
   width: 100%;
+  max-width: 1200px;
   margin-bottom: 20px;
 
   @media screen and (max-width: 768px) {
@@ -194,9 +196,13 @@ const SearchInput = styled.input`
   border: 1px solid transparent;
   border-bottom: 1px solid #ccc;
 
-  &:hover,
+  &:hover {
+    border-bottom: 1px solid #7e6efd;
+  }
+
   &:focus {
-    border-bottom: 1px solid #000;
+    outline: 1px solid white !important;
+    border-bottom: 1px solid #5d48fb;
   }
 
   @media screen and (max-width: 768px) {
@@ -204,9 +210,8 @@ const SearchInput = styled.input`
   }
 `;
 const WriteBtn = styled.button`
-  padding: 10px 15px;
+  padding: 10px 25px;
   margin-bottom: 20px;
-  margin-left: 10px;
   background-color: rgb(48 79 163);
   color: white;
 `;

@@ -41,11 +41,8 @@ const Login = () => {
 
       setUser(response.data.content);
       console.log(response.data.content);
-      const result = await successAlert(response.data.message);
-
-      if (result.isConfirmed) {
-        navigate("/");
-      }
+      successAlert(response.data.message);
+      navigate("/");
     } catch (error) {
       console.error("Error:", error);
       warningAlert(error.response.data.message);
@@ -55,12 +52,10 @@ const Login = () => {
   const logout = async () => {
     try {
       const response = await api.get("/user/logout");
-      const result = await successAlert(response.data.message);
+      successAlert(response.data.message);
 
       setUser(null);
-      if (result.isConfirmed) {
-        navigate("/");
-      }
+      navigate("/");
     } catch (error) {
       console.error("Error:", error);
       warningAlert(error.response.data.message);

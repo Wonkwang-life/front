@@ -45,6 +45,7 @@ const PostFactory = () => {
   const [isEditorFocused, setIsEditorFocused] = useState(false);
   const user = useRecoilValue(userState);
   const [userCheck, setUserCheck] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
 
   const inputRef = useRef(null);
   const quillRef = useRef(null);
@@ -116,8 +117,8 @@ const PostFactory = () => {
 
   const loginCheck = async () => {
     if (user === null) {
-      const result = await warningAlert("관리자 로그인을 해주세요.");
-      if (result.isConfirmed) navigate("/login");
+      warningAlert("관리자 로그인을 해주세요.");
+      navigate("/login");
     }
   };
 
@@ -168,6 +169,10 @@ const PostFactory = () => {
   };
 
   const handleSubmit = async () => {
+    if (isUploading) return;
+    //업로드 중이면 리턴
+    setIsUploading(true);
+
     const formData = new FormData();
     let imageUrls: any = []; //서버에 업로드할 imageUrl 배열
     let index = 0;
@@ -235,8 +240,9 @@ const PostFactory = () => {
         });
       }
 
-      const result = await successAlert(response.data.message);
-      if (result.isConfirmed) navigate(`/product/${response.data.content}`);
+      setIsUploading(false); //업로드 상태를 마침
+      successAlert(response.data.message);
+      navigate(`/product/${response.data.content}`);
       console.log(response.data);
     } catch (error) {
       await warningAlert(error.response.data.message);
@@ -381,8 +387,12 @@ const PostFactory = () => {
           </ImageContainer>
         ))}
       </ImagePreview>
-      <ConfirmBtn onClick={handleSubmit}>
-        {params.get("edit") ? "제품 수정" : "제품 등록"}
+      <ConfirmBtn onClick={handleSubmit} disabled={isUploading}>
+        {isUploading
+          ? "업로드 중..."
+          : params.get("edit")
+          ? "제품 수정"
+          : "제품 등록"}
       </ConfirmBtn>
     </Container>
   );
@@ -489,7 +499,7 @@ const ConfirmBtn = styled.button`
   padding: 8px 0%;
   border-radius: 5px;
   border: 0px;
-  background-color: #007bff;
+  background-color: ${(props) => (!props.disabled ? "#007bff" : "gray")};
   color: white;
   font-weight: 600;
   font-size: 1.2rem;
