@@ -16,7 +16,7 @@ interface Product {
   tag: string;
 }
 
-const ProductList: React.FC = () => {
+const Products: React.FC = () => {
   // products 와 searchTerm 상태에 대한 타입 지정
   const [products, setProducts] = useState<Product[]>([]);
   const [searchTerm, setSearchTerm] = useState<string>("");
@@ -181,16 +181,19 @@ const ProductCard = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
+  border-radius: 8px;
 
   @media screen and (max-width: 1000px) {
     width: calc((100% - 40px) / 2); /* 수정: 3개씩 가로로 정렬 */
-
     height: auto; /* 모바일 화면에서는 높이를 자동으로 설정 */
   }
 
+  @media screen and (max-width: 768px) {
+    width: 60dvw;
+  }
+
   @media screen and (max-width: 500px) {
-    width: 100%; /* 모바일 화면에서 100% 너비로 설정 */
-    height: auto; /* 모바일 화면에서는 높이를 자동으로 설정 */
+    width: 70dvw;
   }
 `;
 
@@ -207,6 +210,9 @@ const ProductImage = styled.img`
     height: 200px;
   }
 
+  @media screen and (max-width: 768px) {
+    height: 300px;
+  }
   @media screen and (max-width: 500px) {
     height: 250px;
   }
@@ -247,4 +253,4 @@ const WriteBtn = styled.button`
   color: white;
 `;
 
-export default ProductList;
+export default Products;

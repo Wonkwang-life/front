@@ -6,7 +6,7 @@ import Login from "./pages/Admin/Login";
 import Home from "./pages/Home/Home";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
-import ProductList from "./pages/Home/ProductList";
+import Products from "./pages/Products/Products";
 import Location from "./pages/Location/Location";
 import CompanyIntro from "./pages/Intro/CompanyIntro";
 import IntroNav from "./pages/Intro/IntroNav";
@@ -25,7 +25,7 @@ const Router = () => {
         <Route path="/product/:id" element={<Post />} />
         <Route path="/write" element={<PostFactory />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/product" element={<ProductList />} />
+        <Route path="/product" element={<Products />} />
         <Route path="/location" element={<Location />} />
         <Route path="/intro" element={<IntroNav />}>
           <Route path="/intro" element={<CompanyIntro />} />
