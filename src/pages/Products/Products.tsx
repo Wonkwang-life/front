@@ -116,7 +116,7 @@ const Container = styled.div`
     width: 70dvw;
   }
   @media screen and (max-width: 450px) {
-    width: 80dvw;
+    width: 85dvw;
   }
 `;
 
@@ -159,7 +159,7 @@ const SearchInput = styled.input`
   }
 
   @media screen and (max-width: 500px) {
-    width: 100%;
+    width: 95%;
   }
 `;
 
@@ -191,7 +191,6 @@ const fadeIn = keyframes`
 const ProductCard = styled.div`
   border: 1px solid #ddd;
   width: calc((100% - 40px) / 3); /* 수정: 3개씩 가로로 정렬 */
-
   text-align: center;
   cursor: pointer; /* 커서를 포인터로 변경하여 클릭 가능함을 나타냄 */
   animation: ${fadeIn} 0.5s ease-in-out;
@@ -215,7 +214,7 @@ const ProductCard = styled.div`
   }
 
   @media screen and (max-width: 450px) {
-    width: 80dvw;
+    width: 85dvw;
   }
 `;
 
@@ -237,6 +236,7 @@ const ProductImage = styled.img`
   @media screen and (max-width: 768px) {
     height: 300px;
   }
+
   @media screen and (max-width: 500px) {
     height: 250px;
   }
@@ -263,6 +263,7 @@ const ProductTag = styled.div`
   flex-wrap: wrap;
   justify-content: center;
   gap: 7px;
+  padding: 0 20px;
   margin-bottom: 20px;
 `;
 

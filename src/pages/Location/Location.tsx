@@ -41,7 +41,7 @@ const Location: React.FC = () => {
 
   return (
     <Container>
-      <Title>오시는 길</Title>
+      <h2>오시는 길</h2>
       <MapContainer id="map"></MapContainer>
       <InfoContainer>
         <InfoBox>
@@ -84,14 +84,13 @@ const Container = styled.div`
   align-items: center;
   width: 100%;
   padding: 20px;
-`;
 
-const Title = styled.h2`
-  font-size: 1.7rem;
-  margin-bottom: 20px;
+  & h2 {
+    margin: 30px 0;
 
-  @media screen and (max-width: 500px) {
-    font-size: 1.5rem;
+    @media screen and (max-width: 500px) {
+      font-size: 1.5rem;
+    }
   }
 `;
 
