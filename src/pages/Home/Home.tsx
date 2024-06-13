@@ -119,7 +119,7 @@ const Home: React.FC = () => {
           ref={productContentRef}
           isVisible={productContentVisible}
         >
-          <span>제품 목록</span>
+          <h2>제품 목록</h2>
           <ProductBox>
             {products.map(
               (product, index) =>
@@ -274,10 +274,11 @@ const ProductBox = styled.div`
   gap: 20px;
   margin-top: 40px;
 
-  @media screen and (max-width: 600px) {
+  @media screen and (max-width: 800px) {
     display: flex;
     flex-flow: column wrap;
     align-items: center;
+    gap: 50px;
   }
 `;
 
