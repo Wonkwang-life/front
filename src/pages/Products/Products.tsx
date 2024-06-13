@@ -177,7 +177,6 @@ const fadeIn = keyframes`
 
 const ProductCard = styled.div`
   border: 1px solid #ddd;
-  padding: 15px;
   width: calc((100% - 40px) / 3); /* 수정: 3개씩 가로로 정렬 */
   text-align: center;
   cursor: pointer; /* 커서를 포인터로 변경하여 클릭 가능함을 나타냄 */
@@ -205,6 +204,8 @@ const ProductImage = styled.img`
   object-fit: cover;
   width: 100%;
   height: 280px;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
 
   @media screen and (max-width: 1500px) {
     height: 250px;
@@ -223,7 +224,8 @@ const ProductImage = styled.img`
 `;
 
 const ProductName = styled.div`
-  margin-top: 10px;
+  margin-top: 15px;
+  margin-bottom: 7px;
   font-size: 1.2rem;
   font-weight: 600;
 `;
@@ -233,16 +235,16 @@ const ProductDescription = styled.div`
   font-size: 1rem;
   color: #666;
   text-wrap: balance;
+  padding: 0px 15px;
 `;
 
 const ProductTag = styled.div`
   font-size: 1rem;
-  margin-top: 10px;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   gap: 7px;
-  margin-bottom: 5px;
+  margin-bottom: 20px;
 `;
 
 const Tag = styled.div`
