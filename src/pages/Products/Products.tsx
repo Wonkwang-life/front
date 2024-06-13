@@ -62,22 +62,31 @@ const Products: React.FC = () => {
           onChange={(e) => setSearchTerm(e.target.value)}
         />
       </SearchInputWrapper>
+
       <ProductCards>
-        {filteredProducts.map((product) => (
-          <ProductCard
-            key={product.id}
-            onClick={() => handleProductClick(product.id)}
-          >
-            <ProductImage src={product.imageUrls[0]} alt={product.title} />
-            <ProductName>{product.title}</ProductName>
-            <ProductDescription>{product.oneLineIntroduce}</ProductDescription>
-            <ProductTag>
-              {product.tag.split(" ").map((tag, index) => (
-                <Tag key={index}>{tag}</Tag>
-              ))}
-            </ProductTag>
-          </ProductCard>
-        ))}
+        {filteredProducts.length > 0 ? (
+          <>
+            {filteredProducts.map((product) => (
+              <ProductCard
+                key={product.id}
+                onClick={() => handleProductClick(product.id)}
+              >
+                <ProductImage src={product.imageUrls[0]} alt={product.title} />
+                <ProductName>{product.title}</ProductName>
+                <ProductDescription>
+                  {product.oneLineIntroduce}
+                </ProductDescription>
+                <ProductTag>
+                  {product.tag.split(" ").map((tag, index) => (
+                    <Tag key={index}>{tag}</Tag>
+                  ))}
+                </ProductTag>
+              </ProductCard>
+            ))}
+          </>
+        ) : (
+          <Label>해당 제품이 없습니다.</Label>
+        )}
       </ProductCards>
     </Container>
   );
@@ -261,6 +270,13 @@ const WriteBtn = styled.button`
   margin-bottom: 20px;
   background-color: rgb(48 79 163);
   color: white;
+`;
+
+const Label = styled.div`
+  width: 100%;
+  text-align: center;
+  font-size: 1.2rem;
+  margin-top: 15px;
 `;
 
 export default Products;
