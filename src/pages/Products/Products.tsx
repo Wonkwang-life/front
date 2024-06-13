@@ -88,6 +88,7 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   width: 80dvw;
+  min-height: calc(100dvh - var(--header-height) - var(--footer-height));
   margin: auto;
   margin-bottom: 100px;
 
@@ -153,6 +154,7 @@ const SearchInput = styled.input`
 
 const ProductCards = styled.div`
   max-width: 1200px;
+  width: 100%;
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;
@@ -178,6 +180,7 @@ const fadeIn = keyframes`
 const ProductCard = styled.div`
   border: 1px solid #ddd;
   width: calc((100% - 40px) / 3); /* 수정: 3개씩 가로로 정렬 */
+
   text-align: center;
   cursor: pointer; /* 커서를 포인터로 변경하여 클릭 가능함을 나타냄 */
   animation: ${fadeIn} 0.5s ease-in-out;
@@ -185,7 +188,7 @@ const ProductCard = styled.div`
   flex-direction: column;
   gap: 10px;
   border-radius: 8px;
-  flex-grow: 1;
+  /* flex-grow: 1; */
 
   @media screen and (max-width: 1000px) {
     width: calc((100% - 40px) / 2); /* 수정: 3개씩 가로로 정렬 */
