@@ -40,8 +40,8 @@ api.interceptors.response.use(
       console.error("Error setting up request:", error.message);
     }
     if (error.response.status === 401) {
-      const result = await warningAlert(error.response.data.message);
-      if (result.isConfirmed) window.location.replace("/login");
+      warningAlert(error.response.data.message);
+      window.location.replace("/login");
     }
     return Promise.reject(error);
   }
