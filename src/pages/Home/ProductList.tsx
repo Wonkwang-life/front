@@ -49,10 +49,8 @@ const ProductList: React.FC = () => {
   };
 
   return (
-    <StyledProductList>
-      <Title>
-        <h2>제품 목록</h2>
-      </Title>
+    <Container>
+      <h2>제품 목록</h2>
       {user && (
         <WriteBtn onClick={() => navigate("/write")}>상품 등록</WriteBtn>
       )}
@@ -81,98 +79,33 @@ const ProductList: React.FC = () => {
           </ProductCard>
         ))}
       </ProductCards>
-    </StyledProductList>
+    </Container>
   );
 };
 
-const Title = styled.div`
-  padding: 5px;
-  display: block;
-  text-align: center;
-`;
-
-const StyledProductList = styled.div`
-  padding: 70px;
+const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-`;
+  width: 80dvw;
+  margin: auto;
+  margin-bottom: 100px;
 
-// fadein 애니메이션 정의
-const fadeIn = keyframes`
-  from {
-    opacity: 0;
-    transform: translateY(20px);
+  & h2 {
+    margin-top: 50px;
+    margin-bottom: 40px;
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+  @media screen and (max-width: 1000px) {
+    width: 70dvw;
   }
-`;
-const ProductCards = styled.div`
-  max-width: 1200px;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-  gap: 20px;
 
   @media screen and (max-width: 768px) {
-    flex-direction: column;
-    align-items: center;
+    width: 100dvw;
   }
-`;
 
-const ProductCard = styled.div`
-  border: 1px solid #ddd;
-  padding: 15px;
-  width: calc((100% - 40px) / 3); /* 수정: 3개씩 가로로 정렬 */
-  text-align: center;
-  cursor: pointer; /* 커서를 포인터로 변경하여 클릭 가능함을 나타냄 */
-  animation: ${fadeIn} 0.5s ease-in-out;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  height: auto; /* 높이 값을 조절하여 원하는 크기로 설정할 수 있습니다 */
-
-  @media screen and (max-width: 768px) {
-    width: 100%; /* 모바일 화면에서 100% 너비로 설정 */
-    height: auto; /* 모바일 화면에서는 높이를 자동으로 설정 */
+  @media screen and (max-width: 500px) {
+    width: 70dvw;
   }
-`;
-
-const ProductImage = styled.img`
-  width: 100%;
-  height: 60%; /* 이미지 영역을 60%로 조절 */
-  object-fit: contain;
-`;
-
-const ProductName = styled.div`
-  margin-top: 10px;
-  font-size: 1.4rem;
-  font-weight: bold;
-`;
-
-const ProductDescription = styled.div`
-  margin-top: 15px;
-  font-size: 1rem;
-  color: #666;
-  flex-grow: 1; /* 설명 영역이 나머지 공간을 채우도록 설정 */
-`;
-
-const ProductTag = styled.div`
-  font-size: 1rem;
-  margin-top: 10px;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 5px;
-`;
-
-const Tag = styled.div`
-  /*padding: 3px;*/
-  /*border: 1px solid #ccc;*/
-  border-radius: 10px;
-  color: #1f3d8e;
 `;
 
 const SearchInputWrapper = styled.div`
@@ -181,7 +114,7 @@ const SearchInputWrapper = styled.div`
   align-items: center;
   width: 100%;
   max-width: 1200px;
-  margin-bottom: 20px;
+  margin-bottom: 30px;
 
   @media screen and (max-width: 768px) {
     justify-content: center;
@@ -206,9 +139,107 @@ const SearchInput = styled.input`
   }
 
   @media screen and (max-width: 768px) {
-    width: 80%;
+    width: 50%;
+  }
+
+  @media screen and (max-width: 500px) {
+    width: 100%;
   }
 `;
+
+const ProductCards = styled.div`
+  max-width: 1200px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  gap: 20px;
+
+  @media screen and (max-width: 768px) {
+    flex-direction: column;
+    align-items: center;
+  }
+`;
+
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`;
+
+const ProductCard = styled.div`
+  border: 1px solid #ddd;
+  padding: 15px;
+  width: calc((100% - 40px) / 3); /* 수정: 3개씩 가로로 정렬 */
+  text-align: center;
+  cursor: pointer; /* 커서를 포인터로 변경하여 클릭 가능함을 나타냄 */
+  animation: ${fadeIn} 0.5s ease-in-out;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  @media screen and (max-width: 1000px) {
+    width: calc((100% - 40px) / 2); /* 수정: 3개씩 가로로 정렬 */
+
+    height: auto; /* 모바일 화면에서는 높이를 자동으로 설정 */
+  }
+
+  @media screen and (max-width: 500px) {
+    width: 100%; /* 모바일 화면에서 100% 너비로 설정 */
+    height: auto; /* 모바일 화면에서는 높이를 자동으로 설정 */
+  }
+`;
+
+const ProductImage = styled.img`
+  object-fit: cover;
+  width: 100%;
+  height: 280px;
+
+  @media screen and (max-width: 1500px) {
+    height: 250px;
+  }
+
+  @media screen and (max-width: 1100px) {
+    height: 200px;
+  }
+
+  @media screen and (max-width: 500px) {
+    height: 250px;
+  }
+`;
+
+const ProductName = styled.div`
+  margin-top: 10px;
+  font-size: 1.2rem;
+  font-weight: 600;
+`;
+
+const ProductDescription = styled.div`
+  height: 70px;
+  font-size: 1rem;
+  color: #666;
+  text-wrap: balance;
+`;
+
+const ProductTag = styled.div`
+  font-size: 1rem;
+  margin-top: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 7px;
+  margin-bottom: 5px;
+`;
+
+const Tag = styled.div`
+  color: var(--base-color);
+  font-size: 0.9rem;
+`;
+
 const WriteBtn = styled.button`
   padding: 10px 25px;
   margin-bottom: 20px;
