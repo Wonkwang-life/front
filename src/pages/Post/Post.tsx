@@ -105,8 +105,8 @@ const Post = () => {
     if (!result.isConfirmed) return;
     try {
       const response = await api.delete(`/post/${id}`);
-      const result = await successAlert("글 삭제가 완료되었습니다.");
-      if (result.isConfirmed) navigate("/product");
+      successAlert("글 삭제가 완료되었습니다.");
+      navigate("/product");
     } catch (error: any) {
       const result = await warningAlert(error.response.data.message);
       console.log(result);
@@ -122,7 +122,7 @@ const Post = () => {
             <Button onClick={handleDelete} style={{ background: "tomato" }}>
               삭제
             </Button>
-            <div>조회수 : {postData?.hit}</div>
+            {/* <div>조회수 : {postData?.hit}</div> */}
           </AdminContainer>
         )}
         <TopContainer>
@@ -338,16 +338,20 @@ const Hr = styled.hr`
 
 const AdminContainer = styled.div`
   display: flex;
-  width: 50%;
+  width: 30%;
   min-width: 350px;
-  padding: 10px;
+  padding: 10px 0;
   flex-flow: row nowrap;
   align-items: center;
   gap: 12px;
-  box-shadow: 0 4px 7px rgba(0, 0, 0, 0.15);
+  margin-left: auto;
 
   & div {
     width: 300px;
+  }
+
+  @media screen and (max-width: 900px) {
+    width: 100%;
   }
 `;
 

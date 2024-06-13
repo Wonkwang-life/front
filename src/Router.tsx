@@ -13,6 +13,7 @@ import IntroNav from "./pages/Intro/IntroNav";
 import PeopleIntro from "./pages/Intro/PeopleIntro";
 import ScrollToTopBtn from "./components/ScrollToTopBtn";
 import ScrollToTop from "./components/ScrollToTop";
+import NotPageFound from "./pages/404/NotPageFound";
 
 const Router = () => {
   return (
@@ -30,7 +31,7 @@ const Router = () => {
           <Route path="/intro" element={<CompanyIntro />} />
           <Route path="/intro/people" element={<PeopleIntro />} />
         </Route>
-        <Route path="*" element={<div>404</div>} />
+        <Route path="*" element={<NotPageFound />} />
       </Routes>
       <ScrollToTopBtn />
       <Footer />
