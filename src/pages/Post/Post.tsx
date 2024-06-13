@@ -252,6 +252,7 @@ const Detail = styled.div`
   display: flex;
   font-size: 1.2rem;
   width: 100%;
+  color: gray;
 
   & :nth-child(1) {
     width: 130px;
