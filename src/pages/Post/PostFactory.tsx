@@ -245,6 +245,7 @@ const PostFactory = () => {
       navigate(`/product/${response.data.content}`);
       console.log(response.data);
     } catch (error) {
+      setIsUploading(false); //업로드 상태를 마침
       await warningAlert(error.response.data.message);
     }
   };
@@ -506,7 +507,7 @@ const ConfirmBtn = styled.button`
   transition: all 0.3s;
 
   &:hover {
-    background-color: #1b6cc2 !important;
+    filter: brightness(80%);
   }
 `;
 

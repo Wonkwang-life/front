@@ -30,6 +30,7 @@ interface PostData {
 const Post = () => {
   const [postData, setPostData] = useState<PostData | null>(null);
   const [images, setImages] = useState<[String] | null>(null);
+  const [isDeleteing, setIsDeleteing] = useState(false);
   const { id } = useParams();
   const user = useRecoilValue(userState);
 
@@ -79,7 +80,7 @@ const Post = () => {
     } else {
       try {
         await navigator.clipboard.writeText(url);
-        checkConfirm("URL이 클립보드에 복사되었습니다.");
+        confirm("URL이 클립보드에 복사되었습니다.");
       } catch (error) {
         console.error("클립보드 복사 실패:", error);
 
@@ -91,7 +92,7 @@ const Post = () => {
         textArea.select();
         try {
           document.execCommand("copy");
-          checkConfirm("URL이 클립보드에 복사되었습니다.");
+          confirm("URL이 클립보드에 복사되었습니다.");
         } catch (err) {
           errorAlert("클립보드 복사에 실패했습니다. 수동으로 복사해주세요.");
         }
@@ -101,13 +102,18 @@ const Post = () => {
   };
 
   const handleDelete = async () => {
+    if (isDeleteing) return; //삭제중이면 리턴
+
     const result = await confirm("정말 글을 삭제하시겠습니까?");
     if (!result.isConfirmed) return;
+    else setIsDeleteing(true);
     try {
       const response = await api.delete(`/post/${id}`);
+      setIsDeleteing(false);
       successAlert("글 삭제가 완료되었습니다.");
       navigate("/product");
     } catch (error: any) {
+      setIsDeleteing(false);
       const result = await warningAlert(error.response.data.message);
       console.log(result);
     }
@@ -119,8 +125,8 @@ const Post = () => {
         {user && (
           <AdminContainer>
             <Button onClick={(e) => navigate(`/write?edit=${id}`)}>수정</Button>
-            <Button onClick={handleDelete} style={{ background: "tomato" }}>
-              삭제
+            <Button onClick={handleDelete} disabled={isDeleteing}>
+              {!isDeleteing ? "삭제" : "삭제 중..."}
             </Button>
             {/* <div>조회수 : {postData?.hit}</div> */}
           </AdminContainer>
@@ -330,6 +336,10 @@ const Button = styled.button`
 
   &:hover {
     filter: brightness(80%);
+  }
+
+  &:nth-child(2) {
+    background-color: ${(props) => (!props.disabled ? "tomato" : "gray")};
   }
 `;
 
