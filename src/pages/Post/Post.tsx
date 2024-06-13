@@ -197,6 +197,10 @@ const Container = styled.div`
   width: 100%;
   min-height: 100vh;
   padding: 20px;
+
+  @media screen and (max-width: 450px) {
+    padding: 10px;
+  }
 `;
 
 const PostForm = styled.div`
@@ -224,9 +228,10 @@ const TopContainer = styled.div`
     width: 50%;
     height: 100%; // 추가된 부분
     object-fit: cover; // 이미지 비율을 유지하면서 요소를 채우도록 설정
+    border-radius: 8px;
   }
 
-  @media screen and (max-width: 900px) {
+  @media screen and (max-width: 1000px) {
     flex-flow: column;
 
     & img {
@@ -243,45 +248,64 @@ const TopContent = styled.div`
   align-items: flex-start;
   gap: 10px;
 
-  @media screen and (max-width: 900px) {
-    width: 100%;
+  @media screen and (max-width: 1000px) {
+    width: 95%;
+  }
+
+  @media screen and (max-width: 500px) {
+    width: 90%;
   }
 `;
 
 const Detail = styled.div`
   display: flex;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
+  color: rgba(0, 0, 0, 0.7);
   width: 100%;
-  color: gray;
-
   & :nth-child(1) {
-    width: 130px;
+    width: 100px;
   }
+
   & :nth-child(2) {
     width: calc(100% - 130px);
     white-space: wrap;
+  }
+
+  @media screen and (max-width: 450px) {
+    width: 100%;
+    font-size: 1rem;
+    & :nth-child(1) {
+      width: 100px;
+    }
+    & :nth-child(2) {
+      width: 100%;
+    }
   }
 `;
 
 const Tag = styled.div`
   margin-top: 20px;
   word-spacing: 15px;
+  color: var(--base-color);
+  font-size: 0.9rem;
+
+  @media screen and (max-width: 450px) {
+    word-spacing: 10px;
+  }
 `;
 
 const Title = styled.div`
-  width: 100%;
-  font-size: 1.8rem;
-  font-weight: 700;
+  font-size: 1.7rem;
+  font-weight: 600;
   color: #333333;
 `;
 
 const Introduce = styled.div`
-  width: 100%;
-  font-size: 1.4rem;
-  font-weight: 700;
+  font-size: 1.3rem;
+  font-weight: 600;
   text-align: left;
   color: #333333;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 `;
 
 const ButtonContainer = styled.div`
@@ -289,21 +313,23 @@ const ButtonContainer = styled.div`
   width: 100%;
   flex-direction: row;
   gap: 10px;
-  margin-top: 30px;
+  margin-top: 20px;
 `;
 
 const Button = styled.button`
   width: 100%;
   height: 50px;
-  background-color: #0288d1;
+  background-color: var(--base-color);
   color: #ffffff;
   border: none;
   font-size: 1.1rem;
   font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: filter 0.3s;
+  border-radius: 10px;
+
   &:hover {
-    background-color: #0277bd;
+    filter: brightness(80%);
   }
 `;
 
@@ -351,7 +377,7 @@ const AdminContainer = styled.div`
     width: 300px;
   }
 
-  @media screen and (max-width: 900px) {
+  @media screen and (max-width: 1000px) {
     width: 100%;
   }
 `;
