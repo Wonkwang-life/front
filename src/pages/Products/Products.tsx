@@ -185,6 +185,7 @@ const ProductCard = styled.div`
   flex-direction: column;
   gap: 10px;
   border-radius: 8px;
+  flex-grow: 1;
 
   @media screen and (max-width: 1000px) {
     width: calc((100% - 40px) / 2); /* 수정: 3개씩 가로로 정렬 */
