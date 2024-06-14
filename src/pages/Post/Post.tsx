@@ -80,7 +80,7 @@ const Post = () => {
     } else {
       try {
         await navigator.clipboard.writeText(url);
-        confirm("URL이 클립보드에 복사되었습니다.");
+        successAlert("URL이 클립보드에 복사되었습니다.");
       } catch (error) {
         console.error("클립보드 복사 실패:", error);
 
@@ -92,7 +92,7 @@ const Post = () => {
         textArea.select();
         try {
           document.execCommand("copy");
-          confirm("URL이 클립보드에 복사되었습니다.");
+          successAlert("URL이 클립보드에 복사되었습니다.");
         } catch (err) {
           errorAlert("클립보드 복사에 실패했습니다. 수동으로 복사해주세요.");
         }
