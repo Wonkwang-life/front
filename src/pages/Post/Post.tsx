@@ -170,7 +170,12 @@ const Post = () => {
                   구매하기
                 </Button>
               )}
-              <Button onClick={() => handleShare()}>공유하기</Button>
+              <Button
+                style={{ background: "var(--base-color)" }}
+                onClick={() => handleShare()}
+              >
+                공유하기
+              </Button>
             </ButtonContainer>
           </TopContent>
         </TopContainer>
