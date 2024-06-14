@@ -198,6 +198,7 @@ const ProductCard = styled.div`
   flex-direction: column;
   gap: 10px;
   border-radius: 8px;
+  transition: all 0.5s;
   /* flex-grow: 1; */
 
   @media screen and (max-width: 1000px) {
@@ -215,6 +216,10 @@ const ProductCard = styled.div`
 
   @media screen and (max-width: 450px) {
     width: 85dvw;
+  }
+
+  &:hover {
+    transform: scale(1.02);
   }
 `;
 

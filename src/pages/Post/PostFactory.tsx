@@ -368,6 +368,7 @@ const PostFactory = () => {
               src={file ? URL.createObjectURL(file) : url}
               alt={`preview ${index}`}
             />
+            <ImgNumber>{index + 1}</ImgNumber>
             <ButtonContainer>
               <ArrowButton
                 onClick={() => moveImage(index, "up")}
@@ -426,10 +427,10 @@ const FileInputLabel = styled.label`
   display: inline-block;
   padding: 6px 12px;
   cursor: pointer;
-  background-color: #18e66a;
+  background-color: #14ce5e;
   color: white;
   border-radius: 4px;
-  font-size: 16px;
+  font-size: 1.2rem;
   transition: all 0.3s;
 
   &:hover {
@@ -458,9 +459,19 @@ const ImageContainer = styled.div`
 
 const Image = styled.img`
   width: 100%;
-  height: 250px;
+  height: 330px;
   object-fit: cover;
   border: 1px solid #ddd;
+`;
+
+const ImgNumber = styled.div`
+  position: absolute;
+  left: 5px;
+  top: 5px;
+  color: white;
+  font-size: 1.1rem;
+  padding: 5px 8px;
+  background-color: rgb(0, 0, 0, 0.6);
 `;
 
 const ButtonContainer = styled.div`
@@ -477,6 +488,7 @@ const ArrowButton = styled.button`
   background: rgba(0, 0, 0, 0.5);
   color: white;
   border: none;
+  border-radius: 5px;
   cursor: pointer;
   padding: 15px;
   &:disabled {
@@ -487,17 +499,18 @@ const ArrowButton = styled.button`
 
 const DeleteButton = styled.button`
   position: absolute;
-  top: 5px;
-  right: 5px;
+  top: 7px;
+  right: 7px;
   background: rgba(255, 0, 0, 0.7);
   color: white;
   border: none;
+  padding: 5px 10px;
   border-radius: 3px;
   cursor: pointer;
 `;
 
 const ConfirmBtn = styled.button`
-  padding: 8px 0%;
+  padding: 8px 0;
   border-radius: 5px;
   border: 0px;
   background-color: ${(props) => (!props.disabled ? "#007bff" : "gray")};

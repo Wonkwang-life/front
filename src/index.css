@@ -76,7 +76,7 @@ body * {
 .ql-container,
 .ql-editor,
 .ql-blank {
-  min-height: 300px; /* 원하는 최소 높이로 설정 */
+  min-height: 200px; /* 원하는 최소 높이로 설정 */
 }
 .ql-editor {
   font-size: 1.3rem !important;
