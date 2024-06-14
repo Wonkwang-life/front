@@ -1,40 +1,44 @@
-import React from "react";
+import React, { Suspense, lazy } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import PostFactory from "./pages/Post/PostFactory";
-import Post from "./pages/Post/Post";
-import Login from "./pages/Admin/Login";
-import Home from "./pages/Home/Home";
-import Header from "./components/Header";
-import Footer from "./components/Footer";
-import Products from "./pages/Products/Products";
-import Location from "./pages/Location/Location";
-import CompanyIntro from "./pages/Intro/CompanyIntro";
-import IntroNav from "./pages/Intro/IntroNav";
-import PeopleIntro from "./pages/Intro/PeopleIntro";
-import ScrollToTopBtn from "./components/ScrollToTopBtn";
-import ScrollToTop from "./components/ScrollToTop";
-import NotPageFound from "./pages/404/NotPageFound";
+import LoadingSpinner from "./components/LoadingSpinner";
+
+const Post = lazy(() => import("./pages/Post/Post"));
+const PostFactory = lazy(() => import("./pages/Post/PostFactory"));
+const Login = lazy(() => import("./pages/404/Admin/Login"));
+const Home = lazy(() => import("./pages/Home/Home"));
+const Header = lazy(() => import("./components/Header"));
+const Footer = lazy(() => import("./components/Footer"));
+const Products = lazy(() => import("./pages/Products/Products"));
+const Location = lazy(() => import("./pages/Location/Location"));
+const CompanyIntro = lazy(() => import("./pages/Intro/CompanyIntro"));
+const IntroNav = lazy(() => import("./pages/Intro/IntroNav"));
+const PeopleIntro = lazy(() => import("./pages/Intro/PeopleIntro"));
+const ScrollToTopBtn = lazy(() => import("./components/ScrollToTopBtn"));
+const ScrollToTop = lazy(() => import("./components/ScrollToTop"));
+const NotPageFound = lazy(() => import("./pages/404/NotPageFound"));
 
 const Router = () => {
   return (
     <BrowserRouter>
-      <ScrollToTop />
-      <Header />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/product/:id" element={<Post />} />
-        <Route path="/write" element={<PostFactory />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/product" element={<Products />} />
-        <Route path="/location" element={<Location />} />
-        <Route path="/intro" element={<IntroNav />}>
-          <Route path="/intro" element={<CompanyIntro />} />
-          <Route path="/intro/people" element={<PeopleIntro />} />
-        </Route>
-        <Route path="*" element={<NotPageFound />} />
-      </Routes>
-      <ScrollToTopBtn />
-      <Footer />
+      <Suspense fallback={<LoadingSpinner />}>
+        <ScrollToTop />
+        <Header />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/product/:id" element={<Post />} />
+          <Route path="/write" element={<PostFactory />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/product" element={<Products />} />
+          <Route path="/location" element={<Location />} />
+          <Route path="/intro" element={<IntroNav />}>
+            <Route path="/intro" element={<CompanyIntro />} />
+            <Route path="/intro/people" element={<PeopleIntro />} />
+          </Route>
+          <Route path="*" element={<NotPageFound />} />
+        </Routes>
+        <ScrollToTopBtn />
+        <Footer />
+      </Suspense>
     </BrowserRouter>
   );
 };
