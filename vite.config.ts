@@ -7,8 +7,7 @@ import { createHtmlPlugin } from "vite-plugin-html";
 export default defineConfig({
   plugins: [
     react(),
-    VitePluginHtmlEnv(),
-    VitePluginHtmlEnv({ compiler: true }),
+    VitePluginHtmlEnv({ compiler: true }), // 한번만 설정
     createHtmlPlugin({
       inject: {
         data: {
