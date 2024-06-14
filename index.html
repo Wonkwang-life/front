@@ -6,26 +6,26 @@
     <link rel="icon" type="image/svg+xml" href="/images/logo.png" />
 
     <!-- Primary Meta Tags -->
-    <meta name="title" content="%title%" />
-    <meta name="description" content="%description%" />
-    <meta name="keywords" content="%keywords%" />
+    <meta name="title" content="<%= title %>" />
+    <meta name="description" content="<%= description %>" />
+    <meta name="keywords" content="<%= keywords %>" />
     <meta name="robots" content="index, follow" />
     <meta name="author" content="Wonkwang Health" />
-    <link rel="canonical" href="%url%" />
+    <link rel="canonical" href="<%= url %>" />
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="%url%" />
-    <meta property="og:title" content="%title%" />
-    <meta property="og:description" content="%description%" />
-    <meta property="og:image" content="%ogImage%" />
+    <meta property="og:url" content="<%= url %>" />
+    <meta property="og:title" content="<%= title %>" />
+    <meta property="og:description" content="<%= description %>" />
+    <meta property="og:image" content="<%= ogImage %>" />
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content="%url%" />
-    <meta property="twitter:title" content="%title%" />
-    <meta property="twitter:description" content="%description%" />
-    <meta property="twitter:image" content="%twitterImage%" />
+    <meta property="twitter:url" content="<%= url %>" />
+    <meta property="twitter:title" content="<%= title %>" />
+    <meta property="twitter:description" content="<%= description %>" />
+    <meta property="twitter:image" content="<%= twitterImage %>" />
 
     <!-- 구글 서치 콘솔 -->
     <meta
@@ -39,8 +39,8 @@
         "@context": "https://schema.org",
         "@type": "Organization",
         "name": "원광생활건강",
-        "url": "%url%",
-        "logo": "%ogImage%",
+        "url": "<%= url %>",
+        "logo": "<%= ogImage %>",
         "sameAs": [
           "https://www.facebook.com/wonkwanghealth",
           "https://www.instagram.com/wonkwanghealth",
@@ -54,10 +54,10 @@
       }
     </script>
 
-    <title>%title%</title>
+    <title><%= title %></title>
     <script
       type="text/javascript"
-      src="//dapi.kakao.com/v2/maps/sdk.js?appkey=%VITE_KAKAOMAP_KEY%"
+      src="//dapi.kakao.com/v2/maps/sdk.js?appkey=<%= process.env.VITE_KAKAOMAP_KEY %>"
     ></script>
   </head>
   <body>
