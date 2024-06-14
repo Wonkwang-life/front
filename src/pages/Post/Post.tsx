@@ -163,7 +163,7 @@ const Post = () => {
             <ButtonContainer>
               {postData?.storeLink && (
                 <Button
-                  style={{ background: "#03c75a" }}
+                  style={{ background: "#13b65c" }}
                   href={postData?.storeLink}
                   target="_blank"
                 >
