@@ -198,7 +198,7 @@ const ProductCard = styled.div`
   flex-direction: column;
   gap: 10px;
   border-radius: 8px;
-  transition: all 0.5s;
+  transition: all 0.3s;
   /* flex-grow: 1; */
 
   @media screen and (max-width: 1000px) {

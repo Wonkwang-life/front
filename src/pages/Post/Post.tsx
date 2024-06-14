@@ -360,8 +360,7 @@ const Content = styled.div`
 const Image = styled.img`
   width: 100%;
   max-width: 100%;
-  border-radius: 8px;
-  margin-top: 20px;
+  margin-top: -20px;
 `;
 
 const NaverBtn = styled.a`
