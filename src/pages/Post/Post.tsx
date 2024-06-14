@@ -49,6 +49,7 @@ const Post = () => {
         }
       } catch (error: any) {
         const result = await warningAlert(error.response.data.message);
+        navigate("/product");
         console.log(result);
       }
     };
