@@ -20,6 +20,10 @@ const Home: React.FC = () => {
 
   const handleScroll = () => {
     setOffset(window.scrollY);
+    console.log(window.scrollY + window.innerHeight);
+    if (window.innerWidth < 600 && window.scrollY + window.innerHeight > 1400)
+      //모바일에서 제품 목록 따로 애니메이션 처리
+      setProductContentVisible(true);
   };
 
   const animateScroll = () => {
@@ -32,9 +36,10 @@ const Home: React.FC = () => {
     // 모바일 화면이 아닐 때만 스크롤 애니메이션을 실행 - 모바일에선 useEffect로 화면 깜빡임 현상 발생
     if (window.innerWidth > 600) {
       requestRef.current = requestAnimationFrame(animateScroll);
-      // 스크롤 이벤트 리스너 추가
-      window.addEventListener("scroll", handleScroll);
     }
+    // 스크롤 이벤트 리스너 추가
+    window.addEventListener("scroll", handleScroll);
+
     return () => {
       if (requestRef.current) {
         cancelAnimationFrame(requestRef.current);
@@ -63,7 +68,7 @@ const Home: React.FC = () => {
           productContentObserver.disconnect();
         }
       },
-      { threshold: window.innerWidth > 600 ? 0.1 : 1 }
+      { threshold: 0.1 }
     );
 
     if (contentRef.current) {
@@ -116,8 +121,11 @@ const Home: React.FC = () => {
           있습니다.
           <RiDoubleQuotesR />
         </Content>
-        <div ref={productContentRef}></div>
-        <ProductContent isVisible={productContentVisible}>
+        <div></div>
+        <ProductContent
+          ref={productContentRef}
+          isVisible={productContentVisible}
+        >
           <h2>제품 목록</h2>
           <ProductBox>
             {products?.map(
@@ -134,7 +142,15 @@ const Home: React.FC = () => {
                 )
             )}
           </ProductBox>
-          <GoProductListPage onClick={() => navigate("/product")}>
+          <GoProductListPage
+            onClick={() => {
+              window.scrollTo({
+                top: 0,
+                behavior: "smooth",
+              });
+              navigate("/product");
+            }}
+          >
             <span>모든 제품 보러 가기</span>
             <FaArrowRight />
           </GoProductListPage>

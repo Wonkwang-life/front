@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import styled, { css } from "styled-components";
 import {
-  checkConfirm,
   confirm,
   errorAlert,
   successAlert,
@@ -55,14 +54,11 @@ const Post = () => {
     };
     getPost();
 
-    setTimeout(() => {
-      console.log(user);
-    }, 2000);
+    window.scrollTo({
+      top: 0, // 헤더 높이까지 고려해서 연산
+      behavior: "smooth",
+    });
   }, []);
-
-  useEffect(() => {
-    console.log(user);
-  }, [user]);
 
   const handleShare = async () => {
     const url = `${window.location.origin}/product/${id}`;

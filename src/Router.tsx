@@ -14,14 +14,12 @@ const CompanyIntro = lazy(() => import("./pages/Intro/CompanyIntro"));
 const IntroNav = lazy(() => import("./pages/Intro/IntroNav"));
 const PeopleIntro = lazy(() => import("./pages/Intro/PeopleIntro"));
 const ScrollToTopBtn = lazy(() => import("./components/ScrollToTopBtn"));
-const ScrollToTop = lazy(() => import("./components/ScrollToTop"));
 const NotPageFound = lazy(() => import("./pages/404/NotPageFound"));
 
 const Router = () => {
   return (
     <BrowserRouter>
       <Suspense fallback={<LoadingSpinner />}>
-        <ScrollToTop />
         <Header />
         <Routes>
           <Route path="/" element={<Home />} />

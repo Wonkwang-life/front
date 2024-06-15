@@ -14,6 +14,14 @@ const Header = () => {
     setIsClickMenuBtn(false);
   };
 
+  const handleNavigate = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+    setIsClickMenuBtn(false);
+  };
+
   useEffect(() => {
     if (!isClickMenuBtn) {
       setTimeout(() => {
@@ -72,16 +80,16 @@ const Header = () => {
         onClick={() => navigate("/")}
       />
       <Tabs $isClickMenuBtn={isClickMenuBtn} $animate={animate}>
-        <Tab onClick={handleCloseMenu}>
+        <Tab onClick={handleNavigate}>
           <Link to="/intro">회사 소개</Link>
         </Tab>
-        <Tab onClick={handleCloseMenu}>
+        <Tab onClick={handleNavigate}>
           <Link to="/product">제품 소개</Link>
         </Tab>
-        <Tab onClick={handleCloseMenu}>
+        <Tab onClick={handleNavigate}>
           <Link to="/location">오시는 길</Link>
         </Tab>
-        <Tab onClick={handleCloseMenu}>
+        <Tab onClick={handleNavigate}>
           <Link to="http://www.wonnature.co.kr/index.php" target="_blank">
             원네이처
           </Link>
