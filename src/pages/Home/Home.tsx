@@ -62,7 +62,7 @@ const Home: React.FC = () => {
           productContentObserver.disconnect();
         }
       },
-      { threshold: 0.1 }
+      { threshold: window.innerWidth > 600 ? 0.1 : 1 }
     );
 
     if (contentRef.current) {
@@ -115,10 +115,8 @@ const Home: React.FC = () => {
           있습니다.
           <RiDoubleQuotesR />
         </Content>
-        <ProductContent
-          ref={productContentRef}
-          isVisible={productContentVisible}
-        >
+        <div ref={productContentRef}></div>
+        <ProductContent isVisible={productContentVisible}>
           <h2>제품 목록</h2>
           <ProductBox>
             {products.map(
@@ -235,6 +233,7 @@ const Content = styled.div<{ isVisible: boolean }>`
   font-size: 1.3rem;
   color: rgba(0, 0, 0, 0.7);
   margin-top: 180px;
+  margin-bottom: 200px;
   opacity: 0;
   transform: translateY(20px) scale(0);
 
@@ -258,7 +257,7 @@ const Content = styled.div<{ isVisible: boolean }>`
 `;
 
 const ProductContent = styled(Content)`
-  margin: 250px 0;
+  margin: 0 0;
 
   @media screen and (max-width: 800px) {
     font-size: 1.2rem;
