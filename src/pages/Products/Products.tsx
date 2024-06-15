@@ -3,8 +3,9 @@ import React, { useEffect, useState } from "react";
 import styled, { keyframes } from "styled-components";
 import { useNavigate } from "react-router-dom";
 import api from "../../api";
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue, useRecoilValueLoadable } from "recoil";
 import { userState } from "../../state/userState";
+import { productState } from "../../state/productState";
 
 // Product 타입을 JSON 구조에 맞게 수정
 interface Product {
@@ -18,7 +19,8 @@ interface Product {
 
 const Products: React.FC = () => {
   // products 와 searchTerm 상태에 대한 타입 지정
-  const [products, setProducts] = useState<Product[]>([]);
+  const productsLoadable = useRecoilValueLoadable(productState);
+  const [products, setProducts] = useRecoilState<Product[]>(productState);
   const [searchTerm, setSearchTerm] = useState<string>("");
 
   const user = useRecoilValue(userState);
@@ -36,11 +38,11 @@ const Products: React.FC = () => {
 
   // 컴포넌트가 처음 랜더링 될 때 실행되는 함수
   useEffect(() => {
-    fetchProducts();
+    if (productsLoadable.state === "hasValue" && !products) fetchProducts();
   }, []);
 
   // 검색어에 따른 상품 필터링 함수
-  const filteredProducts = products.filter((product) =>
+  const filteredProducts = products?.filter((product) =>
     product.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
@@ -64,9 +66,9 @@ const Products: React.FC = () => {
       </SearchInputWrapper>
 
       <ProductCards>
-        {filteredProducts.length > 0 ? (
+        {filteredProducts?.length > 0 ? (
           <>
-            {filteredProducts.map((product) => (
+            {filteredProducts?.map((product) => (
               <ProductCard
                 key={product.id}
                 onClick={() => handleProductClick(product.id)}

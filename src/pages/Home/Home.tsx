@@ -8,7 +8,8 @@ import { warningAlert } from "../../components/Alert";
 
 const Home: React.FC = () => {
   const [offset, setOffset] = useState(0);
-  const [products, setProducts] = useState([]);
+  const productsLoadable = useRecoilValueLoadable(productState);
+  const [products, setProducts] = useRecoilState(productState);
   const [contentVisible, setContentVisible] = useState(false);
   const [productContentVisible, setProductContentVisible] = useState(false);
   // 스크롤 이벤트 최적화를 위한 ref 사용
@@ -27,7 +28,7 @@ const Home: React.FC = () => {
   };
 
   useEffect(() => {
-    getRecentProducts();
+    if (productsLoadable.state === "hasValue" && !products) getRecentProducts();
     // 모바일 화면이 아닐 때만 스크롤 애니메이션을 실행 - 모바일에선 useEffect로 화면 깜빡임 현상 발생
     if (window.innerWidth > 600) {
       requestRef.current = requestAnimationFrame(animateScroll);
@@ -119,7 +120,7 @@ const Home: React.FC = () => {
         <ProductContent isVisible={productContentVisible}>
           <h2>제품 목록</h2>
           <ProductBox>
-            {products.map(
+            {products?.map(
               (product, index) =>
                 index < 3 && (
                   <HomeProduct
@@ -144,6 +145,8 @@ const Home: React.FC = () => {
 };
 
 import styled, { keyframes, css } from "styled-components";
+import { useRecoilState, useRecoilValueLoadable } from "recoil";
+import { productState } from "../../state/productState";
 
 const fadeInUp = keyframes`
   from {
@@ -257,7 +260,7 @@ const Content = styled.div<{ isVisible: boolean }>`
 `;
 
 const ProductContent = styled(Content)`
-  margin: 0 0;
+  margin-bottom: 20px;
 
   @media screen and (max-width: 800px) {
     font-size: 1.2rem;
