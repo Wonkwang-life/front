@@ -118,8 +118,10 @@ const Container = styled.div`
   justify-content: space-around;
   align-items: center;
   transition: background-color 0.5s, backdrop-filter 0.5s, box-shadow 0.5s;
+  box-shadow: 0 1px 7px rgba(0, 0, 0, 0.1);
 
   &.scrolled {
+    -webkit-backdrop-filter: blur(10px); /*ios 전용 */
     background-color: rgba(255, 255, 255, 0.8);
     backdrop-filter: blur(15px);
     box-shadow: 0 4px 7px rgba(0, 0, 0, 0.15);

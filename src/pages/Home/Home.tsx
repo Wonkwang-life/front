@@ -193,7 +193,7 @@ const Banner = styled.div`
   color: white;
   z-index: 1;
 
-  @media screen and (max-width: 600px) {
+  @media screen and (max-width: 1300px) {
     height: 700px;
   }
 `;
