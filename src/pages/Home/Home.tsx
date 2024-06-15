@@ -20,10 +20,6 @@ const Home: React.FC = () => {
 
   const handleScroll = () => {
     setOffset(window.scrollY);
-    console.log(window.scrollY + window.innerHeight);
-    if (window.innerWidth < 600 && window.scrollY + window.innerHeight > 1400)
-      //모바일에서 제품 목록 따로 애니메이션 처리
-      setProductContentVisible(true);
   };
 
   const animateScroll = () => {
@@ -36,9 +32,9 @@ const Home: React.FC = () => {
     // 모바일 화면이 아닐 때만 스크롤 애니메이션을 실행 - 모바일에선 useEffect로 화면 깜빡임 현상 발생
     if (window.innerWidth > 600) {
       requestRef.current = requestAnimationFrame(animateScroll);
+      // 스크롤 이벤트 리스너 추가
+      window.addEventListener("scroll", handleScroll);
     }
-    // 스크롤 이벤트 리스너 추가
-    window.addEventListener("scroll", handleScroll);
 
     return () => {
       if (requestRef.current) {
@@ -68,7 +64,10 @@ const Home: React.FC = () => {
           productContentObserver.disconnect();
         }
       },
-      { threshold: 0.1 }
+      {
+        rootMargin: window.innerWidth < 1000 ? "800px" : "50px",
+        threshold: 0.1,
+      }
     );
 
     if (contentRef.current) {
@@ -198,7 +197,7 @@ const Banner = styled.div`
   }
 `;
 
-const BannerBackground = styled.div<{ offset: number }>`
+const BannerBackground = styled.img<{ offset: number }>`
   position: absolute;
   top: 0;
   left: 0;
