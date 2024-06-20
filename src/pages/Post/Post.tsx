@@ -176,7 +176,9 @@ const Post = () => {
               {(postData?.title === "원바디톡스" ||
                 postData?.title === "원광침향원") && (
                 <Button style={{ background: "var(--base-color)" }}>
-                  <a href="http://wonnature.co.kr">판매처</a>
+                  <a href="http://wonnature.co.kr" target="_blank">
+                    판매처
+                  </a>
                 </Button>
               )}
             </ButtonContainer>
@@ -351,6 +353,11 @@ const Button = styled.button`
   }
 
   & a {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
     color: white;
     font-size: 1.1rem;
     font-weight: 600;
