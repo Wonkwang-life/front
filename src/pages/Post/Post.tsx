@@ -158,7 +158,7 @@ const Post = () => {
               <div>{postData?.tag}</div>
             </Tag>
             <ButtonContainer>
-              {postData?.storeLink && (
+              {/* {postData?.storeLink && (
                 <Button
                   style={{ background: "#13b65c" }}
                   href={postData?.storeLink}
@@ -166,12 +166,15 @@ const Post = () => {
                 >
                   구매하기
                 </Button>
-              )}
+              )} */}
               <Button
                 style={{ background: "var(--base-color)" }}
                 onClick={() => handleShare()}
               >
                 공유하기
+              </Button>
+              <Button style={{ background: "var(--base-color)" }}>
+                <a href="http://wonnature.co.kr">원네이처</a>
               </Button>
             </ButtonContainer>
           </TopContent>
@@ -342,6 +345,10 @@ const Button = styled.button`
 
   &:nth-child(2) {
     background-color: ${(props) => (!props.disabled ? "tomato" : "gray")};
+  }
+
+  & a {
+    color: white;
   }
 `;
 

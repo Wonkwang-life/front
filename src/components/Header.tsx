@@ -89,11 +89,6 @@ const Header = () => {
         <Tab onClick={handleNavigate}>
           <Link to="/location">오시는 길</Link>
         </Tab>
-        <Tab onClick={handleNavigate}>
-          <Link to="http://www.wonnature.co.kr/index.php" target="_blank">
-            원네이처
-          </Link>
-        </Tab>
       </Tabs>
       <RxHamburgerMenu
         onClick={() => {
@@ -174,7 +169,7 @@ const Tabs = styled.div<{
   height: 54px;
   padding: 0 20%;
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   width: 70%;
 
   @media screen and (max-width: 1400px) {
