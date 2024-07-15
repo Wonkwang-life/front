@@ -23,7 +23,6 @@ const PeopleIntro = () => {
   const filteredPeoples = peoples.filter((people) =>
     people.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
-
   return (
     <PeopleContainer>
       <SearchBox>
@@ -36,24 +35,27 @@ const PeopleIntro = () => {
         />
       </SearchBox>
       <ResultBox>
-        {searchTerm && (
-          <>
-            {filteredPeoples.map((people) => (
-              <ResultsContent key={people.id}>
-                <PeopleImg
-                  src={`/images/${people.imageUrls}`}
-                  alt={people.name}
-                />
-                <PeopleInfo>
-                  <li>이름: {people.name}</li>
-                  <li>직책: {people.role}</li>
-                  <li>연락처: {people.phone}</li>
-                  <li>e-mail: {people.email}</li>
-                </PeopleInfo>
-              </ResultsContent>
-            ))}
-          </>
-        )}
+        {searchTerm &&
+          (filteredPeoples.length > 0 ? (
+            <>
+              {filteredPeoples.map((people) => (
+                <ResultsContent key={people.id}>
+                  <PeopleImg
+                    src={`/images/${people.imageUrls}`}
+                    alt={people.name}
+                  />
+                  <PeopleInfo>
+                    <li>이름: {people.name}</li>
+                    <li>직책: {people.role}</li>
+                    <li>연락처: {people.phone}</li>
+                    <li>e-mail: {people.email}</li>
+                  </PeopleInfo>
+                </ResultsContent>
+              ))}
+            </>
+          ) : (
+            <span>존재하지 않는 직원입니다.</span>
+          ))}
       </ResultBox>
     </PeopleContainer>
   );
