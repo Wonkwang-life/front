@@ -1,5 +1,4 @@
-import axios from "axios";
-import React, { useState } from "react";
+import { useState } from "react";
 import styled, { css } from "styled-components";
 import { successAlert, warningAlert } from "../../../components/Alert";
 import api from "../../../api";
@@ -40,7 +39,6 @@ const Login = () => {
       });
 
       setUser(response.data.content);
-      console.log(response.data.content);
       successAlert(response.data.message);
       navigate("/");
     } catch (error) {

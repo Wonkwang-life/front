@@ -1,5 +1,3 @@
-import axios from "axios";
-import React from "react";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import styled, { css } from "styled-components";
@@ -39,7 +37,7 @@ const Post = () => {
     const getPost = async () => {
       try {
         const response = await api.get(`/post/${id}`);
-        console.log("API Response:", response.data); // 디버깅용
+        // console.log("API Response:", response.data); // 디버깅용
         if (response.data && response.data.content) {
           setPostData(response.data.content);
           setImages(response.data.content.imageUrls);
@@ -49,7 +47,6 @@ const Post = () => {
       } catch (error: any) {
         const result = await warningAlert(error.response.data.message);
         navigate("/product");
-        console.log(result);
       }
     };
     getPost();
@@ -70,7 +67,6 @@ const Post = () => {
           text: `${postData?.oneLineIntroduce}`,
           url: url,
         });
-        console.log("Shared successfully");
       } catch (error) {
         console.error("Error sharing:", error);
       }
@@ -105,14 +101,11 @@ const Post = () => {
     if (!result.isConfirmed) return;
     else setIsDeleteing(true);
     try {
-      const response = await api.delete(`/post/${id}`);
       setIsDeleteing(false);
       successAlert("글 삭제가 완료되었습니다.");
       navigate("/product");
     } catch (error: any) {
       setIsDeleteing(false);
-      const result = await warningAlert(error.response.data.message);
-      console.log(result);
     }
   };
 

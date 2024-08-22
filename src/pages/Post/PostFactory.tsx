@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import ReactQuill, { Quill } from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import styled from "styled-components";
@@ -89,7 +89,6 @@ const PostFactory = () => {
       } catch (error: any) {
         const result = await warningAlert(error.response.data.message);
         navigate("/write"); //수정이 아닌 그냥 글쓰기로 이동
-        console.log(result);
       }
     };
     if (params.get("edit")) {
@@ -102,7 +101,6 @@ const PostFactory = () => {
   useEffect(() => {
     if (userCheck) loginCheck();
     else setUserCheck(true);
-    console.log("usercheck: ", user);
   }, [user]);
 
   const checkUser = async () => {
@@ -145,7 +143,6 @@ const PostFactory = () => {
   };
 
   const handleFileChange = (e) => {
-    console.log(e.target.files);
     const files = Array.from(e.target.files).map((file: any) => ({
       file,
       url: null,
@@ -243,7 +240,6 @@ const PostFactory = () => {
       setIsUploading(false); //업로드 상태를 마침
       successAlert(response.data.message);
       navigate(`/product/${response.data.content}`);
-      console.log(response.data);
     } catch (error) {
       setIsUploading(false); //업로드 상태를 마침
       await warningAlert(error.response.data.message);
