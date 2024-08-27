@@ -6,16 +6,9 @@ interface HomeProductProps {
   title: string;
   imgUrls: string;
   content: string;
-  tag: string;
 }
 
-const HomeProduct = ({
-  id,
-  title,
-  imgUrls,
-  content,
-  tag,
-}: HomeProductProps) => {
+const HomeProduct = ({ id, title, imgUrls, content }: HomeProductProps) => {
   const navigate = useNavigate();
 
   return (
@@ -23,7 +16,6 @@ const HomeProduct = ({
       <ProductImg src={imgUrls} />
       <ProductTitle>{title}</ProductTitle>
       <ProductContent>{content}</ProductContent>
-      {/* <ProductTag>{tag}</ProductTag> */}
     </Container>
   );
 };

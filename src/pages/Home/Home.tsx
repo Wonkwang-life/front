@@ -136,7 +136,6 @@ const Home: React.FC = () => {
                     title={product?.title}
                     imgUrls={product?.imageUrls[0]}
                     content={product?.oneLineIntroduce}
-                    tag={product?.tag}
                   />
                 )
             )}
