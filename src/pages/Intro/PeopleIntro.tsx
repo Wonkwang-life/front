@@ -1,27 +1,39 @@
 import { useState, useEffect } from "react";
 import styled from "styled-components";
-import peopleData from "../../../public/people-list.json";
+import api from "../../api";
 
 const PeopleIntro = () => {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [peoples, setPeoples] = useState<
     {
-      name: string;
-      role: string;
-      phone: string;
-      email: string;
-      imageUrls: string;
       id: number;
+      name: string;
+      position: string;
+      phoneNumber: string;
     }[]
   >([]);
 
+  const getPeopleIntroData = async () => {
+    try {
+      const response = await api.get("/staff");
+      setPeoples(response.data.content);
+    } catch (error) {
+      console.error("데이터를 불러오지 못했습니다. ", error);
+    }
+  };
+
   useEffect(() => {
-    setPeoples(peopleData.content.content);
+    getPeopleIntroData();
   }, []);
 
-  // 검색어에 따른 직원 필터링 함수
-  const filteredPeoples = peoples.filter((people) =>
-    people.name.toLowerCase().includes(searchTerm.toLowerCase())
+  useEffect(() => {
+    console.log();
+  }, [peoples]);
+
+  // 검색어에 따른 직원 필터링
+  const filteredPeoples = peoples.filter(
+    (people) =>
+      people.name.includes(searchTerm[0]) && people.name.includes(searchTerm[1])
   );
   return (
     <PeopleContainer>
@@ -39,18 +51,19 @@ const PeopleIntro = () => {
           (filteredPeoples.length > 0 ? (
             <>
               {filteredPeoples.map((people) => (
-                <ResultsContent key={people.id}>
-                  <PeopleImg
-                    src={`/images/${people.imageUrls}`}
-                    alt={people.name}
-                  />
-                  <PeopleInfo>
-                    <li>이름: {people.name}</li>
-                    <li>직책: {people.role}</li>
-                    <li>연락처: {people.phone}</li>
-                    <li>e-mail: {people.email}</li>
-                  </PeopleInfo>
-                </ResultsContent>
+                <PeopleImage key={people.id}>
+                  <div>
+                    <img src="/images/logo.png" />
+                    <span>Wonkwang Healthecare</span>
+                  </div>
+                  <div>
+                    <span>{people.position}</span>
+                    <span>{people.name}</span>
+                  </div>
+                  <div>
+                    <span>TEL {people.phoneNumber}</span>
+                  </div>
+                </PeopleImage>
               ))}
             </>
           ) : (
@@ -103,35 +116,44 @@ const ResultBox = styled.div`
   margin-bottom: 100px;
 `;
 
-const ResultsContent = styled.div`
-  display: flex;
-  gap: 30px;
-
-  @media screen and (max-width: 1000px) {
-    flex-direction: column;
-  }
-`;
-
-const PeopleImg = styled.img`
-  width: 350px;
-  box-shadow: 2px 4px 5px rgba(0, 0, 0, 0.5);
-  @media screen and (max-width: 500px) {
-    width: 300px;
-  }
-`;
-
-const PeopleInfo = styled.div`
+const PeopleImage = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  gap: 5px;
-  & li {
-    font-size: 1rem;
+  justify-content: space-around;
+  background-color: var(--base-color);
+  color: white;
+  width: 400px;
+  height: 250px;
+  font-size: 0.8rem;
+  box-shadow: 2px 4px 5px rgba(0, 0, 0, 0.5);
+  margin-bottom: 30px;
+  & img {
+    width: 25px;
+    filter: brightness(0) invert(1);
   }
-
-  @media screen and (max-width: 500px) {
-    & li {
-      font-size: 0.9rem;
+  & div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
+  & div:nth-child(2) {
+    flex-direction: column;
+    gap: 5px;
+    & span:last-child {
+      font-size: 1.1rem;
+      letter-spacing: 5px;
+    }
+  }
+  @media screen and (max-width: 1000px) {
+    width: 300px;
+    height: 200px;
+    font-size: 0.7rem;
+    & div:nth-child(2) {
+      & span:last-child {
+        font-size: 1rem;
+        letter-spacing: 5px;
+      }
     }
   }
 `;
