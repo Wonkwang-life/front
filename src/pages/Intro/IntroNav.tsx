@@ -7,10 +7,10 @@ const Intro = () => {
   return (
     <Container>
       <Tabs>
-        <Tab isActive={location.pathname === "/intro"}>
+        <Tab $isactive={location.pathname === "/intro"}>
           <Link to="/intro">개요</Link>
         </Tab>
-        <Tab isActive={location.pathname === "/intro/people"}>
+        <Tab $isactive={location.pathname === "/intro/people"}>
           <Link to="people">직원</Link>
         </Tab>
       </Tabs>
@@ -62,7 +62,7 @@ const Tabs = styled.div`
   }
 `;
 
-const Tab = styled.span<{ isActive: boolean }>`
+const Tab = styled.span<{ $isactive: boolean }>`
   & a {
     display: flex;
     justify-content: center;
@@ -72,8 +72,8 @@ const Tab = styled.span<{ isActive: boolean }>`
     padding: 15px 0;
     font-weight: 500;
     border-bottom: 2px solid
-      ${(props) => (props.isActive ? "var(--base-color)" : "black")};
-    color: ${(props) => (props.isActive ? "var(--base-color)" : "black")};
+      ${(props) => (props.$isactive ? "var(--base-color)" : "black")};
+    color: ${(props) => (props.$isactive ? "var(--base-color)" : "black")};
   }
   & a:hover {
     border-bottom: 2px solid var(--base-color);

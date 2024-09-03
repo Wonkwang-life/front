@@ -113,7 +113,7 @@ const Home: React.FC = () => {
         </BannerContent>
       </Banner>
       <Main>
-        <Content ref={contentRef} isVisible={contentVisible}>
+        <Content ref={contentRef} $isvisible={contentVisible}>
           <RiDoubleQuotesL />
           (주)원광생활건강은 질병 없는 사회를 추구하고자 <br />
           끊임없는 기술 개발과 연구 개발에 최선을 다한 제품을 유통/판매하고
@@ -123,7 +123,7 @@ const Home: React.FC = () => {
         <div></div>
         <ProductContent
           ref={productContentRef}
-          isVisible={productContentVisible}
+          $isvisible={productContentVisible}
         >
           <h2>제품 목록</h2>
           <ProductBox>
@@ -241,7 +241,7 @@ const Main = styled.div`
   }
 `;
 
-const Content = styled.div<{ isVisible: boolean }>`
+const Content = styled.div<{ $isvisible: boolean }>`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -254,8 +254,8 @@ const Content = styled.div<{ isVisible: boolean }>`
   opacity: 0;
   transform: translateY(20px) scale(0);
 
-  ${({ isVisible }) =>
-    isVisible &&
+  ${({ $isvisible }) =>
+    $isvisible &&
     css`
       animation: ${fadeInUp} 1.2s ease forwards;
     `}
