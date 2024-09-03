@@ -285,6 +285,10 @@ const WriteBtn = styled.button`
   color: white;
   border: none;
   border-radius: 10px;
+
+  &:hover {
+    filter: brightness(85%);
+  }
 `;
 
 const Label = styled.div`

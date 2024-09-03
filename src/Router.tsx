@@ -13,6 +13,7 @@ const Location = lazy(() => import("./pages/Location/Location"));
 const CompanyIntro = lazy(() => import("./pages/Intro/CompanyIntro"));
 const IntroNav = lazy(() => import("./pages/Intro/IntroNav"));
 const PeopleIntro = lazy(() => import("./pages/Intro/PeopleIntro"));
+const AddPeople = lazy(() => import("./pages/Intro/AddPeople"));
 const ScrollToTopBtn = lazy(() => import("./components/ScrollToTopBtn"));
 const NotPageFound = lazy(() => import("./pages/404/NotPageFound"));
 
@@ -32,6 +33,7 @@ const Router = () => {
             <Route path="/intro" element={<CompanyIntro />} />
             <Route path="/intro/people" element={<PeopleIntro />} />
           </Route>
+          <Route path="/add-people" element={<AddPeople />} />
           <Route path="*" element={<NotPageFound />} />
         </Routes>
         <ScrollToTopBtn />

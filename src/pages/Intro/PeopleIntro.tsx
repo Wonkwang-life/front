@@ -1,6 +1,9 @@
 import { useState, useEffect } from "react";
 import styled from "styled-components";
 import api from "../../api";
+import { useRecoilValue } from "recoil";
+import { userState } from "../../state/userState";
+import { useNavigate } from "react-router-dom";
 
 const PeopleIntro = () => {
   const [searchTerm, setSearchTerm] = useState<string>("");
@@ -12,6 +15,8 @@ const PeopleIntro = () => {
       phoneNumber: string;
     }[]
   >([]);
+  const navigate = useNavigate();
+  const user = useRecoilValue(userState);
 
   const getPeopleIntroData = async () => {
     try {
@@ -37,6 +42,15 @@ const PeopleIntro = () => {
   );
   return (
     <PeopleContainer>
+      {user && (
+        <AddBtn
+          onClick={() => {
+            navigate("/add-people");
+          }}
+        >
+          직원 추가
+        </AddBtn>
+      )}
       <SearchBox>
         <h4>직원 이름을 입력하세요.</h4>
         <SearchInput
@@ -155,5 +169,18 @@ const PeopleImage = styled.div`
         letter-spacing: 5px;
       }
     }
+  }
+`;
+
+const AddBtn = styled.button`
+  padding: 14px 25px;
+  margin-bottom: 20px;
+  background-color: rgb(48 79 163);
+  color: white;
+  border: none;
+  border-radius: 10px;
+
+  &:hover {
+    filter: brightness(85%);
   }
 `;
