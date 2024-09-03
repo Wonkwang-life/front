@@ -6,7 +6,7 @@ const NotPageFound: React.FC = () => {
   const navigate = useNavigate();
   return (
     <Container>
-      <Title>존재하지 않는 페이지 입니다.</Title>
+      <Title>존재하지 않거나 접근할 수 없는 페이지입니다.</Title>
       <Button onClick={() => navigate("/")}>홈으로</Button>
     </Container>
   );
