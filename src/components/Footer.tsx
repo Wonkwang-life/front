@@ -5,7 +5,7 @@ function Footer() {
     <Container>
       <div>회사명: (주)원광생활건강</div>
       <div>사업자 등록번호: 503-86-21075</div>
-      <div>대표자: 신용호</div>
+      <div>대표자: 백종현</div>
       <div>연락처: 032-515-7417</div>
       <div>이메일: wonkwanglh@gmail.com</div>
       <div>주소: 인천광역시 부평구 부흥로 295, 2층 201호(부평동, 부평빌딩)</div>
