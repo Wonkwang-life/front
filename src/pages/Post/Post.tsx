@@ -26,7 +26,7 @@ interface PostData {
 
 const Post = () => {
   const [postData, setPostData] = useState<PostData | null>(null);
-  const [images, setImages] = useState<[String] | null>(null);
+  const [images, setImages] = useState<[string] | null>(null);
   const [isDeleteing, setIsDeleteing] = useState(false);
   const { id } = useParams();
   const user = useRecoilValue(userState);
@@ -167,7 +167,8 @@ const Post = () => {
                 공유하기
               </Button>
               {(postData?.title === "원바디톡스" ||
-                postData?.title === "원광침향원") && (
+                postData?.title === "원광침향원" ||
+                postData?.title === "원광 AE 플러스") && (
                 <Button style={{ background: "var(--base-color)" }}>
                   <a href="http://wonnature.co.kr" target="_blank">
                     판매처
@@ -179,7 +180,7 @@ const Post = () => {
         </TopContainer>
         <Hr />
         <Content
-          dangerouslySetInnerHTML={{ __html: postData?.content }}
+          dangerouslySetInnerHTML={{ __html: postData?.content as string }}
           className="ql-editor"
         />
         {images?.map(
