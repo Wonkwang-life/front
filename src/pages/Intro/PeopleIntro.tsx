@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import styled from "styled-components";
 import api from "../../api";
 import { useRecoilValue } from "recoil";
@@ -36,9 +36,19 @@ const PeopleIntro = () => {
   }, [peoples]);
 
   // 검색어에 따른 직원 필터링
-  const filteredPeoples = peoples.filter(
-    (people) =>
-      people.name.includes(searchTerm[0]) && people.name.includes(searchTerm[1])
+  const filteredPeoples = useMemo(
+    () =>
+      peoples?.filter((people) => {
+        // people 객체와 name이 존재하는지 확인
+        if (!people?.name) return false;
+
+        // 검색어가 비어있으면 모든 결과 반환
+        if (!searchTerm.trim()) return true;
+
+        // 검색어가 이름에 포함되어 있는지 확인 (대소문자 구분 없이)
+        return people.name.toLowerCase().includes(searchTerm.toLowerCase());
+      }),
+    [peoples, searchTerm]
   );
   return (
     <PeopleContainer>
