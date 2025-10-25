@@ -140,6 +140,14 @@ const ResultBox = styled.div`
   max-height: 40%;
   overflow-y: auto;
   margin-bottom: 100px;
+
+  /* 스크롤바 숨기기 */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+
+  &::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+  }
 `;
 
 const PeopleImage = styled.div`
