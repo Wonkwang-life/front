@@ -137,6 +137,8 @@ const SearchInput = styled.input`
 
 const ResultBox = styled.div`
   height: 40%;
+  max-height: 40%;
+  overflow-y: auto;
   margin-bottom: 100px;
 `;
 
