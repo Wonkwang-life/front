@@ -34,6 +34,7 @@ const Post = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    console.log("id", id);
     const getPost = async () => {
       try {
         const response = await api.get(`/post/${id}`);
