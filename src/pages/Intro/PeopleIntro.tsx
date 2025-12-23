@@ -1,6 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import styled from "styled-components";
 import api from "../../api";
+import { useRecoilValue } from "recoil";
+import { userState } from "../../state/userState";
+import { useNavigate } from "react-router-dom";
 
 const PeopleIntro = () => {
   const [searchTerm, setSearchTerm] = useState<string>("");
@@ -12,6 +15,8 @@ const PeopleIntro = () => {
       phoneNumber: string;
     }[]
   >([]);
+  const navigate = useNavigate();
+  const user = useRecoilValue(userState);
 
   const getPeopleIntroData = async () => {
     try {
@@ -31,12 +36,31 @@ const PeopleIntro = () => {
   }, [peoples]);
 
   // 검색어에 따른 직원 필터링
-  const filteredPeoples = peoples.filter(
-    (people) =>
-      people.name.includes(searchTerm[0]) && people.name.includes(searchTerm[1])
+  const filteredPeoples = useMemo(
+    () =>
+      peoples?.filter((people) => {
+        // people 객체와 name이 존재하는지 확인
+        if (!people?.name) return false;
+
+        // 검색어가 비어있으면 모든 결과 반환
+        if (!searchTerm.trim()) return true;
+
+        // 검색어가 이름에 포함되어 있는지 확인 (대소문자 구분 없이)
+        return people.name.toLowerCase().includes(searchTerm.toLowerCase());
+      }),
+    [peoples, searchTerm]
   );
   return (
     <PeopleContainer>
+      {user && (
+        <AddBtn
+          onClick={() => {
+            navigate("/add-people");
+          }}
+        >
+          직원 추가
+        </AddBtn>
+      )}
       <SearchBox>
         <h4>직원 이름을 입력하세요.</h4>
         <SearchInput
@@ -113,7 +137,17 @@ const SearchInput = styled.input`
 
 const ResultBox = styled.div`
   height: 40%;
+  max-height: 40%;
+  overflow-y: auto;
   margin-bottom: 100px;
+
+  /* 스크롤바 숨기기 */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+
+  &::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+  }
 `;
 
 const PeopleImage = styled.div`
@@ -155,5 +189,18 @@ const PeopleImage = styled.div`
         letter-spacing: 5px;
       }
     }
+  }
+`;
+
+const AddBtn = styled.button`
+  padding: 14px 25px;
+  margin-bottom: 20px;
+  background-color: rgb(48 79 163);
+  color: white;
+  border: none;
+  border-radius: 10px;
+
+  &:hover {
+    filter: brightness(85%);
   }
 `;

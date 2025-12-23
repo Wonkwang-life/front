@@ -32,7 +32,7 @@ const ScrollToTopBtn = () => {
 
   return (
     <ScrollToTopButton
-      showButton={showScrollToTopButton}
+      $showbutton={showScrollToTopButton}
       onClick={handleScrollToTop}
     >
       <FaArrowUp />
@@ -42,7 +42,7 @@ const ScrollToTopBtn = () => {
 
 export default ScrollToTopBtn;
 
-const ScrollToTopButton = styled.div<{ showButton: boolean }>`
+const ScrollToTopButton = styled.div<{ $showbutton: boolean }>`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -58,8 +58,8 @@ const ScrollToTopButton = styled.div<{ showButton: boolean }>`
   border: 3px solid #fff;
   border-radius: 50%;
   cursor: pointer;
-  opacity: ${({ showButton }) => (showButton ? 1 : 0)};
-  visibility: ${({ showButton }) => (showButton ? "visible" : "hidden")};
+  opacity: ${({ $showbutton }) => ($showbutton ? 1 : 0)};
+  visibility: ${({ $showbutton }) => ($showbutton ? "visible" : "hidden")};
   transition: opacity 0.3s ease-in, visibility 0.3s ease-in;
 
   &:hover {

@@ -1,6 +1,8 @@
 import { Suspense, lazy } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import LoadingSpinner from "./components/LoadingSpinner";
+import { useRecoilValue } from "recoil";
+import { userState } from "./state/userState";
 
 const Post = lazy(() => import("./pages/Post/Post"));
 const PostFactory = lazy(() => import("./pages/Post/PostFactory"));
@@ -13,10 +15,13 @@ const Location = lazy(() => import("./pages/Location/Location"));
 const CompanyIntro = lazy(() => import("./pages/Intro/CompanyIntro"));
 const IntroNav = lazy(() => import("./pages/Intro/IntroNav"));
 const PeopleIntro = lazy(() => import("./pages/Intro/PeopleIntro"));
+const AddPeople = lazy(() => import("./pages/Intro/AddPeople"));
 const ScrollToTopBtn = lazy(() => import("./components/ScrollToTopBtn"));
 const NotPageFound = lazy(() => import("./pages/404/NotPageFound"));
 
 const Router = () => {
+  const user = useRecoilValue(userState);
+
   return (
     <BrowserRouter>
       <Suspense fallback={<LoadingSpinner />}>
@@ -24,7 +29,6 @@ const Router = () => {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/product/:id" element={<Post />} />
-          <Route path="/write" element={<PostFactory />} />
           <Route path="/login" element={<Login />} />
           <Route path="/product" element={<Products />} />
           <Route path="/location" element={<Location />} />
@@ -33,6 +37,12 @@ const Router = () => {
             <Route path="/intro/people" element={<PeopleIntro />} />
           </Route>
           <Route path="*" element={<NotPageFound />} />
+          {user && (
+            <>
+              <Route path="/add-people" element={<AddPeople />} />
+              <Route path="/write" element={<PostFactory />} />
+            </>
+          )}
         </Routes>
         <ScrollToTopBtn />
         <Footer />
