@@ -37,7 +37,7 @@ const Products: React.FC = () => {
 
   // 컴포넌트가 처음 랜더링 될 때 실행되는 함수
   useEffect(() => {
-    if (productsLoadable.state === "hasValue" && !products) fetchProducts();
+    fetchProducts();
   }, []);
 
   // 검색어에 따른 상품 필터링 함수
