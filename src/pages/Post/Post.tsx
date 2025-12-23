@@ -99,13 +99,17 @@ const Post = () => {
 
     const result = await confirm("정말 글을 삭제하시겠습니까?");
     if (!result.isConfirmed) return;
-    else setIsDeleteing(true);
+
+    setIsDeleteing(true);
     try {
-      setIsDeleteing(false);
+      await api.delete(`/post/${id}`);
       successAlert("글 삭제가 완료되었습니다.");
       navigate("/product");
     } catch (error: any) {
       setIsDeleteing(false);
+      await errorAlert(
+        error.response?.data?.message || "글 삭제에 실패했습니다."
+      );
     }
   };
 
